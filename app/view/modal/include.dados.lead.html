@@ -1,0 +1,200 @@
+<div class="panel panel-primary col-md-6">
+	<div class="col-md-12 panel-heading-custom">
+		<strong>
+			Dados do Cliente
+		</strong>
+	</div>
+	<div class="panel-body" ng-init="editClient=false" ng-show="!editClient">
+		<div class="user-card">
+			<i aria-hidden="true" class="fa fa-user fa-1-5x">
+			</i>
+			{{ctrl.lead.clienteId.nome}}&nbsp;&nbsp;
+			<i aria-hidden="true" class="fa fa-pencil fa-1-5x" ng-click="editClient=!editClient">
+			</i>
+			<br />
+			<i aria-hidden="true" class="fa fa-envelope-square fa-1-5x">
+			</i>
+			<span ng-class="{'text-danger':ctrl.lead.clienteId.emailValidado=='INVALIDO'}">{{ctrl.lead.clienteId.email}}
+			</span>
+
+			&nbsp;&nbsp;
+			<i aria-hidden="true" class="fa fa-pencil fa-1-5x" ng-click="editClient=!editClient">
+			</i>
+			<br />
+			<i aria-hidden="true" class="fa fa-phone-square fa-1-5x">
+			</i>
+			<span ng-repeat="telefone in ctrl.lead.clienteId.telefoneList">
+				{{ctrl.formataTel(telefone.telefone)}}<a ng-show="telefone.telefone.length == 11" class="fa fa-whatsapp green"
+					href="https://api.whatsapp.com/send?phone={{ctrl.whatsappWebLauncher(telefone.telefone)}}" target="_blank">
+					<md-tooltip md-direction="bottom">Clique para abrir o Whatsapp Web</md-tooltip>
+				</a>{{ !$last ? ', ' : '' }}
+			</span>&nbsp;&nbsp;
+			<i aria-hidden="true" class="fa fa-pencil fa-1-5x" ng-click="editClient=!editClient">
+			</i>
+		</div>
+	</div>
+	<div class="user-card-edit" ng-show="editClient">
+		<form name="formularioCliente" ng-submit="ctrl.editCliente(); editClient=!editClient">
+			<div class="input-group">
+				<span aria-label="null" class="input-group-addon" id="basic-addon1">
+					<i aria-hidden="true" class="fa fa-user fa-1-5x">
+					</i>
+				</span>
+				<div class="form-group">
+					<input aria-label="null" class="form-control" disable-validation-message=""
+						ng-model="ctrl.lead.clienteId.nome" ng-required="true" placeholder="Nome" type="text">
+					</input>
+				</div>
+			</div>
+			<div class="input-group">
+				<span class="input-group-addon" id="basic-addon1">
+					<i aria-hidden="true" class="fa fa-envelope-square fa-1-5x">
+					</i>
+				</span>
+				<div class="form-group">
+					<input class="form-control" name="inputEmail" disable-validation-message=""
+						ng-model="ctrl.lead.clienteId.email" placeholder="Email" type="email">
+					</input>
+				</div>
+			</div>
+			<div class="input-group" ng-class="{'col-xs-9': $index+1 == ctrl.lead.clienteId.telefoneList.length }"
+				ng-repeat="telefone in ctrl.lead.clienteId.telefoneList track by $index" style="margin-top: 3px;">
+				<span class="input-group-addon" id="basic-addon1">
+					<i aria-hidden="true" class="fa fa-phone-square fa-1-5x">
+					</i>
+				</span>
+				<div class="form-group">
+					<input class="form-control" disable-validation-message="" ng-model="telefone.telefone" placeholder="Telefone"
+						type="text" ui-br-phone-number="">
+					</input>
+				</div>
+				<div class="input-group-btn">
+					<button class="btn btn-success" ng-click="ctrl.lead.clienteId.telefoneList.push({})" ng-if="$first"
+						type="button">
+						<i aria-hidden="true" class="fa fa-plus-square">
+						</i>
+					</button>
+					<button class="btn btn-danger" ng-click="ctrl.lead.clienteId.telefoneList.splice($index,1);" ng-if="!$first"
+						type="button">
+						<i aria-hidden="true" class="fa fa-minus-square">
+						</i>
+					</button>
+				</div>
+			</div>
+			<button class="btn btn-primary button-absolute" type="submit">
+				Salvar
+			</button>
+		</form>
+	</div>
+</div>
+<div class="panel panel-primary col-md-6">
+	<div class="col-md-12 panel-heading-custom">
+		<strong>
+			Dados da Lead
+		</strong>
+	</div>
+	<div class="panel-body">
+		<div class="col-md-5" ng-init="ctrl.editarCanal=false" ng-show="!editMidia && !ctrl.editarCanal ">
+			<strong>
+				Canal:
+			</strong>
+			{{ctrl.lead.canalId.name}}
+			<span>
+				<i aria-hidden="true" class="fa fa-pencil fa-1-5x" ng-click="ctrl.editarCanal=true"
+					ng-if="ctrl.validarAcessoFuncao('EDITAR_CANAL',ctrl.profile)">
+				</i>
+			</span>
+		</div>
+		<div align="left" class="input-group" ng-show="ctrl.editarCanal">
+			<sc-select ng-model="ctrl.lead.canalId" ng-required="true" placeholder="Selecione o canal"
+				sc-options="canal as canal.name for canal in ctrl.canais">
+			</sc-select>
+			<div class="input-group-btn">
+				<button class="btn btn-primary" ng-click="ctrl.editCanal();ctrl.editarCanal=false;" style="height: 38px;"
+					type="button">
+					Ok
+				</button>
+				<button class="btn btn-default" ng-click="ctrl.editarCanal=!ctrl.editarCanal" style="height: 38px;"
+					type="button">
+					X
+				</button>
+			</div>
+		</div>
+		<div class="col-md-7" ng-init="editMidia=false" ng-show="!editMidia && !ctrl.editarCanal ">
+			<strong>
+				Mí­dia:
+			</strong>
+			{{ ctrl.lead.midiaId ? ctrl.lead.midiaId.nome : 'Selecione a campanha'}}
+			<span>
+				<i aria-hidden="true" class="fa fa-pencil fa-1-5x"
+					ng-click="editMidia=!editMidia;selectedMidia = ctrl.lead.midiaId;">
+				</i>
+			</span>
+		</div>
+		<div align="left" class="input-group" ng-show="editMidia">
+			<sc-select ng-model="selectedMidia" ng-required="true" placeholder="Selecione a mÃ­dia"
+				sc-options="midia as midia.nome for midia in ctrl.midias">
+			</sc-select>
+			<div class="input-group-btn">
+				<button class="btn btn-primary" ng-click="ctrl.editMidia(selectedMidia);editMidia=false;"
+					style="margin-top: -4px; height: 34px;" type="button">
+					Ok
+				</button>
+				<button class="btn btn-default" ng-click="editMidia=!editMidia" style="margin-top: -4px;height: 34px;"
+					type="button">
+					X
+				</button>
+			</div>
+		</div>
+		<div class="col-md-12" ng-init="editProduto=false" ng-show="!editProduto">
+			<strong>
+				Produto:
+			</strong>
+			{{ ctrl.lead.produtoList.length ? ctrl.textoProduto(ctrl.lead.produtoList[0]): 'Digite o nome do produto'}}
+			<span>
+				<i aria-hidden="true" class="fa fa-pencil fa-1-5x"
+					ng-click="editProduto=!editProduto;selectedProduto = ctrl.lead.produtoList[0];">
+				</i>
+			</span>
+		</div>
+		<div align="left" class="input-group" ng-show="editProduto">
+			<sc-select refresh-delay="700" ng-model="selectedProduto" ng-required="true"
+				placeholder="Digite o nome do produto"
+				sc-options="produto as produto.texto for produto in ctrl.buscarProdutos(searchText)">
+			</sc-select>
+			<div class="input-group-btn">
+				<button class="btn btn-primary" ng-click="ctrl.editProduto(selectedProduto);editProduto=false;"
+					style="margin-top: -4px; height: 34px;" type="button">
+					Ok
+				</button>
+				<button class="btn btn-default" ng-click="editProduto=!editProduto" style="margin-top: -4px;height: 34px;"
+					type="button">
+					X
+				</button>
+			</div>
+		</div>
+		<div class="col-md-12" ng-init="editValor=false" ng-show="!editValor && ctrl.loja.habilitaPreco">
+			<strong>
+				Valor:
+			</strong>
+			{{ ctrl.lead.valor ? "R$ " + (ctrl.lead.valor | number : 2) : "NÃ£o Preenchido" }}
+			<span>
+				<i aria-hidden="true" class="fa fa-pencil fa-1-5x" ng-click="editValor=!editValor;valor = ctrl.lead.valor;">
+				</i>
+			</span>
+		</div>
+		<div align="left" class="input-group" ng-show="editValor">
+			<input class="form-control" ng-model="valor" ui-money-mask="2" ng-required="true" disable-validation-message="" />
+			<div class="input-group-btn">
+				<button class="btn btn-primary" ng-click="ctrl.editValor(valor);editValor=false;"
+					style="margin-top: -4px; height: 34px;" type="button">
+					Ok
+				</button>
+				<button class="btn btn-default" ng-click="editValor=!editValor;valor = 0;"
+					style="margin-top: -4px;height: 34px;" type="button">
+					X
+				</button>
+			</div>
+		</div>
+	</div>
+</div>

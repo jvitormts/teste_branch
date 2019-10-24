@@ -1,0 +1,58 @@
+<div class="funnelStepsContainer">
+    <div class="col-xs-12">
+        <div class="btn-group pull-right" style="margin-top: 6px">
+            <button class="btn {{shearchButton ? 'btn-primary': 'btn-default'}}" ng-click="shearchButton=!shearchButton" type="button">
+                <i class="fa fa-search fa-1-5x">
+                </i>
+                <md-tooltip md-direction="bottom" >
+                    Pesquisar leads
+                </md-tooltip>
+            </button>
+            <button class="btn {{statusFilter=='comment' ?'btn-secondary': 'btn-default'}}" ng-click="statusFilter=='comment' ? statusFilter='' : statusFilter='comment'" type="button">
+                <i class="fa fa-comment fa-1-5x" style="color:#39F">
+                </i>
+                <md-tooltip md-direction="bottom" >
+                    Leads com comentário recente
+                </md-tooltip>
+            </button>
+            <button class="btn {{statusFilter=='mail' ?'btn-secondary': 'btn-default'}}" ng-click="statusFilter=='mail' ? statusFilter='' : statusFilter='mail'" type="button">
+                <i class="fa fa-envelope fa-1-5x" style="color:#ff9800">
+                </i>
+                <md-tooltip md-direction="bottom" >
+                    Leads com e-mail não lido
+                </md-tooltip>
+            </button>
+            <button class="btn {{statusFilter=='visit' ?'btn-secondary': 'btn-default'}}" ng-click="statusFilter=='visit' ? statusFilter='' : statusFilter='visit'" type="button">
+                <i class="fa fa-map-marker fa-1-5x" style="color:#ff9800">
+                </i>
+                <md-tooltip md-direction="bottom" >
+                    Leads com visita agendada para hoje
+                </md-tooltip>
+            </button>
+            <button class="btn {{statusFilter=='postponed' ?'btn-secondary': 'btn-default'}}" ng-click="statusFilter=='postponed' ? statusFilter='' : statusFilter='postponed'" style="width: 48px;height: 36px;" type="button">
+                <span class="fa-stack onbutton">
+                    <i class="fa fa-calendar fa-stack-1x">
+                    </i>
+                    <i class="fa fa-clock-o fa-stack-1x small-bottom-right">
+                    </i>
+                </span>
+                <md-tooltip md-direction="bottom" >
+                    Atendimentos adiados
+                </md-tooltip>
+            </button>
+            <button class="btn {{statusFilter=='late' ?'btn-secondary': 'btn-default'}}" ng-click="statusFilter=='late' ? statusFilter='' : statusFilter='late'" type="button">
+                <i class="fa fa-exclamation-circle fa-1-5x" style="color:#e53935">
+                </i>
+                <md-tooltip md-direction="bottom" >
+                    Leads com tarefas atrasadas
+                </md-tooltip>
+            </button>
+        </div>
+        <div class="pull-right" ng-click="shearchButton=true" style="margin-top: 6px;width: 250px;">
+            <input class="form-control" focus-me="{{shearchButton}}" ng-blur="shearchButton=false" ng-focus="shearchButton=true" ng-model="$root.search" placeholder="Pesquisar" type="text">
+            </input>
+        </div>
+    </div>
+    <ae-funnel-step blockdrop="true" leads="leads" ng-repeat="funnelStep in funnelSteps | orderBy: 'order'" step="funnelStep">
+    </ae-funnel-step>
+</div>

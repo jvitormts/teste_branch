@@ -1,0 +1,78 @@
+<div class="col-xs-12">
+    <h4>{{chartRede.loja}}</h4>
+</div>
+<div class="col-xs-12">
+    <div class="atendimento-box" ng-repeat="chartSection in chartRede.data | orderBy : 'nome' ">
+        <div align="center" class="col-xs-12">
+            {{chartSection.name}}
+        </div>
+        <canvas chart-colors="chartRede.colors" chart-data="chartSection.data" chart-labels="chartRede.labels" chart-options="chartRede.options" chart-series="chartRede.series" class="chart chart-bar" id="bar">
+        </canvas>
+    </div>
+</div>
+<div class="col-xs-12">
+    <div class="col-xs-8">
+        <table class="table table-bordered" width="100%" id="tableExport">
+            <thead ng-init="ctrl.sumIndex = chartRede.labels.length">
+                <tr>
+                    <th rowspan="2" style="border:1px solid #FFF;background: #FFF;">
+                    </th>
+                    <th colspan="{{(ctrl.sumIndex*3)+2}}" style="text-align: center">
+                        Etapas do Funil de Vendas
+                    </th>
+                </tr>
+                <tr>
+                    <th colspan="2" ng-repeat="label in chartRede.labels" style="text-align: center">
+                        {{label}}
+                    </th>
+                    <th colspan="3" style="text-align: center">
+                        Total
+                    </th>
+                </tr>
+                <tr style="background: #eeeeee;">
+                    <th>
+                        Vendedor
+                    </th>
+                    <th ng-repeat-start="label in chartRede.labels" style="font-weight: normal">
+                        No Prazo
+                    </th>
+                    <th ng-repeat-end="" style="font-weight: normal">
+                        Atrasadas
+                    </th>
+                    <th>
+                        No Prazo
+                    </th>
+                    <th>
+                        Atrasadas
+                    </th>
+                    <th>
+                        % de atrasadas
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="chartSection in chartRede.data | orderBy : 'nome'">
+                    <td>
+                        {{chartSection.name}}
+                    </td>
+                    <td ng-repeat-start="data in chartSection.data[0] track by $index">
+                        {{data}}
+                    </td>
+                    <td ng-repeat-end="">
+                        {{ chartSection.data[1][$index] }}
+                    </td>
+                    <td>
+                        {{ chartSection.total.noPrazo }}
+                    </td>
+                    <td>
+                        {{ chartSection.total.atrasadas }}
+                    </td>
+                    <td ng-init="chartSection.percentage = (chartSection.total.atrasadas / ( chartSection.total.atrasadas + chartSection.total.noPrazo)) * 100 ">
+                        {{ (chartSection.percentage ? chartSection.percentage : 0 ) | number: 2}} %
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <ae-excel-button table-id="'#tableExport'"></ae-excel-button>  
+    </div>
+</div>

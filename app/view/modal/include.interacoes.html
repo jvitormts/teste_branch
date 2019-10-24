@@ -1,0 +1,368 @@
+<div class="tab-content" id="myTabContent" ng-if="ctrl.type>0">
+    <div class="tab-pane fade" id="emailForm">
+        <form class="form-horizontal" ng-submit="ctrl.novaInteracao(ctrl.interacao,'ICE');">
+            <div class="form-group" ng-class="{'has-error':ctrl.lead.clienteId.emailValidado!='VALIDO'}">
+                <label class="col-md-2 control-label" for="inputTo">
+                    Para
+                </label>
+                <div class="col-md-10">
+                    <div class="input-group">
+                        <input class="form-control" id="inputTo" ng-model="ctrl.interacao.para" ng-readonly="true" ng-required="true" placeholder="Para" type="text">
+                            <md-tooltip md-direction="bottom"  ng-if="ctrl.lead.clienteId.emailValidado!='VALIDO'">
+                                    E-mail inválido. Favor verificar possíveis erros de digitação.
+                            </md-tooltip>
+                            <div class="input-group-btn" >
+                                <button class="btn {{!ctrl.showBcc ? 'btn-default' : 'btn-primary'}}" ng-click="ctrl.showBcc=!ctrl.showBcc" type="button">
+                                    CCO
+                                </button>
+                            </div>
+                        </input>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group" ng-if="ctrl.showBcc">
+                <label class="col-md-2 control-label" for="cco">
+                    CCO
+                </label>
+                <div class="col-md-10" ng-init="ctrl.interacao.cco=ctrl.loja.emailCco">
+                    <input class="form-control" id="bcc" ng-model="ctrl.interacao.cco" placeholder="Para" type="text">
+                    </input>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-2 control-label" for="inputSubject">
+                    Assunto
+                </label>
+                <div class="col-md-10">
+                    <input class="form-control" id="inputSubject" ng-model="ctrl.interacao.assunto" ng-required="true" placeholder="Assunto" type="text">
+                    </input>
+                </div>
+            </div>
+            <div class="form-group">
+                <ae-anexos interacao="ctrl.interacao"></ae-anexos>
+            </div>
+            <div class="form-group">
+                <div class="col-md-2 control-label" for="textArea">
+                    Mensagem
+                </div>
+                <div class="col-md-10">
+                    <textarea summernote config="ctrl.summernoteConfig" id="descricaoEmail" ng-model="ctrl.interacao.bodyEmail" ng-required="true" rows="6">
+                    </textarea>
+                </div>
+            </div>
+            <div class="form-group" >
+                <div class="col-md-offset-2 col-md-10" ng-if="ctrl.proximaEtapa">
+                    <label>
+                        <input ng-model="ctrl.avancarEtapaAposInteracao" type="checkbox" ng-click="ctrl.encerrarLeadAposInteracao=false"/>
+                        Avançar para a próxima etapa
+                    </label>
+                </div>
+                <div class="col-md-offset-2 col-md-10" >
+                    <label>
+                        <input ng-model="ctrl.encerrarLeadAposInteracao" type="checkbox"  ng-click="ctrl.avancarEtapaAposInteracao=false"/>
+                        Encerrar lead após o registro desta interação.
+                    </label>
+                </div>
+            </div>
+            <div class="form-group" ng-if="ctrl.encerrarLeadAposInteracao">
+                <div ng-include="'view/home/include.cancelOnInteraction.html'">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-lg-12" align="center">
+                    <button class="btn btn-default" ng-click="ctrl.limparSelecaoInteracao();" type="button">
+                        Cancelar
+                    </button>
+                    <button class="btn btn-primary"  type="submit" ng-disabled="!ctrl.habilitarBotaoInteracao || ctrl.lead.clienteId.emailValidado!='VALIDO'">
+                        Enviar
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="tab-pane fade" id="phoneForm">
+        <form class="form-horizontal" ng-submit="ctrl.novaInteracao(ctrl.interacao,'ICT');" >
+            <div class="row">
+                <div class="form-group">
+                    <ae-anexos interacao="ctrl.interacao"></ae-anexos>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label" for="textArea">
+                        <i class="fa fa-phone">
+                        </i>
+                        Descrição
+                    </label>
+                    <div class="col-md-10">
+                        <textarea style="width:100%;" id="descricaoTelefone" ng-model="ctrl.interacao.descricao" ng-required="true" rows="6">
+                        </textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10" ng-if="ctrl.proximaEtapa">
+                    <label>
+                        <input ng-model="ctrl.avancarEtapaAposInteracao" type="checkbox" ng-click="ctrl.encerrarLeadAposInteracao=false"/>
+                        Avançar para a próxima etapa.
+                    </label>
+                </div>
+                <div class="col-md-offset-2 col-md-10" >
+                    <label>
+                        <input ng-model="ctrl.encerrarLeadAposInteracao" type="checkbox"  ng-click="ctrl.avancarEtapaAposInteracao=false"/>
+                        Encerrar lead após o registro desta interação.
+                    </label>
+                </div>
+            </div>
+            <div class="form-group" ng-if="ctrl.encerrarLeadAposInteracao">
+                <div ng-include="'view/home/include.cancelOnInteraction.html'">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-lg-12" align="center">
+                    <button class="btn btn-default" ng-click="ctrl.limparSelecaoInteracao();" type="reset">
+                        Cancelar
+                    </button>
+                    <button class="btn btn-primary"  type="submit" ng-disabled="!ctrl.habilitarBotaoInteracao">
+                        Registrar
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="tab-pane fade" id="whatsappForm"  >
+        <form class="form-horizontal" ng-submit="ctrl.novaInteracao(ctrl.interacao,'ICW');">
+            <div class="row">
+                <div class="form-group">
+                    <ae-anexos interacao="ctrl.interacao"></ae-anexos>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label" for="textArea">
+                        <i class="fa fa-whatsapp">
+                        </i>
+                        Descrição
+                    </label>
+                    <div class="col-md-10">
+                        <textarea style="width:100%;" id="descricaoWhatsapp" ng-model="ctrl.interacao.descricao" ng-required="true" rows="6">
+                        </textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10" ng-if="ctrl.proximaEtapa">
+                    <label>
+                        <input ng-model="ctrl.avancarEtapaAposInteracao" type="checkbox" ng-click="ctrl.encerrarLeadAposInteracao=false"/>
+                        Avançar para a próxima etapa
+                    </label>
+                </div>
+                <div class="col-md-offset-2 col-md-10" >
+                    <label>
+                        <input ng-model="ctrl.encerrarLeadAposInteracao" type="checkbox"  ng-click="ctrl.avancarEtapaAposInteracao=false"/>
+                        Encerrar lead após o registro desta interação.
+                    </label>
+                </div>
+            </div>
+            <div class="form-group" ng-if="ctrl.encerrarLeadAposInteracao">
+                <div ng-include="'view/home/include.cancelOnInteraction.html'">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-lg-12" align="center">
+                    <button class="btn btn-default" ng-click="ctrl.limparSelecaoInteracao();" type="reset">
+                        Cancelar
+                    </button>
+                    <button class="btn btn-primary"  type="submit" ng-disabled="!ctrl.habilitarBotaoInteracao">
+                        Registrar
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="tab-pane fade" id="visitForm"  >
+        <form class="form-horizontal" ng-submit="ctrl.novaInteracao(ctrl.interacao,'IV');">
+            <div class="row">
+                <div class="form-group">
+                    <ae-anexos interacao="ctrl.interacao"></ae-anexos>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label" for="textArea">
+                        <i class="fa fa-map-marker">
+                        </i>
+                        Descrição
+                    </label>
+                    <div class="col-md-10">
+                        <textarea style="width:100%;" id="descricaoVisita" ng-model="ctrl.interacao.descricao" ng-required="true" rows="6">
+                        </textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10" ng-if="ctrl.proximaEtapa">
+                    <label>
+                        <input ng-model="ctrl.avancarEtapaAposInteracao" type="checkbox" ng-click="ctrl.encerrarLeadAposInteracao=false"/>
+                        Avançar para a próxima etapa
+                    </label>
+                </div>
+                <div class="col-md-offset-2 col-md-10" >
+                    <label>
+                        <input ng-model="ctrl.encerrarLeadAposInteracao" type="checkbox"  ng-click="ctrl.avancarEtapaAposInteracao=false"/>
+                        Encerrar lead após o registro desta interação.
+                    </label>
+                </div>
+            </div>
+            <div class="form-group" ng-if="ctrl.encerrarLeadAposInteracao">
+                <div ng-include="'view/home/include.cancelOnInteraction.html'">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-lg-12" align="center">
+                    <button class="btn btn-default" ng-click="ctrl.limparSelecaoInteracao();" type="reset">
+                        Cancelar
+                    </button>
+                    <button class="btn btn-primary"  type="submit" ng-disabled="!ctrl.habilitarBotaoInteracao">
+                        Registrar
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="tab-pane fade" id="othersForm">
+        <form class="form-horizontal" ng-submit="ctrl.novaInteracao(ctrl.interacao,'IO');">
+            <div class="row">
+                <div class="form-group">
+                    <ae-anexos interacao="ctrl.interacao"></ae-anexos>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label" for="textArea">
+                        Descrição
+                    </label>
+                    <div class="col-md-10">
+                        <textarea style="width:100%;" id="descricaoOutros" ng-model="ctrl.interacao.descricao" ng-required="true" rows="6">
+                        </textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10" ng-if="ctrl.proximaEtapa">
+                    <label>
+                        <input ng-model="ctrl.avancarEtapaAposInteracao" type="checkbox" ng-click="ctrl.encerrarLeadAposInteracao=false"/>
+                        Avançar para a próxima etapa
+                    </label>
+                </div>
+                <div class="col-md-offset-2 col-md-10" >
+                    <label>
+                        <input ng-model="ctrl.encerrarLeadAposInteracao" type="checkbox"  ng-click="ctrl.avancarEtapaAposInteracao=false"/>
+                        Encerrar lead após o registro desta interação.
+                    </label>
+                </div>
+            </div>
+            <div class="form-group" ng-if="ctrl.encerrarLeadAposInteracao">
+                <div ng-include="'view/home/include.cancelOnInteraction.html'">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-lg-12" align="center" align="center">
+                    <button class="btn btn-default" ng-click="ctrl.limparSelecaoInteracao();" type="button">
+                        Cancelar
+                    </button>
+                    <button class="btn btn-primary"  type="submit" ng-disabled="!ctrl.habilitarBotaoInteracao">
+                        Registrar
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="tab-pane fade" id="appointment">
+        <form class="form-horizontal" ng-submit="ctrl.habilitarBotaoInteracao=false;ctrl.novoAgendamento(ctrl.interacao);">
+            <div class="row">
+                <div class="form-group">
+                    <label class="col-md-2 control-label" for="selectType">
+                        Tipo
+                    </label>
+                    <div class="col-md-10">
+                        <div class="btn-group">
+                            <a class="btn {{ctrl.interacao.tipo=='CONTATO' ?'btn-primary': 'btn-default'}}" ng-click="ctrl.interacao.tipo='CONTATO';listHours(ctrl.interacao.data);">
+                                Contato
+                            </a>
+                            <a class="btn {{ctrl.interacao.tipo=='VISITA' ?'btn-primary': 'btn-default'}}" ng-click="ctrl.interacao.tipo='VISITA';listHours(ctrl.interacao.data);">
+                                Visita
+                            </a>
+                            <a class="btn {{ctrl.interacao.tipo=='POSTPONE' ?'btn-primary': 'btn-default'}}" ng-click="ctrl.interacao.tipo='POSTPONE';listHours(ctrl.interacao.data);" ng-if="ctrl.lead.etapaFunilId.ordem>0 || ctrl.avancarEtapaAposInteracao">
+                                Adiar atendimento
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group">
+                    <label class="col-md-2 control-label" for="selectType">
+                        Data
+                    </label>
+                    <div class="col-md-4" ng-if="ctrl.interacao.tipo=='VISITA' || ctrl.interacao.tipo=='POSTPONE'">
+                        <input class="form-control" disable="false" format="L" locale="pt-br" min-date="(ctrl.interacao.tipo=='POSTPONE' ? ctrl.maxTime : ctrl.minTime | date :'dd/MM/yyyy HH:mm')" min-view="month" moment-picker="ctrl.interacao.data" ng-model="ctrl.interacao.data" ng-required="true" change="ctrl.listarHoras(newValue)">
+                        </input>
+                    </div>
+                    <div class="col-md-4" ng-if="ctrl.interacao.tipo=='CONTATO'">
+                        <select class="form-control" id="select" ng-model="ctrl.interacao.data" ng-options="date.value as date.text for date in ctrl.listaDatas" required="" ng-change="ctrl.listarHoras(ctrl.interacao.data)">
+                        </select>
+                    </div>
+                    <label class="col-md-1 control-label" for="selectType">
+                        Hora
+                    </label>
+                    <div class="col-md-5">
+                        <select class="form-control" id="select" ng-model="ctrl.interacao.dataVencimento" ng-options="hour.value as hour.text for hour in ctrl.listaHoras" required="">
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group">
+                    <label class="col-md-2 control-label" for="textArea">
+                        Descrição
+                    </label>
+                    <div class="col-md-10">
+                        <textarea style="width:100%;" id="descricaoAgendamento" ng-model="ctrl.interacao.descricao" rows="6">
+                        </textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-lg-12" align="center">
+                    <button class="btn btn-default" ng-click="ctrl.limparSelecaoInteracao();" type="reset">
+                        Cancelar
+                    </button>
+                    <button class="btn btn-primary"  type="submit" ng-disabled="!ctrl.habilitarBotaoInteracao">
+                        Agendar
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="tab-pane fade" id="comentarioForm">
+        <form class="form-horizontal" ng-submit="ctrl.habilitarBotaoInteracao=false;ctrl.novoComentario(ctrl.interacao);">
+            <div class="row">
+                <div class="form-group">
+                    <ae-anexos interacao="ctrl.interacao"></ae-anexos>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label" for="textArea">
+                        Descrição
+                    </label>
+                    <div class="col-md-10">
+                        <textarea class="form-control" id="descricaoComentario" ng-model="ctrl.interacao.descricao" rows="4" ng-required="true">
+                        </textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-lg-12" align="center" align="center">
+                    <button class="btn btn-default" ng-click="ctrl.limparSelecaoInteracao();" type="button">
+                        Cancelar
+                    </button>
+                    <button class="btn btn-primary"  type="submit" ng-disabled="!ctrl.habilitarBotaoInteracao">
+                        Registrar
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

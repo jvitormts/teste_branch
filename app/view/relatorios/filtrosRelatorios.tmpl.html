@@ -1,0 +1,340 @@
+<div class="container-fluid">
+    <div ng-cloak="">
+        <md-content>
+            <md-tabs md-border-bottom="" md-center-tabs="true" md-dynamic-height="" md-selected="ctrl.aba">
+                <md-tab label="Taxa de Conversão" ng-click="ctrl.desselecionaEquipes(0)">
+                    <md-content>
+                        <div class="pannel-report">
+                            <form ng-submit="ctrl.buscarTaxaConversao(ctrl.filtros[0])">
+                                <div class="form-group">
+                                    <label class="col-md-2 control-label">
+                                        Valores do Eixo X:
+                                    </label>
+                                    <div class="col-md-6 ">
+                                        <div class="btn-group">
+                                            <a class="btn {{ctrl.filtros[0].tipoRelatorio=='midia' ?'btn-primary': 'btn-default'}}" ng-click="ctrl.filtros[0].tipoRelatorio='midia' ">
+                                                Campanha
+                                            </a>
+                                            <a class="btn {{ctrl.filtros[0].tipoRelatorio=='canal' ?'btn-primary': 'btn-default'}}" ng-click="ctrl.filtros[0].tipoRelatorio='canal'">
+                                                Canal
+                                            </a>
+                                            <a class="btn {{ctrl.filtros[0].tipoRelatorio=='usuario' ?'btn-primary': 'btn-default'}}" ng-click="ctrl.filtros[0].tipoRelatorio='usuario'">
+                                                Vendedor
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group" ng-if="ctrl.loja.habilitaEncaminhamento" ng-init="ctrl.filtros[0].criterioSucesso='GANHA'">
+                                    <label class="col-md-2 control-label">
+                                        Critério de Sucesso:
+                                    </label>
+                                    <div class="col-md-6 ">
+                                        <div class="btn-group">
+                                            <a class="btn {{ctrl.filtros[0].criterioSucesso=='GANHA' ?'btn-primary': 'btn-default'}}" ng-click="ctrl.filtros[0].criterioSucesso='GANHA'">
+                                                <i class="fa fa-1-5x fa-trophy">
+                                                </i> Vendida
+                                            </a>
+                                            <a class="btn {{ctrl.filtros[0].criterioSucesso=='ENCAMINHADA' ?'btn-primary': 'btn-default'}}" ng-click="ctrl.filtros[0].criterioSucesso='ENCAMINHADA'">
+                                                <i class="fa fa-1-5x fa-share-square-o fa-rotate-180">
+                                                </i> Encaminhada
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-2 control-label">
+                                        Equipe(s):
+                                    </label>
+                                    <div class="col-md-10 ">
+                                        <div class="dropdown sd">
+                                            <button ng-model="ctrl.equipeSelecionada[0]" ng-init="ctrl.equipeSelecionada[0] = 'TODAS'" class="btn btn-primary dropdown-toggle"
+                                                type="button" data-toggle="dropdown" style="max-width: 165px">{{ctrl.equipeSelecionada[0]}}
+                                                <span class="caret"></span>
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                <li ng-repeat="equipe in ctrl.equipes | orderBy : 'id'" ng-class="{'active':equipe.selected}">
+                                                    <a ng-click="ctrl.listaUsuarios(0, equipe);" style="text-transform: uppercase"> {{equipe.nome}}</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-2 control-label">
+                                        Vendedor(es):
+                                    </label>
+                                    <div class="col-md-10 ">
+                                        <sc-select multiple="true" ng-model="ctrl.filtros[0].usuarioIds" multiple="true" placeholder="Selecione o(s) vendedor(es)" sc-options="vendedor.id as vendedor.nome for vendedor in ctrl.usuarios[0]">
+                                        </sc-select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-2 control-label">
+                                        Canal(is):
+                                    </label>
+                                    <div class="col-md-10 ">
+                                        <sc-select multiple="true" ng-model="ctrl.filtros[0].canalIds" placeholder="Selecione o(s) canal(is)" sc-options="canal.id as canal.name for canal in ctrl.canais">
+                                        </sc-select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-2 control-label">
+                                        Campanha(s):
+                                    </label>
+                                    <div class="col-md-10 ">
+                                        <sc-select multiple="true" ng-model="ctrl.filtros[0].midiaIds" placeholder="Selecione a(s) campanha(s)" sc-options="midia.id as midia.nome for midia in ctrl.midias">
+                                        </sc-select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-2 control-label" for="textArea">
+                                        Período de recebimento:
+                                    </label>
+                                    <div class="col-xs-10 ">
+                                        <date-range-buttons buttons="['today', 'thisWeek', 'lastForthnight', 'thisMonth', 'last3Months', 'custom', 'lastYear']" ng-first-value="ctrl.filtros[0].dateRange"
+                                            min-date="ctrl.min_date" ng-model-end="ctrl.filtros[0].fim" ng-model-start="ctrl.filtros[0].inicio"
+                                            ng-required="true">
+                                        </date-range-buttons>
+                                    </div>
+                                </div>
+                                <section layout="row" layout-align="center" layout-sm="column" layout-wrap="">
+                                    <md-button class="md-raised md-warn" style="background-color: #ff9800;" type="submit">
+                                        <i class="fa fa-bar-chart">
+                                        </i>
+                                        Gerar Relatório
+                                    </md-button>
+
+                                    <md-button class="md-raised md-warn" style="background-color: #4caf50;" type="button" ng-if="ctrl.validarAcessoFuncao('EXPORTAR_EXCEL',ctrl.profile)"
+                                        ng-click="ctrl.buscarTaxaConversaoExcel(ctrl.filtros[0])">
+                                        <i class="fa fa-table" aria-hidden="true"></i> Exportar Excel
+                                    </md-button>
+                                </section>
+                                <div class="col-xs-12" ng-if="ctrl.chart && ctrl.relatorio=='taxaConversao'" ng-include="'view/relatorios/relatorioTaxaConversao.html'">
+                                </div>
+                            </form>
+                        </div>
+                    </md-content>
+                </md-tab>
+                <md-tab label="Tempo 1º atendimento (Leads)" ng-if="true" ng-click="ctrl.desselecionaEquipes(3)">
+                    <md-content>
+                        <div class="pannel-report">
+                            <form ng-submit="ctrl.buscarTempoPrimeiroAtendimento(ctrl.filtros[3])">
+                                <div class="form-group">
+                                    <label class="col-md-2 control-label">
+                                        Valores do Eixo X:
+                                    </label>
+                                    <div class="col-md-6 ">
+                                        <div class="btn-group">
+                                            <a class="btn {{ctrl.filtros[3].tipoRelatorio=='midia' ?'btn-primary': 'btn-default'}}" ng-click="ctrl.filtros[3].tipoRelatorio='midia' ">
+                                                Campanha
+                                            </a>
+                                            <a class="btn {{ctrl.filtros[3].tipoRelatorio=='usuario' ?'btn-primary': 'btn-default'}}" ng-click="ctrl.filtros[3].tipoRelatorio='usuario'">
+                                                Vendedor
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-2 control-label">
+                                        Equipe(s):
+                                    </label>
+                                    <div class="col-md-10 ">
+                                        <div class="dropdown sd">
+                                            <button ng-model="ctrl.equipeSelecionada[3]" ng-init="ctrl.equipeSelecionada[3] = 'TODAS'" class="btn btn-primary dropdown-toggle"
+                                                type="button" data-toggle="dropdown" style="max-width: 165px">{{ctrl.equipeSelecionada[3]}}
+                                                <span class="caret"></span>
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                <li ng-repeat="equipe in ctrl.equipes | orderBy : 'id'" ng-class="{'active':equipe.selected}">
+                                                    <a ng-click="ctrl.listaUsuarios(3, equipe);" style="text-transform: uppercase"> {{equipe.nome}}</a>
+                                                </li>
+                                            </ul>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-2 control-label">
+                                        Vendedor(es):
+                                    </label>
+                                    <div class="col-md-10 ">
+                                        <sc-select multiple="true" ng-model="ctrl.filtros[3].usuarioIds" multiple="true" placeholder="Selecione o(s) vendedor(es)" sc-options="vendedor.id as vendedor.nome for vendedor in ctrl.usuarios[3]">
+                                        </sc-select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-2 control-label">
+                                        Campanha(s):
+                                    </label>
+                                    <div class="col-md-10 ">
+                                        <sc-select multiple="true" ng-model="ctrl.filtros[3].midiaIds" placeholder="Selecione a(s) campanha(s)" sc-options="midia.id as midia.nome for midia in ctrl.midias">
+                                        </sc-select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-2 control-label" for="textArea">
+                                        Período de recebimento:
+                                    </label>
+                                    <div class="col-xs-10 ">
+                                        <date-range-buttons buttons="['today', 'thisWeek', 'lastForthnight', 'thisMonth', 'last3Months', 'custom', 'lastYear']" min-date="ctrl.min_date"
+                                            ng-model-end="ctrl.filtros[3].fim" ng-model-start="ctrl.filtros[3].inicio" ng-first-value="ctrl.filtros[3].dateRange"
+                                            ng-required="true">
+                                        </date-range-buttons>
+                                    </div>
+                                </div>
+                                <section layout="row" layout-align="center" layout-sm="column" layout-wrap="">
+                                    <md-button class="md-raised md-warn" style="background-color: #ff9800;" type="submit">
+                                        <i class="fa fa-bar-chart">
+                                        </i>
+                                        Gerar Relatório
+                                    </md-button>
+                                    <md-button class="md-raised md-warn" style="background-color: #4caf50;" type="button" ng-if="ctrl.validarAcessoFuncao('EXPORTAR_EXCEL',ctrl.profile)"
+                                        ng-click="ctrl.buscarTaxaConversaoExcel(ctrl.filtros[3])">
+                                        <i class="fa fa-table" aria-hidden="true"></i> Exportar Excel
+                                    </md-button>
+                                </section>
+                                <div class="col-xs-12" ng-if="ctrl.chart && ctrl.relatorio=='tempoAtendimento'" ng-include="'view/relatorios/relatorioTempoPrimeiroAtendimento.html'">
+                                </div>
+                            </form>
+                        </div>
+                    </md-content>
+                </md-tab>
+                <md-tab label="Motivos de encerramento de leads" ng-click="ctrl.desselecionaEquipes(1)">
+                    <md-content>
+                        <div class="pannel-report">
+                            <form ng-submit="ctrl.buscarMotivoCancelamento(ctrl.filtros[1]);">
+                                <div class="form-group">
+                                    <label class="col-md-2 control-label">
+                                        Motivo(s):
+                                    </label>
+                                    <div class="col-md-10">
+                                        <sc-select multiple="true" ng-model="ctrl.filtros[1].motivoIds" placeholder="Selecione os motivos de encerramento" sc-options="motivo.id as motivo.name for motivo in ctrl.motivos">
+                                        </sc-select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-2 control-label">
+                                        Equipe(s):
+                                    </label>
+                                    <div class="col-md-10 ">
+                                        <div class="dropdown sd">
+                                            <button ng-model="ctrl.equipeSelecionada[1]" ng-init="ctrl.equipeSelecionada[1] = 'TODAS'" class="btn btn-primary dropdown-toggle"
+                                                type="button" data-toggle="dropdown" style="max-width: 165px">{{ctrl.equipeSelecionada[1]}}
+                                                <span class="caret"></span>
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                <li ng-repeat="equipe in ctrl.equipes | orderBy : 'id'" ng-class="{'active':equipe.selected}">
+                                                    <a ng-click="ctrl.listaUsuarios(1, equipe);" style="text-transform: uppercase"> {{equipe.nome}}</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-2 control-label">
+                                        Vendedor(es):
+                                    </label>
+                                    <div class="col-md-10 ">
+                                        <sc-select multiple="true" ng-model="ctrl.filtros[1].usuarioIds" multiple="true" placeholder="Selecione o(s) vendedor(es)" sc-options="vendedor.id as vendedor.nome for vendedor in ctrl.usuarios[1]">
+                                        </sc-select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-2 control-label">
+                                        Canal(is):
+                                    </label>
+                                    <div class="col-md-10 ">
+                                        <sc-select multiple="true" ng-model="ctrl.filtros[1].canalIds" placeholder="Selecione o(s) canal(is)" sc-options="canal.id as canal.name for canal in ctrl.canais">
+                                        </sc-select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-2 control-label">
+                                        Campanha(s):
+                                    </label>
+                                    <div class="col-md-10 ">
+                                        <sc-select multiple="true" ng-model="ctrl.filtros[1].midiaIds" placeholder="Selecione a(s) campanha(s)" sc-options="midia.id as midia.nome for midia in ctrl.midias">
+                                        </sc-select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-2 control-label" for="textArea">
+                                        Período de encerramento:
+                                    </label>
+                                    <div class="col-xs-10 ">
+                                        <date-range-buttons buttons="['today', 'thisWeek', 'lastForthnight', 'thisMonth', 'last3Months', 'custom', 'lastYear']" ng-first-value="ctrl.filtros[1].dateRange"
+                                            min-date="ctrl.min_date" ng-model-end="ctrl.filtros[1].fim" ng-model-start="ctrl.filtros[1].inicio"
+                                            ng-required="true">
+                                        </date-range-buttons>
+                                    </div>
+                                </div>
+                                <section layout="row" layout-align="center" layout-sm="column" layout-wrap="">
+                                    <md-button class="md-raised md-warn" style="background-color: #ff9800;" type="submit">
+                                        <i class="fa fa-pie-chart">
+                                        </i>
+                                        Gerar Relatório
+                                    </md-button>
+
+                                    <md-button class="md-raised md-warn" style="background-color: #4caf50;" type="button" ng-if="ctrl.validarAcessoFuncao('EXPORTAR_EXCEL',ctrl.profile)"
+                                        ng-click="ctrl.buscarMotivoCancelamentoExcel(ctrl.filtros[1])">
+                                        <i class="fa fa-table" aria-hidden="true"></i> Exportar Excel
+                                    </md-button>
+                                </section>
+                                <div class="col-xs-12" ng-if="ctrl.chart && ctrl.relatorio=='motivos'" ng-include="'view/relatorios/relatorioMotivosCancelamento.html'">
+                                </div>
+                            </form>
+                        </div>
+                    </md-content>
+                </md-tab>
+                <md-tab label="Clientes em atendimento" ng-click="ctrl.desselecionaEquipes(2)">
+                    <md-content>
+                        <div class="pannel-report">
+                            <form ng-submit="ctrl.buscarAtendimento(ctrl.filtros[2]);">
+                                <div class="form-group">
+                                    <label class="col-md-2 control-label">
+                                        Equipe:
+                                    </label>
+                                    <div class="col-md-10 ">
+                                        <div class="dropdown sd">
+                                            <button ng-model="ctrl.equipeSelecionada[2]" ng-init="ctrl.equipeSelecionada[2] = 'TODAS'" class="btn btn-primary dropdown-toggle"
+                                                type="button" data-toggle="dropdown" style="max-width: 165px">{{ctrl.equipeSelecionada[2]}}
+                                                <span class="caret"></span>
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                <li ng-repeat="equipe in ctrl.equipes | orderBy : 'id'" ng-class="{'active':equipe.selected}">
+                                                    <a ng-click="ctrl.listaUsuarios(2, equipe);" style="text-transform: uppercase"> {{equipe.nome}}</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-2 control-label">
+                                        Vendedor(es):
+                                    </label>
+                                    <div class="col-md-10 ">
+                                        <sc-select multiple="true" ng-model="ctrl.filtros[2].usuarioIds" multiple="true" placeholder="Selecione os vendedores" sc-options="vendedor.id as vendedor.nome for vendedor in ctrl.usuarios[2]">
+                                        </sc-select>
+                                    </div>
+                                </div>
+                                <section layout="row" layout-align="center" layout-sm="column" layout-wrap="">
+                                    <md-button class="md-raised md-warn" style="background-color: #ff9800;" type="submit">
+                                        <i class="fa fa-bar-chart">
+                                        </i>
+                                        Gerar Relatório
+                                    </md-button>
+                                    <md-button class="md-raised md-warn" style="background-color: #4caf50;" type="button" ng-if="ctrl.validarAcessoFuncao('EXPORTAR_EXCEL',ctrl.profile)"
+                                        ng-click="ctrl.buscarAtendimentoExcel(ctrl.filtros[2])">
+                                        <i class="fa fa-table" aria-hidden="true"></i> Exportar Excel
+                                    </md-button>
+                                </section>
+                            </form>
+                            <div class="col-xs-12"  ng-repeat="chartRede in ctrl.charts" ng-if="ctrl.relatorio=='atendimento' && chartRede.data.length>0" ng-include="'view/relatorios/relatorioAtendimentoRede.html'">
+                            </div>
+                        </div>
+                    </md-content>
+                </md-tab>
+            </md-tabs>
+        </md-content>
+    </div>
+</div>

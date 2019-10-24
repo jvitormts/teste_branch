@@ -1,0 +1,50 @@
+<md-tab label="Campos Personalizados">
+    <md-content>
+        <div class="col-sm-offset-1 col-sm-10 panel-config">
+			<div class="section-title">
+				Campos Personalizados da Lead
+			</div>
+			<div class="row">
+				<div class="col-xs-12">
+                    <button class="btn btn-success btn-small pull-right" ng-click="ctrl.addCampo('lead')" type="submit">
+                        <i class="fa fa-plus"></i>
+                    </button>
+				</div>
+			</div>
+			 <form class="form-horizontal" ng-submit="ctrl.salvarLoja();">
+				<perfect-scrollbar class="scroller-configs" min-scrollbar-length="20" refresh-on-change="true" wheel-propagation="true" wheel-speed="1">
+					<div class="row" ng-repeat="campo in ctrl.loja.campos| filter : {ativo: true} | orderBy : ['name','id']">
+						<div class="col-xs-5">
+							<input class="form-control" placeholder="Nome do campo" ng-model="campo.nome" type="text" ng-required="true"/>
+						</div>
+						<div class="{{campo.tipo=='SELECT' ? 'col-xs-2' : 'col-xs-6'}}">
+							<select class="form-control" placeholder="Tipo do campo" ng-required="true" ng-model="campo.tipo" ng-options="tipo.valor as tipo.descricao for tipo in ctrl.tiposCampo">
+							</select>
+						</div>
+						<div class="col-xs-4" ng-if="campo.tipo=='SELECT'">
+							<input class="form-control" placeholder='Opções (separe com ";")' ng-model="campo.opcoes" type="text" ng-required="campo.tipo=='SELECT'"/>
+						</div>
+						<div class="col-xs-1">
+							<button class="btn btn-danger btn-small pull-right" ng-click="ctrl.removeCampo($index)" type="submit">
+								<i class="fa fa-trash"></i>
+							</button>
+						</div>
+					</div>
+					<div class="col-xs-12" ng-if="!ctrl.loja.campos|| (ctrl.loja.campos| filter : {ativo: true}).length==0" align="center">
+						Nenhum campo personalizado configurado
+					</div>
+				</perfect-scrollbar>
+				<div class="form-group">
+					<section class="buttons" layout="row" layout-align="center" layout-sm="column" layout-wrap="">
+						<button class="btn btn-default" ng-click="ctrl.resetData('loja')" type="button">
+							Limpar Alterações
+						</button>
+						<button class="btn btn-primary" type="submit">
+							Salvar Alteracões
+						</button>
+					</section>
+				</div>
+			</form>
+        </div>
+    </md-content>
+</md-tab>

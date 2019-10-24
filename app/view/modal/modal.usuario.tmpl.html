@@ -1,0 +1,99 @@
+<div class="modal-header" ng-init="ctrl.init()">
+    <h4 class="modal-title">
+        Dados de Usuário
+    </h4>
+</div>
+<div class="modal-body">
+    <form class="form-horizontal" ng-submit="ctrl.salvarUsuario() ? $close() : ''">
+        <div class="row">
+            <div class="form-group">
+                <label class="col-md-3 control-label" for="inputSubject">
+                    Nome
+                </label>
+                <div class="col-md-9">
+                    <input class="form-control" disable-validation-message="" ng-model="ctrl.usuario.nome" ng-required="true" placeholder="Nome" type="text">
+                    </input>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group">
+                <label class="col-md-3 control-label" for="inputSubject">
+                    Email
+                </label>
+                <div class="col-md-9">
+                    <input class="form-control" disable-validation-message="" ng-disabled="ctrl.usuario.id && !ctrl.validarFullAccess(ctrl.profile)" ng-model="ctrl.usuario.email" ng-required="true" placeholder="Email" type="email">
+                    </input>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group">
+                <label class="col-md-3 control-label" for="inputSubject">
+                    Telefone
+                </label>
+                <div class="col-md-9">
+                    <input class="form-control" disable-validation-message="" ng-model="ctrl.usuario.telefone" placeholder="Telefone" type="text" ui-br-phone-number="">
+                    </input>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group">
+                <label class="col-md-3 control-label" for="inputSubject">
+                    Ramal
+                </label>
+                <div class="col-md-9">
+                    <input class="form-control" name="ramal" disable-validation-message="" ng-model="ctrl.usuario.ramal" placeholder="Ramal" type="text" ng-maxlength="4">
+                    </input>
+                </div>
+            </div>
+        </div>
+        <div class="row" ng-if="ctrl.validarAcessoFuncao('ADICIONAR_EDITAR_USUARIO', ctrl.profile)" >
+            <div class="form-group">
+                <label class="col-md-3 control-label" for="inputSubject">
+                    Perfil
+                </label>
+                <div class="col-md-9">
+                    <select class="form-control" ng-model="ctrl.usuario.perfil" ng-required="true" ng-options="p.id as p.nome for p in ctrl.perfis">
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row" ng-if="ctrl.validarPerfilEquipe(ctrl.usuario.perfil)">
+            <div class="form-group">
+                <label class="col-md-3 control-label" for="inputSubject">
+                    Equipe
+                </label>
+                <div class="col-md-9">
+                    <select class="form-control" ng-model="ctrl.usuario.equipeId.id" ng-required="true" ng-options="equipe.id as equipe.nome for equipe in ctrl.equipes | orderBy : 'nome' ">
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row" ng-if="ctrl.usuario.id == ctrl.profile.id">
+            <div class="form-group">
+                <div class="col-md-2 control-label" for="textArea">
+                    Assinatura
+                </div>
+                <div class="col-md-10">
+                    <textarea config="ctrl.summernoteConfig" id="textArea" ng-model="ctrl.usuario.assinatura" ng-required="true" rows="6" summernote="">
+                    </textarea>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-lg-10 col-lg-offset-2">
+                <button class="btn btn-default" ng-click="$close()" type="button">
+                    Cancelar
+                </button>
+                <button class="btn btn-primary" type="submit">
+                    Registrar
+                </button>
+                <button class="btn btn-primary" type="button" ng-if="ctrl.usuario.id" ng-click="ctrl.resetPassword()">
+                    Alterar senha
+                </button>
+            </div>
+        </div>
+    </form>
+</div>

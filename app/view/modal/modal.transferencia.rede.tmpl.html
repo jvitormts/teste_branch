@@ -1,0 +1,63 @@
+<div class="modal-header">
+    <h4 class="modal-title">
+        Encaminhar de Lead
+    </h4>
+</div>
+<div class="modal-body">
+    <form class="form-horizontal" ng-submit="ctrl.encaminharLeadRede();">
+        <div class="row">
+            <div class="form-group">
+                <label class="col-md-3 control-label" for="inputSubject">
+                    Loja
+                </label>
+                <div class="col-md-9">
+                    <select class="form-control" id="inputSubject" ng-change="ctrl.selecionarLoja(ctrl.transferencia.loja);" ng-model="ctrl.transferencia.loja" ng-options="loja as loja.nome for loja in ctrl.lojas" ng-required="true">
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3 control-label" for="textArea">
+                    Equipe
+                </label>
+                <div class="col-md-9">
+                    <select class="form-control" id="ctrl" ng-model="ctrl.transferencia.equipe" ng-options="equipe as equipe.nome for equipe in ctrl.equipesLoja | orderBy:'nome'" ng-required="true" ng-disabled="!(ctrl.equipesLoja.length > 0)" ng-required="true">
+                    </select>
+                </div>
+            </div>
+            <div class="form-group" ng-init="tipoTransferencia = 'fila'">
+                <label class="col-md-3 control-label" for="inputSubject">
+                    Enviar para:
+                </label>
+                <div class="col-md-9">
+                    <div class="btn-group">
+                        <a class="btn {{tipoTransferencia == 'fila' ?'btn-primary': 'btn-default'}}" ng-click="tipoTransferencia = 'fila'; ctrl.transferencia.usuario=null;">
+                            Fila
+                        </a>
+                        <a class="btn {{tipoTransferencia == 'usuario' ?'btn-primary': 'btn-default'}}" ng-click="tipoTransferencia = 'usuario' ">
+                            Usuário
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group" ng-if="tipoTransferencia=='usuario'">
+                <label class="col-md-3 control-label" for="inputSubject">
+                    Usuário
+                </label>
+                <div class="col-md-9">
+                    <select class="form-control" id="inputSubject" ng-model="ctrl.transferencia.usuario" ng-options="usuario as usuario.nome for usuario in ctrl.transferencia.equipe.usuariosList" ng-required="true">
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <section class="buttons" layout="row" layout-align="center" layout-sm="column" layout-wrap="">
+                <button class="btn btn-default" ng-click="ctrl.modalTransferencia.close();" type="reset">
+                    Cancelar
+                </button>
+                <button class="btn btn-primary" type="submit">
+                    Registrar
+                </button>
+            </section>
+        </div>
+    </form>
+</div>

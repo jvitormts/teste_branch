@@ -1,0 +1,160 @@
+<div class="modal-header" ng-init="ctrl.init()">
+    <h4 class="modal-title">
+        Novo Negócio
+    </h4>
+</div>
+<div class="modal-body" style="padding-top:0px">
+    <div style="padding:0px 4px;">
+        <form name="formulario" class="form-horizontal" ng-submit="ctrl.disableButton=true;ctrl.salvarNovoNegocio()">
+            <div class="form-group">
+                <label class="col-lg-4 control-label" for="inputEmail">
+                    <i class="fa fa-user">
+                    </i>
+                    Contato
+                </label>
+                <div class="col-lg-8">
+                    <input class="form-control" name="inputClientName" ng-model="ctrl.novoNegocio.clienteId.nome" placeholder="Nome do Contato"
+                        ng-required="true" type="text">
+                    </input>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-4 control-label" for="inputEmail">
+                    <i class="fa fa-phone">
+                    </i>
+                    Telefone
+                </label>
+                <div class="col-lg-8">
+					<input class="form-control" disable-validation-message="" ng-model="ctrl.novoNegocio.clienteId.telefoneList[0].telefone" placeholder="Telefone" type="text"
+                    ui-br-phone-number=""/>
+                </div>
+            </div>
+            <div class="form-group email-validation">
+                <label class="col-lg-4 control-label" for="inputEmail">
+                    <i class="fa fa-envelope">
+                    </i>
+                    E-mail
+                </label>
+                <div class="col-lg-8">
+                    <div class="input-group">
+                        <input class="form-control" name="inputEmail" ng-model="ctrl.novoNegocio.clienteId.email" ng-required="!ctrl.novoNegocio.clienteId.telefoneList[0].telefone"
+                            placeholder="email@sejadireto.com.br" type="email" ng-blur="ctrl.checkCliente();">
+                        </input>
+                        <span class="input-group-addon" id="basic-addon1">
+                            <i class="fa fa-cog fa-spin fa-fw" ng-if="formulario.inputEmail.$pending.validEmailChecker"></i>
+                        </span>
+                    </div>
+                    <md-tooltip md-direction="bottom"  ng-if="formulario.inputEmail.$invalid && !formulario.inputEmail.$pristine">
+                        E-mail inválido. Favor verificar possíveis erros de digitação.
+                    </md-tooltip>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-4 control-label" for="inputEmail">
+                    <i class="fa fa-building">
+                    </i>
+                    Empresa
+                </label>
+                <div class="col-lg-8">
+                    <input class="form-control" name="inputCompanyName" ng-model="ctrl.novoNegocio.clienteId.empresa" placeholder="Nome da Empresa"
+                        ng-required="false" type="text">
+                    </input>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-4 control-label" for="select">
+                    Canal de Origem
+                </label>
+                <div class="col-lg-8">
+                    <sc-select ng-model="ctrl.novoNegocio.canalId" ng-required="true" placeholder="Selecione o canal" sc-options="canal as canal.name for canal in ctrl.canais"
+                        valid-ng-model="true" ng-change="ctrl.disableButton=false">
+                    </sc-select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-4 control-label" for="select">
+                    Campanha
+                </label>
+                <div class="col-lg-8">
+                    <sc-select ng-model="ctrl.novoNegocio.midiaId" ng-required="true" placeholder="Selecione a campanha" sc-options="midia as midia.nome for midia in ctrl.midias"
+                        valid-ng-model="true" ng-change="ctrl.disableButton=false">
+                    </sc-select>
+                </div>
+            </div>
+            <div ng-if="ctrl.validarAcessoFuncao('REGISTRAR_LEAD_USUARIO',ctrl.profile)">
+                <div class="form-group">
+                    <label class="col-lg-4 control-label" for="select">
+                        Equipe
+                    </label>
+                    <div class="col-lg-8">
+                        <select class="form-control" ng-model="ctrl.novoNegocio.equipe" ng-required="false" placeholder="Selecione a equipe" ng-options="equipe as equipe.nome for equipe in ctrl.equipes">
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-4 control-label" for="select">
+                        Usuário
+                    </label>
+                    <div class="col-lg-8">
+                        <select class="form-control" ng-model="ctrl.novoNegocio.usuarioId" ng-required="false" placeholder="Selecione a usuário"
+                            ng-options="usuario as usuario.nome for usuario in ctrl.novoNegocio.equipe.usuariosList">
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-4 control-label" for="inputEmail">
+                    <i class="fa fa-list-ol">
+                    </i>
+                    CPF/CNPJ
+                </label>
+                <div class="col-lg-8">
+                    <input class="form-control" id="inputCPFCNPJ" ng-model="ctrl.novoNegocio.clienteId.cpfCnpj" placeholder="CPF/CNPJ" type="text">
+                    </input>
+                </div>
+            </div>
+            <div class="form-group" style="margin-top:4px;">
+                <label class="col-lg-4 control-label" for="inputModel">
+                    <i class="fa fa-car" ng-if="ctrl.loja.negocio=='VEICULOS'">
+                    </i>
+                    <i class="fa fa-home" ng-if="ctrl.loja.negocio=='IMOVEIS'">
+                    </i>
+                    <i class="fa fa-gift" ng-if="ctrl.loja.negocio=='OUTROS'">
+                    </i>
+                    Produto
+                </label>
+                <div class="col-lg-8">
+                    <sc-select ng-model="ctrl.novoNegocio.produtoList[0]" ng-required="true" refresh-delay="700" ng-required="true" valid-ng-model="true"
+                        placeholder="Digite o nome do produto" sc-options="produto as produto.texto for produto in ctrl.buscarProdutos(searchText)"
+                        ng-change="ctrl.changeProduto(ctrl.novoNegocio.produtoList[0])">
+                    </sc-select>
+                </div>
+            </div>
+            <div class="form-group" ng-if="ctrl.loja.habilitaPreco">
+                <label class="col-lg-4 control-label" for="inputPreco">
+                    <i class="fa fa-usd">
+                    </i>
+                    Preço
+                </label>
+                <div class="col-lg-8">
+                    <input class="form-control" id="inputPreco" ng-model="ctrl.novoNegocio.valor" placeholder="Preço do Produto" ui-money-mask="2">
+                    </input>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-lg-12" style="height:20px">
+                </div>
+            </div>
+            <div class="form-group">
+                <section layout="row" layout-align="center" layout-sm="column" class="layout-wrap layout-sm-column layout-xs-column layout-align-center-stretch layout-row">
+                    <button class="btn btn-default" ng-click="ctrl.novoNegocio={}; $close();" type="reset">
+                        Cancelar
+                    </button>
+                    <button class="btn btn-primary" type="submit">
+                        Salvar
+                    </button>
+                </section>
+            </div>
+        </form>
+    </div>
+</div>

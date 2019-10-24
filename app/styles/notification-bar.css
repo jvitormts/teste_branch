@@ -1,0 +1,102 @@
+a.bell-link{
+	color: #b2dbfb;
+	line-height: 23px;
+	position: relative;
+	display: block;
+  transition: all 0.2s;
+  width: 46px;
+  margin-top:3px;
+}
+a.bell-link:hover{
+	color: #fff;
+	text-decoration: none;
+}
+a.bell-link span.notification_count{
+  background: #cc0000;
+  color: #ffffff;
+  font-weight: bold;
+  border-radius: 50%;
+  padding:4px;
+  font-size: 0.8em;
+  margin-bottom: 3px;
+  transition: all 0.2s;
+  position: relative;
+  top:9px;
+  left:-9px;
+  width: 20px;
+  height: 20px;
+  display: inline-block;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 14px;
+}
+.bg-unread {
+    background-color: #d9edf7;
+}
+a.bell-link:hover span.notification_count{
+ background: #fff;
+ color: #FF0000;
+}
+.md-list-icon {
+    position: relative;
+    left: -13px;
+    top: -1px;
+    bottom: -1px;
+    width: 46px;
+    text-align: center;
+    padding: 8px 0;
+    display: block;
+}
+#notification_li {
+  position: relative
+}
+#notificationContainer {
+  background-color: #fff;
+  border: 1px solid rgba(100, 100, 100, .4);
+  -webkit-box-shadow: 0 3px 8px rgba(0, 0, 0, .25);
+  overflow: visible;
+  position: absolute;
+  top: 50px;
+  margin-left: -305px;
+  width: 400px;
+  z-index: 1000;
+}
+#notificationContainer:before {
+  content: '';
+  display: block;
+  position: absolute;
+  width: 0;
+  height: 0;
+  color: transparent;
+  border: 10px solid black;
+  border-color: transparent transparent white;
+  margin-top: -20px;
+  margin-left: 305px;
+}
+#notificationTitle {
+  font-weight: bold;
+  padding: 8px;
+  font-size: 13px;
+  background-color: #ffffff;
+  width: 100%;
+  border-bottom: 1px solid #dddddd;
+}
+#notificationsBody {
+  min-height: 300px;
+}
+#notificationsBody md-list{
+  padding: 0;
+}
+.scroller-notifications {
+    overflow-y: hidden;
+    height: 330px;
+    position: relative;
+}
+#notificationFooter {
+  background-color: #e9eaed;
+  text-align: center;
+  font-weight: bold;
+  padding: 8px;
+  font-size: 12px;
+  border-top: 1px solid #dddddd;
+}

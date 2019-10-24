@@ -1,0 +1,63 @@
+div.mailbox-message{
+	border-top: 1px solid #CCC;
+	margin: 0;
+}
+div.mailbox-message:last-child{
+	border-bottom: 1px solid #CCC;
+}
+
+div.mailbox-message:nth-child(even){
+	background-color:#EEE;
+}
+div.message-body{
+	background-color: #FFF;
+}
+
+div.mailbox-header{
+	background-color: #AAA;
+	color:#fff;
+	border-top: 1px solid #CCC;
+	margin: 0;
+}
+div.mailbox-header div.text{
+	line-height: 40px;
+	font-weight: bold;
+}
+
+div.mailbox-item div.text{
+	line-height: 40px;
+}
+div.mailbox-item div.icon{
+	margin-top: 6px;
+}
+div.mailbox-item.user-icon{
+	line-height: 40px;
+}
+div.mailbox-item{
+	outline: none;
+}
+.scroller-mailbox {
+    overflow-y: hidden;
+    height: 450px;
+    position: relative;
+}
+.btn.btn-primary.pull-right{
+	margin-left: 5px;
+}
+md-switch.mailbox{
+	margin:6px 0px;
+}
+i.blue{
+	color: #39f;
+}
+button.btn.btn-primary.button-relative{
+	position: absolute;
+	bottom: 17px;
+	right: 15px;
+	height: 28px;
+	line-height: 18px;
+}
+
+div.mailbox-item div.select2-container{
+	margin-top: 4px;
+}

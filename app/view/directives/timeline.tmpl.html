@@ -1,0 +1,65 @@
+<div class="row" ng-if="timeline.showEmail">
+	<button aria-hidden="true" aria-label=" " class="close" data-dismiss="modal" ng-click="timeline.verMais(timeline.emailSelecionado)"
+	 type="button">
+		×
+	</button>
+</div>
+<div class="col-xs-12"  ng-if="timeline.showEmail">
+	<strong>
+		De:
+	</strong>
+	{{timeline.emailSelecionado.de}}
+	<md-button aria-label="null" class="md-button md-fab md-fab-timeline pull-right" data-target="#emailForm" data-toggle="tab"
+		id="emailTab" ng-if="lead.usuarioId.id==timeline.profile.id && (lead.situacao == 'ABERTA' || lead.situacao=='ADIADA' )"
+		ng-click="timeline.responder()">
+		<md-tooltip md-direction="bottom" >
+			Responder e-mail
+		</md-tooltip>
+		<i class="fa fa-reply">
+		</i>
+	</md-button>
+	<br/>
+	<strong>
+		Para:
+	</strong>
+	{{timeline.emailSelecionado.para}}
+	<br/>
+	<strong>
+		Assunto:
+	</strong>
+	{{timeline.emailSelecionado.assunto}}
+	<br/>
+	<p class="emailBody" ng-bind-html="timeline.emailSelecionado.descricao">
+	</p>
+	<div align="center" class="col-xs-12" style="margin-bottom:5px">
+		<button aria-label=" " class="btn btn-default" ng-click="timeline.verMais(timeline.emailSelecionado)" type="button">
+			Fechar Visualização
+		</button>
+	</div>
+</div>
+<div class="interacao-options" ng-if="!timeline.showEmail">
+	<div class="dropdown">
+		<button class="btn btn-sm btn-light btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+			&nbsp;
+			<i class="fa fa-ellipsis-v fa-lg"></i>&nbsp;
+		</button>
+		<ul class="dropdown-menu dropdown-menu-right">
+			<li ng-class="{'active': timeline.mostraAgentamentoPassado}">
+				<a ng-click="timeline.mostraAgentamentoPassado = !timeline.mostraAgentamentoPassado" style="text-transform: uppercase">Mostrar Agendamentos Passados</a>
+			</li>
+			<li ng-class="{'active': timeline.ocultaLembretes}" ng-if="timeline.profile.id!=timeline.lead.usuarioId.id">
+				<a ng-click="timeline.ocultaLembretes = !timeline.ocultaLembretes" style="text-transform: uppercase">Ocultar lembretes</a>
+			</li>
+		</ul>
+	</div>
+</div>
+<ul class="timeline" ng-if="!timeline.showEmail">
+	<li class="timeline-inverted" ng-show="interacao.vendedorId.id == timeline.profile.id && interacao.dtype == 'IAG' && !timeline.ocultaLembretes" ng-repeat="interacao in lead.interacaoList | orderBy: ['-dataVencimento', 'id'] "
+		ng-include="'view/directives/interacao.timeline.tmpl.html'">
+	</li>
+	<li class="timeline-inverted" ng-repeat="interacao in lead.interacaoList | filter : { dtype:'IA' , done:false } : true | orderBy: ['dataVencimento'] " ng-include="'view/directives/interacao.timeline.tmpl.html'">
+	</li>
+	<li class="timeline-inverted" ng-show="(timeline.mostraAgentamentoPassado && interacao.dtype == 'IA' && interacao.done) || ( interacao.dtype != 'IA' &&  interacao.dtype != 'IAG')" ng-repeat="interacao in lead.interacaoList | filter: {dtype:'!IAG'} | orderBy: ['-createdAt', 'id'] "
+		ng-include="'view/directives/interacao.timeline.tmpl.html'">
+	</li>
+</ul>

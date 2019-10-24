@@ -1,0 +1,107 @@
+<div class="row">
+    <div class="col-xs-12">
+        <div style="margin-top: 6px;width: 250px;float:left">
+            <input class="form-control" ng-model="search" placeholder="Pesquisar" type="text" focus-me="{{shearchButton}}" ng-focus="shearchButton=true" ng-blur="shearchButton=false">
+        </div>
+        <div class="btn-group" style="margin-top: 6px">
+            <button class="btn {{shearchButton ? 'btn-primary': 'btn-default'}}" ng-click="shearchButton=!shearchButton" type="button">
+                <i class="fa fa-search fa-1-5x">
+                </i>
+                <md-tooltip md-direction="bottom">
+                    Pesquisar atividades
+                </md-tooltip>
+            </button>
+        </div>
+    </div>
+    <div class="col-xs-4 atividades">
+        <div class="panel panel-primary borda-redonda">
+            <h3 class="titulo-atividades">
+                Atividades atrasadas
+            </h3>
+            <perfect-scrollbar class="scroller-activities" min-scrollbar-length="20" wheel-propagation="true" wheel-speed="3">
+                <md-content>
+                    <md-list>
+                        <md-list-item  ng-click="ctrl.openModal(atividade.visualId)" class="md-1-line"  ng-repeat="atividade in ctrl.atividades | filter: {'titulo':search} | filter : {'atrasada':true, 'hoje': false} | orderBy :'dataVencimento' ">
+                            <div class="md-list-item-text">
+                                <p class="activitie">
+                                    <i ng-class="{'fa fa-map-marker': atividade.tipo === 'VISITA',
+                                              'fa fa-commenting': atividade.tipo === 'CONTATO'}">
+                                        <md-tooltip md-autohide="true" md-direction="up" ng-if="atividade.tipo === 'VISITA'">
+                                            Visita
+                                        </md-tooltip>
+                                        <md-tooltip md-autohide="true" md-direction="up" ng-if="atividade.tipo === 'CONTATO'">
+                                            Contato
+                                        </md-tooltip>
+                                    </i>
+                                    {{atividade.titulo}} - {{atividade.dataVencimento | date: 'dd/MM/yyyy - HH:mm'}}
+                                </p>
+                            </div>
+                        </md-list-item>
+                    </md-list>
+                </md-content>
+            </perfect-scrollbar>
+        </div>
+    </div>
+    <div class="col-xs-4 atividades">
+        <div class="panel panel-primary borda-redonda">
+            <h3 class="titulo-atividades">
+                Programação do Dia
+            </h3>
+            <perfect-scrollbar class="scroller-activities" min-scrollbar-length="20" wheel-propagation="true" wheel-speed="3">
+                <md-content>
+                    <md-list>
+                        <md-list-item  ng-click="ctrl.openModal(atividade.visualId)" class="md-1-line" ng-repeat="atividade in ctrl.atividades | filter: {'titulo':search}  | filter : { 'hoje': true } | orderBy :'dataVencimento' ">
+                            <div class="md-list-item-text">
+                                <p class="activitie">
+                                    <i ng-class="{'fa fa-map-marker': atividade.tipo === 'VISITA',
+											  'fa fa-commenting': atividade.tipo === 'CONTATO'}">
+                                        <md-tooltip md-autohide="true" md-direction="up" ng-if="atividade.tipo === 'VISITA'">
+                                            Visita
+                                        </md-tooltip>
+                                        <md-tooltip md-autohide="true" md-direction="up" ng-if="atividade.tipo === 'CONTATO'">
+                                            Contato
+                                        </md-tooltip>
+                                    </i>
+                                    {{atividade.titulo}} - {{atividade.dataVencimento | date: 'dd/MM/yyyy - HH:mm'}}
+                                </p>
+                            </div>
+                        </md-list-item>
+                    </md-list>
+                </md-content>
+            </perfect-scrollbar>
+        </div>
+    </div>
+    <div class="col-xs-4 atividades">
+        <div class="panel panel-primary borda-redonda">
+            <h3 class="titulo-atividades">
+                Atividades futuras
+            </h3>
+            <perfect-scrollbar class="scroller-activities" min-scrollbar-length="20" wheel-propagation="true" wheel-speed="3">
+                <md-content>
+                    <md-list>
+                        <md-list-item  ng-click="ctrl.openModal(atividade.visualId)" class="md-1-line" ng-repeat="atividade in ctrl.atividades | filter: {'titulo':search}  | filter : { 'hoje': false, 'atrasada': false } | orderBy :'dataVencimento' ">
+                            <div class="md-list-item-text">
+                                <p class="activitie">
+                                    <i ng-class="{'fa fa-map-marker': atividade.tipo === 'VISITA',
+                                              'fa fa-commenting': atividade.tipo === 'CONTATO',
+											  'fa fa-calendar': atividade.tipo === 'POSTPONE'}">
+                                        <md-tooltip md-autohide="true" md-direction="up" ng-if="atividade.tipo === 'VISITA'">
+                                            Visita
+                                        </md-tooltip>
+                                        <md-tooltip md-autohide="true" md-direction="up" ng-if="atividade.tipo === 'CONTATO'">
+                                            Contato
+                                        </md-tooltip>
+                                        <md-tooltip md-autohide="true" md-direction="up" ng-if="atividade.tipo === 'POSTPONE'">
+                                            Atendimento Adiado
+                                        </md-tooltip>
+                                    </i>
+                                    {{atividade.titulo}} - {{atividade.dataVencimento | date: 'dd/MM/yyyy - HH:mm'}}
+                                </p>
+                            </div>
+                        </md-list-item>
+                    </md-list>
+                </md-content>
+            </perfect-scrollbar>
+        </div>
+    </div>
+</div>

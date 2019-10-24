@@ -1,0 +1,207 @@
+<div class="tab-1">
+  <div class="tab-content-header" ng-init="ctrl.editarCliente=false">
+    <label>Dados do Cliente</label>
+    <button class="btn btn-primary pull-right" ng-click="ctrl.editarCliente=true"><i class="fa fa-edit"></i>
+      Editar</button>
+  </div>
+  <div class="tab-content-body" ng-if="!ctrl.editarCliente">
+    <div class="col-xs-12">
+      <i aria-hidden="true" class="fa fa-user fa-1-5x">
+      </i> {{ctrl.lead.clienteId.nome}}&nbsp;&nbsp;
+    </div>
+    <div class="col-xs-12">
+      <i aria-hidden="true" class="fa fa-envelope-square fa-1-5x">
+      </i>
+      {{ctrl.lead.clienteId.email}}
+    </div>
+    <div class="col-xs-12">
+      <i aria-hidden="true" class="fa fa-phone-square fa-1-5x">
+      </i>
+      <span ng-repeat="telefone in ctrl.lead.clienteId.telefoneList">
+        {{ctrl.formataTel(telefone.telefone)+ ' '}}<a ng-show="telefone.telefone.length == 11" class="fa fa-whatsapp green"
+          href="https://api.whatsapp.com/send?phone={{ctrl.whatsappWebLauncher(telefone.telefone)}}" target="_blank">
+          <md-tooltip md-direction="bottom">Clique para abrir o Whatsapp Web</md-tooltip>
+        </a>{{ !$last ? ', ' : '' }}
+      </span>&nbsp;&nbsp;
+    </div>
+    <div class="col-xs-12">
+      <i aria-hidden="true" class="fa fa-building fa-1-5x">
+      </i>{{ ctrl.lead.clienteId.empresa ? ctrl.lead.clienteId.empresa : ''}}
+    </div>
+    <div class="col-xs-12">
+      <i aria-hidden="true" class="fa fa-id-card-o">
+      </i>
+      {{ ctrl.lead.clienteId.cpfCnpj ? ctrl.lead.clienteId.cpfCnpj : ''}} <a
+        ng-if="ctrl.loja.campos && !ctrl.showCampos" class="pull-right" ng-click="ctrl.showCampos=true">Ver mais</a>
+    </div>
+    <div class="col-xs-12" ng-if="ctrl.showCampos" ng-repeat="campo in ctrl.campos">
+      <label>{{campo.nome}}:&nbsp;</label>{{campo.valor}}
+
+    </div>
+  </div>
+  <div class="tab-content-form" ng-if="ctrl.editarCliente">
+    <form ng-submit="ctrl.editCliente(); ctrl.editarCliente=!ctrl.editarCliente">
+      <label class="col-xs-2">Nome: </label>
+      <div class="col-xs-10 form-group">
+        <input aria-label="null" class="form-control" disable-validation-message="" ng-model="ctrl.lead.clienteId.nome"
+          ng-required="true" placeholder="Nome" type="text">
+        </input>
+      </div>
+      <label class="col-xs-2">Email:</label>
+      <div class="col-xs-10 form-group">
+        <input class="form-control" name="inputEmail" disable-validation-message="" ng-model="ctrl.lead.clienteId.email"
+          placeholder="Email" type="email">
+        </input>
+      </div>
+      <div ng-repeat="telefone in ctrl.lead.clienteId.telefoneList track by $index" style="margin-top: 3px;">
+        <label class="col-xs-2" ng-if="$first">
+          Telefone:
+        </label>
+        <div class="col-xs-10 input-group" ng-class="{'col-xs-offset-2': !$first}">
+          <input class="form-control" disable-validation-message="" ng-model="telefone.telefone" placeholder="Telefone"
+            type="text" ui-br-phone-number="">
+          </input>
+          <div class="input-group-btn">
+            <button class="btn btn-success" ng-click="ctrl.lead.clienteId.telefoneList.push({})" ng-if="$first"
+              type="button">
+              <i aria-hidden="true" class="fa fa-plus-square">
+              </i>
+            </button>
+            <button class="btn btn-danger" ng-click="ctrl.lead.clienteId.telefoneList.splice($index,1);" ng-if="!$first"
+              type="button">
+              <i aria-hidden="true" class="fa fa-minus-square">
+              </i>
+            </button>
+          </div>
+        </div>
+      </div>
+      <label class="col-xs-2">Empresa:</label>
+      <div class="col-xs-10 form-group">
+        <input aria-label="null" class="form-control" disable-validation-message=""
+          ng-model="ctrl.lead.clienteId.empresa" placeholder="Empresa" type="text">
+        </input>
+      </div>
+      <label class="col-xs-2">CPF/CNPJ:</label>
+      <div class="col-xs-10 form-group">
+        <input aria-label="null" class="form-control" disable-validation-message=""
+          ng-model="ctrl.lead.clienteId.cpfCnpj" placeholder="CPF/CNPJ" type="text">
+        </input>
+      </div>
+      <div ng-repeat="campo in ctrl.campos">
+        <label class="col-xs-2">{{campo.nome}}: </label>
+        <div class="col-xs-10 form-group">
+          <lead-field campo="campo"></lead-field>
+        </div>
+      </div>
+      <div class="col-xs-12">
+        <button class="btn btn-default pull-right" ng-click="ctrl.editarCliente = !ctrl.editarCliente;"
+          style="height: 34px;" type="button">
+          Cancelar
+        </button>
+        <button class="btn btn-primary pull-right" style="height: 34px;" type="submit">
+          Salvar
+        </button>
+      </div>
+    </form>
+  </div>
+  <div class="tab-content-header">
+    <label>Dados do negócio</label>
+    <button class="btn btn-primary pull-right" ng-if="!ctrl.editCampanha" ng-click="ctrl.editCampanha=true"><i
+        class="fa fa-edit"></i>
+      Editar</button>
+  </div>
+  <div class="tab-content-body" ng-if="!ctrl.editCampanha">
+    <div class="col-xs-12">
+      <strong>
+        Canal:
+      </strong>
+      {{ctrl.lead.canalId.name}}
+    </div>
+    <div class="col-xs-12">
+      <strong>
+        Campanha:
+      </strong>
+      {{ ctrl.lead.midiaId ? ctrl.lead.midiaId.nome : 'Selecione a campanha'}}
+    </div>
+  </div>
+  <div class="tab-content-form" ng-if="ctrl.editCampanha">
+    <form ng-submit="ctrl.editDadosLead();ctrl.editCampanha = !ctrl.editCampanha;">
+      <label class="col-xs-2" for="inputTo" ng-if="ctrl.validarAcessoFuncao('EDITAR_CANAL',ctrl.profile)">
+        Canal:
+      </label>
+      <div align="left" class="col-xs-10 form-group" ng-if="ctrl.validarAcessoFuncao('EDITAR_CANAL',ctrl.profile)">
+        <sc-select ng-model="ctrl.lead.canalId" ng-required="true" placeholder="Selecione o canal"
+          sc-options="canal as canal.name for canal in ctrl.canais">
+        </sc-select>
+      </div>
+      <label class="col-xs-2" for="inputTo">
+        Campanha:
+      </label>
+      <div align="left" class="col-xs-10">
+        <sc-select ng-model="ctrl.lead.midiaId" ng-required="true" placeholder="Selecione a campanha"
+          sc-options="midia as midia.nome for midia in ctrl.midias">
+        </sc-select>
+      </div>
+      <div class="col-xs-12">
+        <button class="btn btn-default pull-right" ng-click="ctrl.editCampanha = !ctrl.editCampanha;"
+          style="height: 34px;" type="button">
+          Cancelar
+        </button>
+        <button class="btn btn-primary pull-right" style="height: 34px;" type="submit">
+          Salvar
+        </button>
+      </div>
+    </form>
+  </div>
+  <div class="tab-content-header" ng-init="ctrl.editProduto=false">
+    <label>Produto</label>
+    <button class="btn btn-primary pull-right" ng-click="ctrl.editProduto=true"><i class="fa fa-edit"></i>
+      Editar</button>
+  </div>
+  <div class="tab-content-body" ng-if="!ctrl.editProduto">
+    <div class="col-xs-12">
+      <strong>
+        Produto:
+      </strong>
+      {{ ctrl.lead.produtoList.length ? ctrl.textoProduto(ctrl.lead.produtoList[0]): 'Selecione o produto'}}
+    </div>
+
+    <div class="col-xs-12" ng-if="ctrl.loja.habilitaPreco">
+      <strong>
+        Valor:
+      </strong>
+      {{ ctrl.lead.valor ? "R$ " + (ctrl.lead.valor | number : 2) : "Não Preenchido" }}
+    </div>
+  </div>
+  <div class="tab-content-form" ng-if="ctrl.editProduto">
+    <form
+      ng-submit="ctrl.editProdutoValor(ctrl.lead.produtoPrincipal,ctrl.lead.valor);ctrl.editProduto = !ctrl.editProduto;">
+
+      <div class="col-md-2" for="inputTo">
+        Produto:
+      </div>
+      <div class="col-md-10">
+        <sc-select refresh-delay="700" ng-model="ctrl.lead.produtoPrincipal" ng-required="true"
+          placeholder="Digite o nome do produto"
+          sc-options="produto as produto.texto for produto in ctrl.buscarProdutos(searchText)"
+          ng-change="ctrl.changeProduto(selectedProduto);">
+        </sc-select>
+      </div>
+      <label class="col-xs-2" for="inputTo" ng-if="ctrl.loja.habilitaPreco">
+        Valor:
+      </label>
+      <div class="col-xs-10" ng-if="ctrl.loja.habilitaPreco">
+        <input class="form-control" ng-model="ctrl.lead.valor" ui-money-mask="2" disable-validation-message="" />
+      </div>
+      <div class="col-xs-12">
+        <button class="btn btn-default pull-right" ng-click="ctrl.editProduto = !ctrl.editProduto;"
+          style="height: 34px;" type="button">
+          Cancelar
+        </button>
+        <button class="btn btn-primary pull-right" style="height: 34px;" type="submit">
+          Salvar
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

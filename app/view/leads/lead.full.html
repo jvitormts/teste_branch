@@ -1,0 +1,145 @@
+<div class="lead-page">
+  <div class="lead-header">
+    <div class="name">
+	<div class="link">
+      <a ng-click="ctrl.back()" class="btn-back">
+        <i class="fa fa-arrow-circle-left fa-3x" aria-hidden="true"></i>
+	  </a>
+	  </div>
+      <div class="nome">
+        {{ctrl.lead.clienteId.nome}}
+	  </div>
+      <div class="contato">
+        <strong>Contato:&nbsp;</strong>&nbsp;<span ng-repeat="telefone in ctrl.lead.clienteId.telefoneList">
+				<a class="btn btn-sm btn-primary" ng-if="ctrl.loja.habilitaBotoesTelefonia" href="quicksip://quicksipbh/api/v1/sejadireto/call?number={{telefone.telefone}}" style="border-radius:15px">
+					<i aria-hidden="true" class="fa fa-phone"></i>
+					 <md-tooltip md-direction="bottom">
+						Ligar para {{ctrl.formataTel(telefone.telefone)}}
+					</md-tooltip>
+				</a>
+              	{{ctrl.formataTel(telefone.telefone)}}{{ !$last ? ', ' : '' }}
+            </span>&nbsp;&nbsp;&nbsp;{{ctrl.lead.clienteId.email? "/ "+ctrl.lead.clienteId.email : ""}}
+	</div>
+    </div>
+    <div class="etapas">
+      <ul>
+        <li ng-repeat="etapa in ctrl.etapas | orderBy : 'ordem'"><i class="fa fa-2x" aria-hidden="true" ng-class="{'fa-check-circle' : etapa.ordem <=ctrl.lead.etapaFunilId.ordem, 'fa-circle-thin':etapa.ordem > ctrl.lead.etapaFunilId.ordem }">
+            <md-tooltip>{{etapa.nome}}</md-tooltip>
+          </i></li>
+      </ul>
+      <div><strong>Etapa: {{ctrl.lead.etapaFunilId.nome}}</strong></div>
+    </div>
+    <div class="responsavel">
+      <div>
+        <strong>
+          Id.:
+        </strong>
+        {{ctrl.lead.visualId}}
+      </div>	
+      <div>
+        <strong>
+          Recebida em:
+        </strong>
+        {{ctrl.lead.createdAt | date:'dd/MM/yyyy - HH:mm'}} ({{ctrl.lead.diffDate}} dias)
+      </div>
+      <div>
+        <strong>
+          Vendedor responsável:
+        </strong>
+        {{ctrl.lead.usuarioId.nome}}
+      </div>
+    </div>
+  </div>
+  <div class="lead-body">
+    <div class="lead-body-left">
+      <div class="interacoes-header">
+        <label>Registro de Atividades</label>
+        <section class="botoes-acoes" layout="row" layout-align="center" layout-sm="row" layout-wrap="row" ng-cloak>
+          <md-button aria-label="null" class="md-fab md-fab-timeline forward" ng-click="ctrl.abrirModalAvanco()" ng-if="ctrl.lead.usuarioId.id==ctrl.profile.id && (ctrl.lead.situacao=='ABERTA'  || ctrl.lead.situacao=='ADIADA')">
+            <md-tooltip md-direction="bottom">
+              Mudança de Etapa do Funil
+            </md-tooltip>
+            <i class="fa fa-arrow-right">
+            </i>
+          </md-button>
+          <md-button aria-label="null" class="md-fab md-fab-timeline trophy" ng-click="ctrl.encerrarLeadComSucesso()"
+            ng-if="ctrl.lead.usuarioId.id==ctrl.profile.id && (ctrl.lead.situacao=='ABERTA'  || ctrl.lead.situacao=='ADIADA')">
+            <md-tooltip md-direction="bottom">
+              Venda concluída
+            </md-tooltip>
+            <i class="fa fa-trophy">
+            </i>
+          </md-button>
+          <md-button aria-label="null" class="md-fab md-fab-timeline cancel" ng-click="ctrl.abrirModalCancelamento()"
+            ng-if="ctrl.lead.usuarioId.id==ctrl.profile.id && (ctrl.lead.situacao=='ABERTA'  || ctrl.lead.situacao=='ADIADA')">
+            <md-tooltip md-direction="bottom">
+              Encerrar Lead
+            </md-tooltip>
+            <i class="fa fa-minus">
+            </i>
+          </md-button>
+          <md-button aria-label="null" class="md-fab md-fab-timeline transfer" ng-click="ctrl.abrirModalTransferencia()"
+            ng-if="ctrl.validarAcessoFuncao('TRANSFERIR_LEAD',ctrl.profile)">
+            <md-tooltip md-direction="bottom">
+              Transferir lead para um vendedor da mesma loja
+            </md-tooltip>
+            <i class="fa fa-exchange">
+            </i>
+          </md-button>
+          <md-button aria-label="null" class="md-fab md-fab-timeline" ng-click="ctrl.abrirModalTransferenciaRede()"
+            ng-if="ctrl.lead.usuarioId.id==ctrl.profile.id && (ctrl.lead.situacao=='ABERTA'  || ctrl.lead.situacao=='ADIADA') && ctrl.validarAcessoFuncao('TRANSFERIR_LEAD_REDE',ctrl.profile)">
+            <md-tooltip md-direction="bottom">
+              Transferir lead para um vendedor de outra loja
+            </md-tooltip>
+            <i class="fa fa-share-square-o">
+            </i>
+          </md-button>
+          <md-button aria-label="null" class="md-fab md-fab-garbage md-secondary" ng-click="ctrl.abrirModalReativar()"
+            ng-if="(ctrl.lead.situacao=='PERDIDA'  || ctrl.lead.situacao=='GANHA'  || ctrl.lead.situacao=='ENCAMINHADA')">
+            <md-tooltip md-direction="bottom">
+              Reabrir lead
+            </md-tooltip>
+            <i class="fa fa-retweet">
+            </i>
+          </md-button>
+          <md-button aria-label="null" class="md-fab md-fab-timeline cancel" ng-click="ctrl.excluirLead()" ng-if="ctrl.validarAcessoFuncao('EXCLUIR_LEAD',ctrl.profile)">
+            <md-tooltip md-direction="bottom">
+              Excluir lead/cliente
+            </md-tooltip>
+            <i class="fa fa-trash">
+            </i>
+          </md-button>
+        </section>
+      </div>
+      <form-interacoes-full init="ctrl.init" lead="ctrl.lead" form-open="ctrl.formOpen"></form-interacoes-full>
+      <timeline lead="ctrl.lead"></timeline>
+    </div>
+    <div class="lead-body-right">
+      <div class="lead-tags">
+        <label>Etiquetas</label>
+        <tags-input ng-model="ctrl.lead.tags" placeholder="Adicione uma etiqueta" min-length="1" max-length="20"
+          display-property="tag" on-tag-added="ctrl.editTags($tag)" on-tag-removed="ctrl.editTags($tag)">
+          <auto-complete source="ctrl.getTags($query)" debounce-delay="500" min-length="1"></auto-complete>
+        </tags-input>
+      </div>
+      <div class="lead-tabs" ng-init="ctrl.abaSelecionada='negocio'">
+        <md-nav-bar md-selected-nav-item="ctrl.abaSelecionada" nav-bar-aria-label="navigation links">
+          <section layout="row" layout-align="center" class="wide">
+            <md-nav-item md-nav-click="ctrl.abaSelecionada='negocio'" name="negocio">
+              Dados da negociação
+            </md-nav-item>
+            <md-nav-item md-nav-click="ctrl.abaSelecionada='anexos'" name="anexos">
+              Anexos
+            </md-nav-item>
+            <md-nav-item md-nav-click="ctrl.abaSelecionada='notas'" name="notas">
+              Notas
+            </md-nav-item>
+          </section>
+        </md-nav-bar>
+		<div ng-include="'view/leads/lead.full.tabDados.html'" ng-if="ctrl.abaSelecionada=='negocio'"></div>
+		<div ng-include="'view/leads/lead.full.tabAnexos.html'" ng-if="ctrl.abaSelecionada=='anexos'"></div>
+		<div ng-include="'view/leads/lead.full.tabNotas.html'" ng-if="ctrl.abaSelecionada=='notas'"></div>
+      </div>
+    </div>
+  </div>
+</div>

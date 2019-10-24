@@ -1,0 +1,23 @@
+<div class="tab-1">
+  <div class="tab-content-header">
+    <label>Registrar nota</label>
+  </div>
+  <div class="tab-content-body nota">
+	<form ng-submit="ctrl.inserirNota()">
+		<textarea ng-model="ctrl.textoNota" class="form-control" ng-required="true" rows="5" ng-maxlength="500">
+		</textarea>
+		<button class="btn btn-primary pull-right" style="height: 34px;" type="submit">
+			Registrar
+		</button>
+	</form>
+  </div>
+  <div class="tab-content-header">
+    <label>Notas</label>
+  </div>
+  <div class="tab-content-body notas">
+	  <div ng-repeat="nota in ctrl.lead.notas" class="nota-box">
+		<strong>{{nota.usuario.nome}}:&nbsp;</strong>
+		<span>{{nota.texto}}</span>
+	  </div>
+  </div>
+</div>

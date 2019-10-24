@@ -1,0 +1,107 @@
+<div ui-draggable="true" drag="lead" ng-class="{'postponed':lead.situacao == 'ADIADA'}" ng-click="!habilitarTransferencia ? ctrl.openModal(lead.visualId) : lead.selected=!lead.selected ;">
+	<titulo-lead>
+		<input type="checkbox" ng-model="lead.selected" ng-if="habilitarTransferencia" ng-click="lead.selected=!lead.selected"/>
+		{{lead.nomeCliente ? lead.nomeCliente : "Nova Lead #"+ lead.visualId }} {{lead.codigoOportunidadeSiebel ? ' - ' + lead.codigoOportunidadeSiebel : ''}}
+	</titulo-lead>
+	<produto-lead style="white-space: nowrap;" ng-class="{'sem-produto' : !lead.tipoProduto }">
+		<span class="fa-stack fa-lg" ng-if="ctrl.loja.habilitaPreco && $root.orderFilter!='-valor'" ng-class="{'amarelo':lead.valor>0 , 'cinza':!lead.valor}">
+			<i class="fa fa-circle-thin fa-stack-1x"></i>
+			<i class="fa fa-usd fa-stack-1x" style="font-size: 0.9em;"></i>
+
+			<md-tooltip md-direction="bottom" >
+				{{ lead.valor? "R$ " + (lead.valor | number : 2) : "Não preenchido" }}
+			</md-tooltip>
+
+		</span>
+		<i class="fa fa-tags" aria-hidden="true" ng-if="lead.tags">
+
+			<md-tooltip md-direction="bottom" >
+				{{ lead.tags }}
+			</md-tooltip>
+		</i> &nbsp;
+
+		<i ng-if="$root.orderFilter=='-valor'" style="color: #666; ">{{ lead.valor? "R$ " + (lead.valor | number : 2) : "" }}</i>
+
+		<span ng-if="lead.tipoProduto">
+			<i class="fa fa-car" ng-if="ctrl.loja.negocio=='VEICULOS'">
+			</i>
+			<i class="fa fa-home" ng-if="ctrl.loja.negocio=='IMOVEIS'">
+			</i>
+			<i class="fa fa-gift" ng-if="ctrl.loja.negocio=='OUTROS'">
+			</i>
+			<md-tooltip md-direction="bottom" >
+				{{ lead.tipoProduto == "V" ? lead.veiculo : "" }}
+				{{ lead.tipoProduto == "I" ? lead.imovel : "" }}
+				{{ lead.tipoProduto == "G" ? lead.produtoGenerico : "" }}
+			</md-tooltip>
+		</span>
+
+	</produto-lead>
+	<lead-info2>
+		<i class="fa fa-envelope orange icone-interacao" ng-if="lead.emailNaoLido">
+			<md-tooltip md-direction="bottom" >
+				Novo email
+			</md-tooltip>
+		</i>
+		<i class="fa fa-map-marker orange icone-interacao" ng-if="lead.visitaHoje">
+			<md-tooltip md-direction="bottom" >
+				Visita agendada para hoje
+			</md-tooltip>
+		</i>
+		<i class="fa fa-comment blue icone-interacao" ng-if="lead.comentarioNaoLido">
+			<md-tooltip md-direction="bottom" >
+				Novo comentário na lead
+			</md-tooltip>
+		</i>
+		{{lead.createdAt | date:'dd/MM/yyyy - HH:mm'}}
+	</lead-info2>
+	<lead-info1 class="lead.emailNaoLido || lead.visitaHoje || lead.comentarioNaoLido ? 'ajuste' : ''">
+		<i class="fa fa-envelope orange icone-interacao" ng-if="lead.emailNaoLido">
+			<md-tooltip md-direction="bottom" >
+				Novo email
+			</md-tooltip>
+		</i>
+		<i class="fa fa-map-marker orange icone-interacao" ng-if="lead.visitaHoje">
+			<md-tooltip md-direction="bottom" >
+				Visita agendada para hoje
+			</md-tooltip>
+		</i>
+		<i class="fa fa-comment blue icone-interacao" ng-if="lead.comentarioNaoLido">
+			<md-tooltip md-direction="bottom" >
+				Novo comentário na lead
+			</md-tooltip>
+		</i>
+		<midia-lead>
+			{{lead.midia}}
+		</midia-lead>
+		<i class="fa fa-calendar icone-status gray" ng-if="lead.situacao == 'ADIADA'">
+			<md-tooltip md-direction="bottom" >
+				Atendimento adiado ({{lead.dataVencimento | date:'dd/MM/yyyy - HH:mm'}})
+			</md-tooltip>
+		</i>
+		<i class="fa fa-exclamation-triangle icone-status orange" ng-if="lead.timeDiff<60 && lead.timeDiff > 0 && lead.situacao == 'ABERTA'">
+			<md-tooltip md-direction="bottom" >
+				Tarefa próxima de vencer prazo ({{lead.dataVencimento | date:'dd/MM/yyyy - HH:mm'}})
+			</md-tooltip>
+		</i>
+		<i class="fa fa-exclamation-circle icone-status red" ng-if="lead.timeDiff<0 && lead.situacao == 'ABERTA'">
+			<md-tooltip md-direction="bottom" >
+				Tarefa atrasada ({{lead.dataVencimento | date:'dd/MM/yyyy - HH:mm'}})
+			</md-tooltip>
+		</i>
+	</lead-info1>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

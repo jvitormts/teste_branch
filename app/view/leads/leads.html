@@ -1,0 +1,120 @@
+<div class="content" ng-init="tags=[]; tagfilter=false">
+    <div class="filters" ng-init="ctrl.init()" >
+        <md-button aria-label="null" class="md-fab md-fab-novo-negocio"  ng-click="ctrl.novoNegocio()"  ng-if="ctrl.profile.id == ctrl.usuario.id">
+            <md-icon aria-label="Novo Negócio" class="material-icons">
+                monetization_on
+            </md-icon>
+        </md-button>
+        <md-button class="md-raised md-mini novo-negocio" ng-click="ctrl.novoNegocio()" style="color: #fff8e1; background-color: #ff9800; margin-left:2px;" ng-if="ctrl.profile.id == ctrl.usuario.id">
+            <md-icon aria-label="Novo Negócio" class="material-icons" style="color: #fff8e1">
+                monetization_on
+            </md-icon>
+            Novo Negócio
+        </md-button>
+        &nbsp;
+        <div class="btn-group pull-right" style="margin-top: 6px">
+            <button class="btn {{shearchButton ? 'btn-primary': 'btn-default'}} search-in" ng-click="shearchButton=!shearchButton;tagfilter=false;tags=[]" type="button">
+                <i class="fa fa-search fa-1-5x">
+                </i>
+                <md-tooltip md-direction="bottom" >
+                    Pesquisar leads
+                </md-tooltip>
+            </button>
+            <button class="btn {{tagfilter ? 'btn-primary': 'btn-default'}}" ng-click="tagfilter=!tagfilter;$root.search='';tags=[];shearchButton=false;" type="button">
+                <i class="fa fa-tags fa-1-5x">
+                </i>
+                <md-tooltip md-direction="bottom" >
+                    Buscar por etiquetas
+                </md-tooltip>
+            </button>
+            <button class="btn {{statusFilter=='comment' ?'btn-secondary': 'btn-default'}}" ng-click="statusFilter=='comment' ? statusFilter='' : statusFilter='comment'" type="button">
+                <i class="fa fa-comment fa-1-5x" style="color:#39F">
+                </i>
+                <md-tooltip md-direction="bottom" >
+                    Leads com comentário recente
+                </md-tooltip>
+            </button>
+            <button class="btn {{statusFilter=='mail' ?'btn-secondary': 'btn-default'}}" ng-click="statusFilter=='mail' ? statusFilter='' : statusFilter='mail'" type="button">
+                <i class="fa fa-envelope fa-1-5x" style="color:#ff9800">
+                </i>
+                <md-tooltip md-direction="bottom" >
+                    Leads com e-mail não lido
+                </md-tooltip>
+            </button>
+            <button class="btn {{statusFilter=='visit' ?'btn-secondary': 'btn-default'}}" ng-click="statusFilter=='visit' ? statusFilter='' : statusFilter='visit'" type="button">
+                <i class="fa fa-map-marker fa-1-5x" style="color:#ff9800">
+                </i>
+                <md-tooltip md-direction="bottom" >
+                    Leads com visita agendada para hoje
+                </md-tooltip>
+            </button>
+            <button class="btn {{statusFilter=='postponed' ?'btn-secondary': 'btn-default'}}" ng-click="statusFilter=='postponed' ? statusFilter='' : statusFilter='postponed'" style="width: 48px;height: 35px;" type="button">
+                <span class="fa-stack onbutton">
+                    <i class="fa fa-calendar fa-stack-1x">
+                    </i>
+                    <i class="fa fa-clock-o fa-stack-1x small-bottom-right">
+                    </i>
+                </span>
+                <md-tooltip md-direction="bottom" >
+                    Atendimentos adiados
+                </md-tooltip>
+            </button>
+            <button class="btn {{statusFilter=='late' ?'btn-secondary': 'btn-default'}}" ng-click="statusFilter=='late' ? statusFilter='' : statusFilter='late'" type="button">
+                <i class="fa fa-exclamation-circle fa-1-5x" style="color:#e53935">
+                </i>
+                <md-tooltip md-direction="bottom" >
+                    Leads com tarefas atrasadas
+                </md-tooltip>
+			</button>
+			
+			<button class="btn {{$root.orderFilter=='-valor' ?'btn-secondary': 'btn-default'}}" ng-click="$root.orderFilter=='-valor' ? $root.orderFilter=null : $root.orderFilter='-valor'" type="button" ng-if="ctrl.loja.habilitaPreco">
+				<span class="fa-stack fa-lg amarelo" ng-if="ctrl.loja.habilitaPreco" style="zoom:55%">
+					<i class="fa fa-circle-thin fa-stack-2x"></i>
+					<i class="fa fa-usd fa-stack-1x" style="font-size: 1.5em;"></i>
+				</span>
+				<md-tooltip md-direction="bottom" >
+					Ordenar leads por valor (decrescente)
+				</md-tooltip>
+			</button>
+		</div>
+        <div ng-if="!tagfilter" class="pull-right search-in" ng-click="shearchButton=true" style="margin-top: 6px;width: 250px;">
+            <input class="form-control" focus-me="{{shearchButton}}" ng-blur="shearchButton=false" ng-focus="shearchButton=true" ng-model="$root.search" placeholder="Pesquisar" type="text">
+			</input>
+        </div>
+        <div ng-if="tagfilter" class="pull-right search-in"  style="margin-top: 6px;width: 350px;">
+            <tags-input ng-model="tags" placeholder="Selecione uma etiqueta" display-property="tag" add-from-autocomplete-only="true">
+				<auto-complete source="ctrl.getTags($query)" debounce-delay="300" min-length="1" ></auto-complete>
+			</tags-input>
+        </div>
+		<div ng-if="ctrl.loja.habilitaPreco" class="pull-right search-in"  style="margin:14px 14px 0px 0px;">
+			<span class="fa-stack fa-lg" ng-if="ctrl.loja.habilitaPreco" style="zoom:55%">
+					<i class="fa fa-circle-thin fa-stack-2x"></i>
+					<i class="fa fa-usd fa-stack-1x" style="font-size: 1.5em;"></i>
+			</span>
+			{{"R$ "+(ctrl.valorTotal(ctrl.leads )| number : 2)}} em {{ctrl.totalComValor(ctrl.leads)}} negócios
+		</div>
+    </div>
+    <div class="funnelStepsContainer funnelStepsContainer-{{ctrl.etapas.length}}">
+        <div class="funnelStep" ng-class="{'first':$first, 'last':$last, 'normal':!($last || $first)}" ng-init="$root.search = ''" ng-repeat="etapa in ctrl.etapas | orderBy: 'ordem'" style="border-left:none;">
+            <div class="funnelStepTitle" ng-click="ctrl.habilitarTransferencia ? ctrl.checkAll(etapa) : false ;">
+                <div class="text">
+					<input type="checkbox" ng-model="etapa.selected" ng-if="ctrl.habilitarTransferencia" ng-click="ctrl.checkAll(etapa)"/> {{etapa.nome}}
+                </div>
+                <div class="business-badge">
+                    Negócios: {{(ctrl.leads | filter: { etapaFunilId: etapa.id, situacao:'ABERTA'}).length}} ativo(s) / {{(ctrl.leads | filter: { etapaFunilId: etapa.id, situacao:'ADIADA'}).length}} adiado(s) <strong ng-if="ctrl.loja.habilitaPreco" style="color:#FFF">&nbsp;&nbsp;&nbsp;{{"R$ "+(ctrl.valorTotal(ctrl.leads | filter : {etapaFunilId: etapa.id})| number : 2)}}</strong>
+                </div>
+			</div>
+			
+            <perfect-scrollbar class="funnel-scroll"  min-scrollbar-length="20" wheel-propagation="true" wheel-speed="1" ui-on-drop="ctrl.onDrop($event,$data, etapa)">
+				
+				<div class="funnel-grid">
+					<lead-card ng-repeat="lead in (ctrl.leads  | filter: { etapaFunilId: etapa.id, situacao:'ABERTA'} | leadFilter : $root.search | leadFilterStatus:statusFilter | filtroTags:tags | orderBy : $root.orderFilter ? $root.orderFilter : ['-emailNaoLido','-visitaHoje','-comentarioNaoLido', ctrl.loja.orderLead] ) track by lead.id " habilitar-transferencia="ctrl.habilitarTransferencia" lead="lead">
+					</lead-card>
+                    <lead-card class="postponed" ng-repeat="lead in (ctrl.leads | filter: { etapaFunilId: etapa.id, situacao:'ADIADA'} | leadFilter : $root.search | filtroTags : tags | leadFilterStatus:statusFilter | orderBy : $root.orderFilter ? $root.orderFilter : ['emailNaoLido','visitaHoje','comentarioNaoLido', ctrl.loja.orderLead]) track by lead.id " lead="lead" habilitar-transferencia="ctrl.habilitarTransferencia"  >
+                    </lead-card>
+                </div>
+            </perfect-scrollbar>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,76 @@
+<nav class="sd-navbar" ng-init="ctrl.init()">
+    <div class="sd-navbar-content" >
+		<ul class="navbar-menu navbar-menu-left" id="bar-icons">
+			<li class="menu-item menu-toggle" ng-init="ctrl.openvert=false;">
+				<a aria-expanded="false" aria-hidden="true" ng-click="ctrl.openvert=!ctrl.openvert" role="button" id="menubar-open">
+					<i class="fa fa-bars fa-2x">
+					</i>
+				</a>
+			</li>
+		</ul>
+        <img class="sd-navbar-brand" src="images/sejadireto-home.png"/>
+        <ul class="navbar-menu-right" id="bar-icons">
+            <li class="menu-item">
+                <div class="dropdown sd" ng-if="ctrl.validarAcessoFuncao('TROCAR_LOJA', ctrl.profile) && ctrl.rede && ctrl.rede.length>1">
+                  <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" ng-click="init()" style="max-width: 165px">{{ctrl.textoBotaoLoja(ctrl.loja.nome)}}
+                  <span class="caret"></span></button>
+                  <ul class="dropdown-menu">
+                    <li ng-repeat="loja in ctrl.rede" ng-click="ctrl.trocarLoja(loja.id)"><a >{{loja.nome}}</a></li>
+                  </ul>
+                </div>
+
+                <div class="dropdown sd" ng-if="ctrl.acessoEspecial && ctrl.acessoEspecial.length>1 && !(ctrl.rede && ctrl.rede.length>1)">
+                  <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" ng-click="init()" style="max-width: 165px">{{ctrl.textoBotaoLoja(ctrl.loja.nome)}}
+                  <span class="caret"></span></button>
+                  <ul class="dropdown-menu">
+                    <li ng-repeat="loja in ctrl.acessoEspecial" ng-click="ctrl.trocarLoja(loja.id)"><a >{{loja.nome}}</a></li>
+                  </ul>
+                </div>
+            </li>
+            <li class="menu-item">
+                <notification-bar>
+                </notification-bar>
+            </li>
+            <li class="menu-item">
+                <md-menu md-offset="0 75">
+                    <md-button aria-label="Perfil do Usuário" class="md-fab md-mini" md-no-ink="true" md-ripple-size="partial" ng-click="ctrl.openMenu($mdMenu, $event)" ng-disabled="false">
+                        <i class="material-icons acc">
+                            account_circle
+                        </i>
+                    </md-button>
+                    <md-menu-content id="menuContainer" width="1">
+                        <md-menu-item>
+                            <md-button>
+                                <md-icon class="material-icons" md-menu-align-target="">
+                                    assignment_ind
+                                </md-icon>
+                                {{ctrl.profile.nome}}
+                            </md-button>
+                        </md-menu-item>
+                        <md-menu-item>
+                            <md-button ng-click="ctrl.modalUsuario(ctrl.profile)" ng-disabled="false">
+                                <md-icon class="material-icons" md-menu-align-target="">
+                                    edit
+                                </md-icon>
+                                Editar dados e assinatura
+                            </md-button>
+                        </md-menu-item>
+                        <md-menu-item>
+                            <md-button ng-click="ctrl.logout()">
+                                <i class="fa fa-sign-out">
+                                </i>
+                                Logout
+                            </md-button>
+                        </md-menu-item>
+                    </md-menu-content>
+                </md-menu>
+            </li>
+        </ul>
+        
+        <ae-menu profile="ctrl.profile"></ae-menu>
+    </div>
+</nav>
+<div class="container-fluid main-content">
+    <ui-view>
+    </ui-view>
+</div>

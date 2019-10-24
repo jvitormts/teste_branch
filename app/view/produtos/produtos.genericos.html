@@ -1,0 +1,136 @@
+<div class="row">
+    <div class="col-md-12">
+        <md-button class="md-raised md-mini" ng-click="ctrl.modalProduto({})" style="color: #fff8e1; background-color: #ff9800; margin-left:2px;">
+            <i class="fa fa-gift">
+            </i>
+            Novo Produto
+        </md-button>
+    </div>
+    <fieldset>
+        <legend>
+            Filtros
+        </legend>
+        <div class="registry-count">
+            Total de Registros: {{ctrl.total}}
+        </div>
+        <form ng-submit="ctrl.buscarProdutos(ctrl.filtros)">
+            <div class="col-md-6">
+                <div style="margin-top: 6px;width: 450px;float:left">
+                    <input class="form-control" ng-model="ctrl.filtroTexto" placeholder="Pesquisar" type="text">
+                    </input>
+                </div>
+                <div class="btn-group" style="margin-top: 6px">
+                    <button class="btn btn-default" type="submit">
+                        <i class="fa fa-search fa-1-5x">
+                        </i>
+                    </button>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <label>
+                    Situação:
+                </label>
+                <div class="btn-group">
+                    <a class="btn {{ctrl.filtros.disponivel ?'btn-primary': 'btn-default'}}" ng-click="ctrl.filtros.disponivel = true;">
+                        Disponível
+                    </a>
+                    <a class="btn {{!ctrl.filtros.disponivel  ?'btn-primary': 'btn-default'}}" ng-click="ctrl.filtros.disponivel = false;">
+                        Indisponível
+                    </a>
+                </div>
+            </div>
+        </form>
+    </fieldset>
+</div>
+<div class="row">
+
+    <page-buttons ng-model="ctrl.filtros.page" pages="ctrl.paginas">
+    </page-buttons>
+
+    <perfect-scrollbar class="scroller-garbage" min-scrollbar-length="20" wheel-propagation="true" wheel-speed="0.3">
+        <div class="col-md-12">
+            <table class="table table-bordered">
+                <thead>
+                    <tr class="well">
+                        <th align="center" ng-click="ctrl.filtros.order = ctrl.filtros.order=='p.descricao' ? 'p.descricao DESC ' : 'p.descricao'">
+                            Produto
+                            <i class="material-icons" ng-if="ctrl.filtros.order=='p.descricao'">
+                                arrow_drop_up
+                            </i>
+                            <i class="material-icons" ng-if="ctrl.filtros.order=='p.descricao DESC'">
+                                arrow_drop_down
+                            </i>
+                        </th>
+                        <th align="center"  ng-click="ctrl.filtros.order = ctrl.filtros.order=='p.modelo' ? 'p.modelo DESC ' : 'p.modelo'">
+                            Modelo
+                            <i class="material-icons" ng-if="ctrl.filtros.order=='p.modelo'">
+                                arrow_drop_up
+                            </i>
+                            <i class="material-icons" ng-if="ctrl.filtros.order=='p.modelo DESC'">
+                                arrow_drop_down
+                            </i>
+                        </th>
+                        <th align="center"  ng-click="ctrl.filtros.order = ctrl.filtros.order=='p.tipo' ? 'p.tipo DESC ' : 'p.tipo'">
+                            Tipo
+                            <i class="material-icons" ng-if="ctrl.filtros.order=='p.tipo'">
+                                arrow_drop_up
+                            </i>
+                            <i class="material-icons" ng-if="ctrl.filtros.order=='p.tipo DESC'">
+                                arrow_drop_down
+                            </i>
+                        </th>
+                        <th align="center" ng-click="ctrl.filtros.order = ctrl.filtros.order=='p.unidade' ? 'p.unidade DESC ' : 'p.unidade'">
+                            Unidade
+                            <i class="material-icons" ng-if="ctrl.filtros.order=='p.unidade'">
+                                arrow_drop_up
+                            </i>
+                            <i class="material-icons" ng-if="ctrl.filtros.order=='p.unidade DESC'">
+                                arrow_drop_down
+                            </i>
+                        </th>
+                        <th align="center" ng-click="ctrl.filtros.order = ctrl.filtros.order=='p.preco' ? 'p.preco DESC ' : 'p.preco'">
+                            Preço
+                            <i class="material-icons" ng-if="ctrl.filtros.order=='p.preco'">
+                                arrow_drop_up
+                            </i>
+                            <i class="material-icons" ng-if="ctrl.filtros.order=='p.preco DESC'">
+                                arrow_drop_down
+                            </i>
+                        </th>
+                        <th align="center" width="15%">
+                            Ações
+                        </th>
+                    </tr>
+                </thead>
+                <tr ng-repeat="produto in ctrl.lista">
+                    <td>
+                        {{produto.descricao}}
+                    </td>
+                    <td>
+                        {{produto.modelo}}
+                    </td>
+                    <td>
+                        {{produto.tipo}}
+                    </td>
+                    <td>
+                        {{produto.unidade}}
+                    </td>
+                    <td>
+                        R$ {{ produto.preco | number : 2 }}
+                    </td>
+                    <td align="center">
+                        <button class="btn btn-primary" button="button" ng-click="ctrl.modalProduto(produto)">
+                            <i class="fa fa-pencil"></i>
+                            Editar
+                        </button>
+                        <button class="btn btn-default" button="button" ng-click="ctrl.trocarSituacao(produto)">
+                            Definir como {{produto.disponivel ? "Indisponível" : "Disponível"}}
+                        </button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </perfect-scrollbar>
+    <page-buttons ng-model="ctrl.filtros.page" pages="ctrl.paginas">
+    </page-buttons>
+</div>

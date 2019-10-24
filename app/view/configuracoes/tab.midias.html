@@ -1,0 +1,39 @@
+<md-tab label="Campanha">
+    <md-content>
+        <div class="col-lg-offset-3 col-lg-6 col-md-8 col-md-offset-2 col-sm-12 panel-config">
+            <perfect-scrollbar class="scroller-configs" min-scrollbar-length="20" refresh-on-change="true" wheel-propagation="true" wheel-speed="1">
+                <div class="col-lg-6" ng-repeat="midia in ctrl.midias | filter : {active: true} | orderBy : ['fixed','nome','id']">
+                    <div class="input-group">
+                        <input class="form-control" ng-disabled="!midia.edit" ng-model="midia.nome" type="text"/>
+                        <div class="input-group-btn" ng-if="midia.edit">
+                            <button class="btn btn-success inline-edit" ng-click="ctrl.salvarMidia(midia)" ng-disabled="midia.fixed || !midia.nome" type="button">
+                                <i class="fa fa-floppy-o"></i>
+                            </button>
+                            <button class="btn btn-default inline-edit" ng-click="ctrl.resetData('midias')" type="button">
+                                <i class="fa fa-ban"></i>
+                            </button>
+                        </div>
+                        <div class="input-group-btn" ng-if="!midia.edit && !midia.fixed">
+                            <button class="btn btn-primary inline-edit" ng-click="midia.edit=true" type="button">
+                                <i class="fa fa-pencil"></i>
+                            </button>
+                            <button class="btn btn-danger inline-edit" ng-click="ctrl.removerMidia(midia)" ng-disabled="" type="button">
+                                <i class="fa fa-trash-o"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </perfect-scrollbar>
+            <div class="form-group">
+                <section class="buttons" layout="row" layout-align="center" layout-sm="column" layout-wrap="">
+                    <button class="btn btn-default" ng-click="" type="button">
+                        Limpar Alterações
+                    </button>
+                    <button class="btn btn-primary" ng-click="ctrl.novaMidia()" type="submit">
+                        Adicionar nova
+                    </button>
+                </section>
+            </div>
+        </div>
+    </md-content>
+</md-tab>

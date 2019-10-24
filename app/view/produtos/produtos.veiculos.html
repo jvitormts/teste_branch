@@ -1,0 +1,121 @@
+<div class="row">
+    <div class="col-md-12">
+        <md-button class="md-raised md-mini" ng-click="ctrl.modalProduto({})" style="color: #fff8e1; background-color: #ff9800; margin-left:2px;">
+            <i class="fa fa-car">
+            </i>
+            Novo Produto
+        </md-button>
+    </div>
+    <fieldset>
+        <legend>
+            Filtros
+        </legend>
+        <div class="registry-count">
+            Total de Registros: {{ctrl.filterResult.length}}
+        </div>
+        <div class="col-md-3">
+            <div style="margin-top: 6px;width: 250px;float:left">
+                <input class="form-control" focus-me="{{shearchButton}}" ng-blur="shearchButton=false" ng-focus="shearchButton=true" ng-model="ctrl.filtros.texto" placeholder="Pesquisar" type="text">
+                </input>
+            </div>
+            <div class="btn-group" style="margin-top: 6px">
+                <button class="btn {{shearchButton ? 'btn-primary': 'btn-default'}}" ng-click="shearchButton=!shearchButton" type="button">
+                    <i class="fa fa-search fa-1-5x">
+                    </i>
+                    <md-tooltip md-direction="bottom" >
+                        Pesquisar atividades
+                    </md-tooltip>
+                </button>
+            </div>
+        </div>
+        <div class="col-md-4" ng-init="ctrl.filtros = {situacao:'EM_ESTOQUE'}">
+            <label>
+                Situação:
+            </label>
+            <div class="btn-group">
+                <a class="btn {{!ctrl.filtros.situacao ?'btn-primary': 'btn-default'}}" ng-click="ctrl.filtros.situacao=undefined ">
+                    TODOS
+                </a>
+                <a class="btn {{ctrl.filtros.situacao=='VENDIDO' ?'btn-primary': 'btn-default'}}" ng-click="ctrl.filtros.situacao=='VENDIDO' ? ctrl.filtros.situacao=undefined : ctrl.filtros.situacao='VENDIDO' ">
+                    VENDIDOS
+                </a>
+                <a class="btn {{ctrl.filtros.situacao=='EM_ESTOQUE' ?'btn-primary': 'btn-default'}}" ng-click="ctrl.filtros.situacao=='EM_ESTOQUE' ? ctrl.filtros.situacao=undefined : ctrl.filtros.situacao='EM_ESTOQUE' ">
+                    EM ESTOQUE
+                </a>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <label>
+                Condição:
+            </label>
+            <div class="btn-group">
+                <a class="btn {{!ctrl.filtros.condicao ?'btn-primary': 'btn-default'}}" ng-click="ctrl.filtros.condicao=undefined ">
+                    TODOS
+                </a>
+                <a class="btn {{ctrl.filtros.condicao=='NOVO' ?'btn-primary': 'btn-default'}}" ng-click="ctrl.filtros.condicao = ctrl.filtros.condicao=='NOVO' ? undefined : 'NOVO'; ">
+                    NOVOS
+                </a>
+                <a class="btn {{ctrl.filtros.condicao=='SEMINOVO' ?'btn-primary': 'btn-default'}}" ng-click="ctrl.filtros.condicao=='SEMINOVO' ? ctrl.filtros.condicao=undefined : ctrl.filtros.condicao='SEMINOVO' ">
+                    SEMINOVOS
+                </a>
+            </div>
+        </div>
+    </fieldset>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <table class="table table-bordered">
+            <thead>
+                <tr class="well">
+                    <th align="center">
+                        Marca
+                    </th>
+                    <th align="center">
+                        Modelo
+                    </th>
+                    <th align="center">
+                        Ano
+                    </th>
+                    <th align="center">
+                        Placa
+                    </th>
+                    <th align="center">
+                        Situação
+                    </th>
+                    <th align="center" width="30%">
+                        Ações
+                    </th>
+                </tr>
+            </thead>
+            <tr ng-repeat="produto in ctrl.filterResult = (ctrl.produtos | produtosFilter : ctrl.filtros)">
+                <td>
+                    {{produto.fabricante}}
+                </td>
+                <td>
+                    {{produto.modelo}}
+                </td>
+                <td>
+                    {{produto.anoModelo}}/
+                    {{produto.anoFabricacao}}
+                </td>
+                <td>
+                    {{produto.placa ? produto.placa : "----"}}
+                </td>
+                <td>
+                    {{produto.situacao ==  'EM_ESTOQUE' ?  "Em estoque" : "Vendido"}}
+                </td>
+                <td align="center">
+                    <button class="btn btn-primary" button="button" ng-click="ctrl.modalProduto(produto)">
+                        Editar
+                    </button>&nbsp; 
+                    <button class="btn btn-danger" button="button" ng-click="ctrl.removerProduto(produto)">
+                        Excluir
+                    </button>&nbsp;            
+                    <button class="btn btn-default" type="submit" ng-click="ctrl.trocarSituacao(produto)">
+                        Alterar para {{produto.situacao ==  'VENDIDO' ?  "Em estoque" : "Vendido"}}
+                    </button>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>

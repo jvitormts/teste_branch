@@ -1,0 +1,27 @@
+<div class="container-fluid" ng-init="ctrl.init();">
+    <div ng-cloak="">
+        <md-content>
+            <md-tabs md-border-bottom="" md-center-tabs="true" md-dynamic-height="">
+                
+                
+                <ng-include src="'view/configuracoes/tab.configuracoesBase.html'">
+                </ng-include>
+                
+                <ng-include src="'view/configuracoes/tab.horario.html'">
+                </ng-include>
+                <ng-include src="'view/configuracoes/tab.midias.html'">
+                </ng-include>
+
+                <ng-include src="'view/configuracoes/tab.motivosEncerramento.html'">
+                </ng-include>
+                <ng-include src="'view/configuracoes/tab.perfis.html'">
+                </ng-include>
+
+                <ng-include src="'view/configuracoes/tab.camposPersonalizados.html'">
+                </ng-include>
+
+
+            </md-tabs>
+        </md-content>
+    </div>
+</div>

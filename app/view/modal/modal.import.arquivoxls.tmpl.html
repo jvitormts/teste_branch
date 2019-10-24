@@ -1,0 +1,82 @@
+<div class="modal-header">
+    <h4 class="modal-title">
+        Importação de Leads <i class="fa fa-1-5x" ng-class="{'fa-facebook-official': ctrl.import.type == 'facebook', 'fa-file-excel-o' : ctrl.import.type == 'xls' }" aria-hidden="true"></i>
+    </h4>
+</div>
+<div class="modal-body">
+    <form class="form-horizontal" ng-submit="ctrl.importArquivo();">
+		
+		<div class="row" style="font-weight: bold">
+			<div class="col-xs-offset-3 col-xs-9">
+				Siga os passos a seguir para fazer a importação:
+				<ol>	
+					<li>Baixa a planilha <a href="https://s3.amazonaws.com/br.com.sejadireto.files/planilha_padrao_importacaoSD.xlsx" target="_blank">aqui</a></li>
+					<li> Preencha os dados dos clientes (separe os telefones por ponto e vírgula ";") </li>
+					<li> Faça o upload da planilha preenchida </li>
+				</ol>
+			</div>
+		</div>
+        <div class="row">
+            <div class="form-group">
+                <label class="col-md-3 control-label" for="inputSubject">
+                    Arquivo
+                </label>
+                <div class="col-md-9">
+                    <input type="file" name="pic" accept=".xls,.xlsx" file-model="ctrl.import.file" ng-required="true" >
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3 control-label" for="inputSubject">
+                    Equipe
+                </label>
+                <div class="col-md-9">
+                    <select class="form-control" id="inputSubject" ng-model="ctrl.import.equipe" ng-options="equipe as equipe.nome for equipe in ctrl.equipes" ng-required="true">
+                    </select>
+                </div>
+			</div>
+            <div class="form-group" ng-init="tipoTransferencia = 'fila'">
+                <label class="col-md-3 control-label" for="inputSubject">
+                    Enviar para:
+                </label>
+                <div class="col-md-9">
+                    <div class="btn-group">
+                        <a class="btn {{tipoTransferencia == 'fila' ?'btn-primary': 'btn-default'}}" ng-click="tipoTransferencia = 'fila'; ctrl.transferencia.usuario=null;">
+                            Fila
+                        </a>
+                        <a class="btn {{tipoTransferencia == 'usuario' ?'btn-primary': 'btn-default'}}" ng-click="tipoTransferencia = 'usuario' ">
+                            Usuário
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group" ng-if="tipoTransferencia=='usuario'">
+                <label class="col-md-3 control-label" for="inputSubject">
+                    Usuário
+                </label>
+                <div class="col-md-9">
+                    <select class="form-control" id="inputSubject" ng-model="ctrl.import.usuario" ng-options="usuario as usuario.nome for usuario in ctrl.import.equipe.usuariosList" ng-required="true">
+                    </select>
+                </div>
+			</div>
+            <div class="form-group">
+                <label class="col-md-3 control-label" for="inputSubject">
+                    Etapa
+                </label>
+                <div class="col-md-9">
+                    <select class="form-control" id="inputSubject" ng-model="ctrl.import.etapa" ng-options="etapa as etapa.nome for etapa in ctrl.import.equipe.etapas | orderBy : 'ordem' " ng-required="true">
+                    </select>
+                </div>
+			</div>
+        </div>
+        <div class="form-group">
+            <section class="buttons" layout="row" layout-align="center" layout-sm="column" layout-wrap="">
+                <button class="btn btn-default" ng-click="$close();" type="reset">
+                    Cancelar
+                </button>
+                <button class="btn btn-primary" type="submit" ng-disabled="ctrl.import.blockbutton">
+                    <i class="fa fa-upload" aria-hidden="true"></i> Importar 
+                </button>
+            </section>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,72 @@
+<div class="modal-header">
+    <h4 class="modal-title">
+        Encerramento de Lead
+    </h4>
+</div>
+<div class="modal-body">
+    <form class="form-horizontal" ng-submit="ctrl.bockCancel=true;ctrl.cancelarLead();">
+        <div class="form-group">
+            <label class="col-md-2 control-label" for="inputSubject">
+                Motivo
+            </label>
+            <div class="col-md-10">
+                <sc-select ng-model="ctrl.interacaoCancelamento.motivoCancelamentoId" ng-required="true" placeholder="Selecione o motivo do cancelamento" sc-options="motivo as motivo.name for motivo in ctrl.motivos ">
+                </sc-select>
+            </div>
+            <div class="col-md-offset-2 col-md-10 text-danger" ng-if="ctrl.loja.produtoIndisponivelId && ctrl.lead.produtoId.id == -1">
+                * Para selecionar outro motivo de cancelamento deve-se associar um veículo à lead.
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-2 control-label" for="textArea">
+                Descrição
+            </label>
+            <div class="col-md-10">
+                <textarea class="form-control" id="textArea" ng-model="ctrl.interacaoCancelamento.descricao" rows="4">
+                </textarea>
+            </div>
+        </div>
+        <div class="form-group" ng-if="ctrl.interacaoCancelamento.motivoCancelamentoId.id == ctrl.loja.produtoIndisponivelId.id && ctrl.loja.negocio=='VEICULOS'" style="margin:0px 10px 0px 10px;">
+            <div align="center" class="col-md-12" for="textArea">
+                Assinale os veículos que o cliente deseja:
+            </div>
+            <div class="form-group" style="margin:0px 10px 0px 10px;">
+                <div class="col-md-4">
+                    <input class="form-control" name="inputClientName" ng-model="ctrl.interacaoCancelamento.indisponiveis[0].fabricante" ng-required="true" placeholder="Marca" type="text">
+                    </input>
+                </div>
+                <div class="col-md-6">
+                    <input class="form-control" name="inputClientName" ng-model="ctrl.interacaoCancelamento.indisponiveis[0].modelo" ng-required="true" placeholder="Modelo" type="text">
+                    </input>
+                </div>
+                <div class="col-md-2">
+                    <input class="form-control" name="inputClientName" ng-model="ctrl.interacaoCancelamento.indisponiveis[0].anoModelo" placeholder="Ano" type="number" min="1950">
+                    </input>
+                </div>
+
+                <div class="col-md-4">
+                    <input class="form-control" name="inputClientName" ng-model="ctrl.interacaoCancelamento.indisponiveis[1].fabricante" placeholder="Marca" type="text" ng-required="(trl.interacaoCancelamento.indisponiveis[1].fabricante || ctrl.interacaoCancelamento.indisponiveis[1].modelo || ctrl.interacaoCancelamento.indisponiveis[1].anoModelo)">
+                    </input>
+                </div>
+                <div class="col-md-6">
+                    <input class="form-control" name="inputClientName" ng-model="ctrl.interacaoCancelamento.indisponiveis[1].modelo" placeholder="Modelo" type="text" ng-required="(trl.interacaoCancelamento.indisponiveis[1].fabricante || ctrl.interacaoCancelamento.indisponiveis[1].modelo || ctrl.interacaoCancelamento.indisponiveis[1].anoModelo)">
+                    </input>
+                </div>
+                <div class="col-md-2">
+                    <input class="form-control" name="inputClientName" ng-model="ctrl.interacaoCancelamento.indisponiveis[1].anoModelo" placeholder="Ano" type="number" min="1950">
+                    </input>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div align="center" class="col-lg-12">
+                <button class="btn btn-default" ng-click="ctrl.modalCancelar.close();" type="reset">
+                    Cancelar
+                </button>
+                <button class="btn btn-primary" type="submit" ng-disabled="ctrl.bockCancel">
+                    Registrar
+                </button>
+            </div>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,269 @@
+.popeye-modal-container {
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 1051;
+}
+.popeye-modal-container .popeye-modal{
+    width: 500px;
+    padding: 0;
+}
+
+.popeye-modal-container .modal-negocio{
+    width: 500px;
+    padding: 0;
+}
+.popeye-modal-container .popeye-modal .modal-title{
+    text-align: center;
+    border-bottom: 1px dotted #ccc;
+}
+.popeye-modal-container .popeye-modal a.popeye-close-modal {
+    top: 0em;
+    right: 0.5em;
+    font-size: 1.5em;
+    font-weight: bold;
+    z-index: 999;
+}
+.popeye-modal-container .modal-lead{
+    width: 1000px;
+    padding: 0;
+}
+.popeye-modal-container .modal-usuario{
+    width: 760px;
+    padding: 0;
+}
+div.timeline-small-time{
+	display: none;
+}
+
+@media (max-width: 503px) {
+    .popeye-modal-container .modal-negocio{
+        width: 98vw;
+    }
+}
+
+.popeye-modal-container .modal-lead div.form-interacoes .bottom-nav{
+	display: none;
+}
+.popeye-modal-container .modal-lead div.form-interacoes  div.tipo-agendamento-select{
+	display: none;
+}
+.popeye-modal-container .modal-lead md-content:not(.md-padding){
+	padding-top: 6px;
+	color:#666666;
+}
+@media (max-width: 1024px){
+    .popeye-modal-container .modal-lead{
+		width: 95vw;
+	}
+	.popeye-modal-container .modal-lead .timeline>li>.timeline-panel {
+		min-width: calc(90vw - 220px);
+		max-width: calc(90vw - 220px);
+	}
+	.popeye-modal-container .modal-lead div.lead-info{
+		display: none
+	}
+	.popeye-modal-container .modal-lead div.lead-info-tabs{
+		display: block;
+	}
+
+}
+/* .popeye-modal-container .modal-lead div.form-interacoes md-fab-speed-dial{
+	display: none;
+} */
+.lead-info-tabs{
+	display: none
+}
+.popeye-modal-container .modal-lead div.form-interacoes.mobile{
+	display: none;
+}
+.popeye-modal-container .modal-lead div.form-interacoes div.row.inner-form-interacoes .botoes-interacao-mob {
+	display: none;
+}
+
+div.acoes-lead-fab {
+	display: none;
+}
+@media (max-width: 768px) {
+	md-tabs-canvas.md-center-tabs .md-tab {
+		padding: 3px;
+		margin: 0px 3px;
+	}
+	md-pagination-wrapper,md-tabs-canvas {
+		height: 30px;
+	}
+
+	.popeye-modal-container .popeye-modal .modal-title{
+		font-size: 1.2em;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+	}
+}
+@media (max-width: 740px) {
+	.popeye-modal-container .modal-lead .timeline>li>.timeline-panel {
+		min-width: calc(90vw - 105px);
+		max-width: calc(90vw - 105px);
+
+		
+	}
+	.popeye-modal-container .modal-lead .timeline>li.timeline-inverted>.timeline-panel {
+		left: 90px;
+	}
+	.nav-tabs>li>a{
+		padding: 8px 8px;
+	}
+	i.fa.icone-aba-interacao{
+		font-size: 1.4em;
+	}
+	span.texto-aba-interacao{
+		display: none;
+	}
+	div.acoes-lead {
+		display: none;
+	}
+	i.fa.azul{
+		color:#1b71d3;
+	}
+	i.fa.verde{
+		color:#3fa33f;
+	}
+	i.fa.vermelha, strong.vermelha{
+		color:#dc031b;
+	}
+	i.fa.amarela{
+		color:#ffc447;
+	}
+	div.timeline-small-time{
+		display: inline;
+		font-size: 0.8em;
+		margin: 0px 10px;
+		font-weight: bold;
+	}
+	.popeye-modal-container .modal-lead .timeline>li>.timeline-panel .timeline-body {
+		padding: 10px 10px 0px;
+		line-height: 15px;
+
+	}
+	.popeye-modal-container .modal-lead .modal-body {
+		padding: 0px;
+	}
+
+	.popeye-modal-container .modal-lead .modal-footer{
+		display: none;
+		
+		overflow-x: scroll;
+		overflow-y: hidden;
+		white-space:nowrap;
+	}
+ 
+	.popeye-modal-container .modal-lead div.form-interacoes.mobile div.speed-dial{
+	
+		position: absolute;
+		z-index: 110;
+		bottom: 0;
+		right: 0;
+	} 
+	.popeye-modal-container .modal-lead div.form-interacoes {
+		display: none;
+	}
+	.popeye-modal-container .modal-lead div.form-interacoes.mobile{
+		display: block;
+	}
+	.popeye-modal-container .modal-lead div.form-interacoes.mobile label.control-label, div.control-label{
+		display: none;
+	}
+	.popeye-modal-container .modal-lead div.form-interacoes.mobile div.row.inner-form-interacoes {
+		
+		position: absolute;
+		background-color: #FFF;
+		padding-top:20px;
+		bottom: 40px;
+		width: 95vw;
+		z-index: 1000;
+		border-top:1px solid #ccc; 
+	}
+	.popeye-modal-container .modal-lead div.form-interacoes.mobile div.row.inner-form-interacoes .botoes-interacao {
+		display: none;
+	}
+
+	.popeye-modal-container .modal-lead div.form-interacoes.mobile div.interacao-nav.left{
+		padding:0;
+	}
+	.popeye-modal-container .modal-lead div.form-interacoes.mobile div.interacao-nav.left .layout-align-center-stretch {
+		-webkit-box-pack: start;
+		-webkit-justify-content: start;
+		justify-content: start;
+	}
+	.popeye-modal-container .modal-lead div.form-interacoes.mobile div.row.inner-form-interacoes .botoes-interacao-mob {
+		display: block;
+		position:absolute;
+		right: 0;
+		bottom: -40px;
+		background-color: #FFF;
+	}
+
+	.popeye-modal-container .modal-lead div.acoes-lead-fab{
+		display: inline;
+		position: absolute;
+		bottom: 0;
+		right: 0;
+		z-index: 999;
+	}
+	
+	
+}
+@media (max-width: 500px) {
+	.popeye-modal-container .modal-lead div.lead-info-tabs{
+		zoom: 80%;
+	}
+	.popeye-modal-container .modal-negocio {
+		width: 95vw;
+	}
+	.popeye-modal-container .modal-lead .timeline>li>.timeline-panel {
+		font-size: 0.75em;
+	}
+	.popeye-modal-container .modal-lead div.form-interacoes.mobile div.row.inner-form-interacoes {
+		font-size: 0.75em;
+	}
+	.popeye-modal-container .modal-lead form label.lead-data-label{
+		display: none;
+	}
+
+	.popeye-modal-container .modal-lead form div.col-xs-10.col-sm-10.col-md-10.col-lg-10.input-group.form-group {
+		width:100%;
+		
+	}
+
+	.popeye-modal-container .modal-lead div.form-interacoes  div.tipo-agendamento-select{
+		display: block;
+	}
+
+	.popeye-modal-container .modal-lead div.form-interacoes  div.tipo-agendamento-btn{
+		display: none;
+	}
+	.popeye-modal-container .modal-lead div.col-xs-12.form-open .scroller>div{
+		display: none;
+	}
+	.popeye-modal-container .modal-lead div.col-xs-12.form-open .scroller{
+		height: calc(100vh - 620px);
+	}
+}
+md-fab-speed-dial .md-button.md-fab.md-fab-timeline.forward {
+	margin: 3px 4px;
+}
+.popeye-modal-container .modal-lead md-fab-trigger .md-button.md-fab {
+	width: 36px;
+	height: 36px;
+	background-color:#2196f3;
+}
+.popeye-modal-container .modal-lead md-fab-trigger .md-button.md-fab>i {
+	line-height: 36px;
+	font-size: 1em;
+}
+div.lapis-edit {
+    bottom: 0px;
+    right: 10px;
+	height: 34px;
+	margin:0px;
+	position: absolute;
+	font-size: 1em;
+}

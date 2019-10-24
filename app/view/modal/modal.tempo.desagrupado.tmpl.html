@@ -1,0 +1,39 @@
+<div class="modal-header">
+    <h4 class="modal-title">
+        {{ctrl.modal.titulo}}
+    </h4>
+</div>
+<div class="modal-body">
+	<table class="table table-bordered" id="tableExport" ng-init="ctrl.order='-total'">
+		<thead>
+			<tr>
+				<th bgcolor="#e0e0e0" style="text-align: center;">
+					Lead
+				</th>
+				<th width="20%" bgcolor="#e0e0e0" ng-click="ctrl.order = (ctrl.order=='-total' ? 'total' : '-total')" style="outline: none;text-align: center;">
+					Tempo de primeiro atendimento
+				</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="row in ctrl.modal.tabela " ng-click="ctrl.openLead(row.id);" >
+				<td>
+					{{row.titulo}} 
+				</td>
+				<td width="10%"  style="text-align: center;">
+					{{row.tempo}}
+				</td>
+			</tr>
+		</tbody>
+		<thead ng-init="ctrl.order='total'">
+			<tr>
+				<th align="right" bgcolor="#e0e0e0">
+					Tempo médio:
+				</th>
+				<th bgcolor="#e0e0e0"  style="text-align: center;">
+					{{ctrl.modal.tempoMedio}}hr(s)
+				</th>
+			</tr>
+		</thead>
+	</table>
+</div>

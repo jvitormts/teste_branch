@@ -1,0 +1,219 @@
+<div class="row" ng-init="ctrl.init()">
+  <fieldset>
+    <legend>
+      Filtros
+    </legend>
+    <div class="filter-content">
+      <div class="col-md-10 div-data-clientes">
+	  	<span style="margin:4px 0px;">
+	  		Data:
+		</span>
+        <div class="btn-group" ng-init="ctrl.filtros.campoData='createdAt'">
+          <a class="btn {{ctrl.filtros.campoData=='createdAt' ?'btn-primary': 'btn-default'}}" ng-click="ctrl.filtros.campoData='createdAt' ">
+            Chegada
+          </a>
+          <a class="btn {{ctrl.filtros.campoData=='closedAt' ? 'btn-primary': 'btn-default'}}" ng-click="ctrl.filtros.campoData='closedAt'">
+            Conclusão
+          </a>
+        </div>
+        <strong style="margin:4px 5px;">:</strong>
+        <date-range-buttons buttons="['today', 'thisWeek', 'thisMonth','sinceBeginning', 'custom']" min-date="ctrl.min_date"
+          ng-model-end="ctrl.filtros.fim" ng-model-start="ctrl.filtros.inicio" ng-required="true" ng-first-value="ctrl.filtros.selectedDate">
+        </date-range-buttons>
+      </div>
+      <div class="col-md-2 text-right">
+        <a class="btn btn-default " ng-click="maisFiltros=!maisFiltros;configs=false;">
+          <i aria-hidden="true" class="fa {{maisFiltros ?'fa-minus' : 'fa-plus' }}">
+          </i>
+          Filtros
+        </a>
+        <a class="btn btn-default" ng-click="configs=!configs;maisFiltros=false;">
+          <i aria-hidden="true" class="fa fa-cog">
+          </i>
+          <md-tooltip md-direction="bottom">
+            Configurar colunas a serem exibidas
+          </md-tooltip>
+        </a>
+      </div>
+
+      <div class="col-md-2" ng-if="ctrl.equipes.length > 2  && ctrl.validarAcessoTela('home.equipe',ctrl.profile);">
+        <label>
+          Equipes:
+        </label>
+        <div class="drop-hover dropdown sd">
+          <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style="max-width: 200px">
+            {{ctrl.textoEquipes()}}
+            <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu">
+            <li ng-repeat="equipe in ctrl.equipes | orderBy : 'id'" ng-class="{'active':equipe.selected}">
+              <a ng-click="equipe.selected=!equipe.selected" style="text-transform: uppercase" class="active">
+                {{equipe.nome}}</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <label>
+          Situação:
+        </label>
+        <div class="btn-group">
+          <a class="btn {{!ctrl.filtros.situacaoLead ?'btn-primary': 'btn-default'}}" ng-click="ctrl.filtros.situacaoLead=null ">
+            Todos
+            <md-tooltip md-direction="bottom">
+              Todas as leads
+            </md-tooltip>
+          </a>
+          <a class="btn {{ctrl.filtros.situacaoLead=='ABERTA' ?'btn-primary': 'btn-default'}}" ng-click="ctrl.filtros.situacaoLead=='ABERTA' ? ctrl.filtros.situacaoLead=null : ctrl.filtros.situacaoLead='ABERTA' ">
+            <i class="fa fa-filter">
+            </i>
+            <md-tooltip md-direction="bottom">
+              Leads abertas
+            </md-tooltip>
+          </a>
+          <a class="btn {{ctrl.filtros.situacaoLead=='ADIADA' ?'btn-primary': 'btn-default'}}" ng-click="ctrl.filtros.situacaoLead=='ADIADA' ? ctrl.filtros.situacaoLead=null : ctrl.filtros.situacaoLead='ADIADA' ">
+            <span class="fa-stack onbutton" style="color:#666">
+              <i class="fa fa-calendar fa-stack-1x">
+              </i>
+              <i class="fa fa-clock-o fa-stack-1x small-bottom-right">
+              </i>
+            </span>
+            <md-tooltip md-direction="bottom">
+              Leads adiadas
+            </md-tooltip>
+          </a>
+          <a class="btn {{ctrl.filtros.situacaoLead=='GANHA' ?'btn-success': 'btn-default'}}" ng-click="ctrl.filtros.situacaoLead=='GANHA' ? ctrl.filtros.situacaoLead=null : ctrl.filtros.situacaoLead='GANHA' ">
+            <i class="fa fa-1-5x fa-trophy">
+            </i>
+            <md-tooltip md-direction="bottom">
+              Leads vendidas
+            </md-tooltip>
+          </a>
+          <a class="btn {{ctrl.filtros.situacaoLead=='ENCAMINHADA' ?'btn-primary': 'btn-default'}}" ng-click="ctrl.filtros.situacaoLead=='ENCAMINHADA' ? ctrl.filtros.situacaoLead=null : ctrl.filtros.situacaoLead='ENCAMINHADA' "
+            ng-if="(ctrl.rede && ctrl.rede.length > 1)">
+            <i class="fa fa-1-5x fa-share-square-o fa-rotate-180">
+            </i>
+            <md-tooltip md-direction="bottom">
+              Leads encaminhadas
+            </md-tooltip>
+          </a>
+          <a class="btn {{ctrl.filtros.situacaoLead=='PERDIDA' ?'btn-danger': 'btn-default'}}" ng-click="ctrl.filtros.situacaoLead=='PERDIDA' ? ctrl.filtros.situacaoLead=null : ctrl.filtros.situacaoLead='PERDIDA' ">
+            <i class="fa fa-1-5x fa-thumbs-o-down">
+            </i>
+            <md-tooltip md-direction="bottom">
+              Leads canceladas
+            </md-tooltip>
+          </a>
+        </div>
+      </div>
+      <div class="col-md-6" ng-init="maisFiltros=false">
+        <div class="input-group">
+          <input class="form-control" ng-model="ctrl.filtros.busca" placeholder="Busque por: Id., Nome, Telefone, E-mail, CPF/CNPJ, Empresa, etc."
+            type="text" />
+          <span class="input-group-btn">
+            <a class="btn btn-primary" ng-click="ctrl.listar(0)">
+              <i aria-hidden="true" class="fa fa-search">
+              </i>
+			  <md-tooltip md-visible="ctrl.showTooltip">*Clique na lupa para executar a busca</md-tooltip>
+            </a>
+            <a class="btn btn-success" ng-click="ctrl.exportarExcel()">
+              <i aria-hidden="true" class="fa fa-table">
+              </i>
+            </a>
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="filter-content" ng-if="maisFiltros">
+      <div class="col-md-6" ng-if="ctrl.validarAcessoTela('home.equipe',ctrl.profile);">
+        <sc-select multiple="true" ng-model="ctrl.filtros.usuarioIds" ng-required="true" placeholder="Selecione o(s) vendedor(es)"
+          sc-options="vendedor.id as vendedor.nome for vendedor in ctrl.usuarios">
+        </sc-select>
+      </div>
+      <div class="col-md-6">
+        <sc-select multiple="true" ng-model="ctrl.filtros.canalIds" ng-required="true" placeholder="Selecione o(s) canal(is)"
+          sc-options="canal.id as canal.name for canal in ctrl.canais">
+        </sc-select>
+      </div>
+      <div class="col-md-6">
+        <sc-select multiple="true" ng-model="ctrl.filtros.midiaIds" ng-required="true" placeholder="Selecione a(s) campanha(s)"
+          sc-options="midia.id as midia.nome for midia in ctrl.midias">
+        </sc-select>
+      </div>
+      <div class="col-md-6">
+        <sc-select refresh-delay="700" multiple="true" ng-model="ctrl.filtros.produtoIds" ng-required="true"
+          placeholder="Digite os produtos desejados" sc-options="produto.id as produto.texto for produto in ctrl.buscarProdutos(searchText)">
+        </sc-select>
+      </div>
+      <div class="col-md-6">
+        <tags-input ng-model="ctrl.filtros.tags" placeholder="Selecione as etiquetas" display-property="tag"
+          add-from-autocomplete-only="true">
+          <auto-complete source="ctrl.getTags($query)" debounce-delay="300" min-length="1"></auto-complete>
+        </tags-input>
+      </div>
+      <div class="col-md-6">
+        <tags-input use-strings='false' ng-model="ctrl.filtros.motivos" placeholder="Selecione os motivos"
+          display-property="name" add-from-autocomplete-only="true" replace-spaces-with-dashes="false">
+          <auto-complete source="ctrl.filterMotivos($query)" debounce-delay="300" min-length="1"></auto-complete>
+        </tags-input>
+      </div>
+      <div class="col-md-6">
+        <sc-select multiple="true" ng-model="ctrl.filtros.etapas" ng-required="true" placeholder="Selecione a(s) etapas(s) do funil"
+          sc-options="etapa.nome as etapa.nome for etapa in ctrl.etapas">
+        </sc-select>
+      </div>
+      <div class="col-md-6" ng-if="ctrl.loja.habilitaPreco">
+        <label>Valor entre:</label>
+        <rzslider class="custom-slider" rz-slider-model="ctrl.filtros.valorMinimo" rz-slider-high="ctrl.filtros.valorMaximo"
+          rz-slider-options="ctrl.sliderOptions"></rzslider>
+      </div>
+    </div>
+    <div class="filter-content" ng-show="configs" style="padding-top:15px;" ui-sortable="{}" ng-model="ctrl.colunas">
+      <div class="col-md-2 col-sm-4" ng-repeat="coluna in ctrl.colunas ">
+        <label><input type="checkbox" ng-model="coluna.selected" ng-disabled="coluna.fixo">{{coluna.titulo}}</label>
+      </div>
+      <div class="col-md-12">
+        * Clique e arraste as etapas para reorganizar as colunas
+      </div>
+    </div>
+</div>
+</div>
+</fieldset>
+<page-buttons ng-model="ctrl.filtros.page" pages="ctrl.paginas" reload-function="ctrl.listar">
+</page-buttons>
+<div class="col-md-12">
+  <div class="total-registros-clientes">
+    Total de Registros: {{ctrl.registros}}
+  </div>
+  <table class="table table-bordered" id="tableExport">
+    <thead>
+      <tr class="well">
+        <th ng-repeat="coluna in ctrl.colunas | filter : {selected:true}" ng-click="ctrl.order(coluna.campo)" style="outline: none;">
+
+          {{coluna.titulo}}
+          <i class="material-icons" ng-if="ctrl.filtros.order==coluna.campo+' ASC' || (ctrl.filtros.order==ctrl.filtros.campoData+' ASC' && coluna.campo=='data')">
+            arrow_drop_up
+          </i>
+          <i class="material-icons" ng-if="ctrl.filtros.order==coluna.campo+' DESC' || (ctrl.filtros.order==ctrl.filtros.campoData+' DESC' && coluna.campo=='data')">
+            arrow_drop_down
+          </i>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr aria-label="null" ng-click="ctrl.openModal(lead.visualId)" ng-repeat="lead in ctrl.lista " style="outline: none;"
+        ng-init="ctrl.filtros.colunas = (ctrl.colunas | filter : {selected:true})">
+        <td ng-repeat="coluna in ctrl.filtros.colunas" align="{{coluna.campo=='situacao' ? 'center':'left'}}">
+          <i class="fa fa-2x {{coluna.icons[lead[coluna.campo]]}}" ng-if="coluna.icons">
+            <span class="etapa-ordem-badge" ng-if="coluna.campo=='situacao' && lead.situacao=='ABERTA'">
+              {{lead.ordemEtapa+1}}
+            </span>
+          </i>
+          {{ctrl.textoCampo(coluna,lead)}}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+</div>

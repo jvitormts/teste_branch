@@ -1,0 +1,119 @@
+<div class="row" style="margin:0px">
+    
+    <div class="col-xs-12">
+        <div class="panel panel-primary borda-redonda">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-xs-8">
+                        <h4>
+                            <i class="fa fa-envelope">
+                            </i>
+                            Identificação e triagem de quais emails são leads.
+                        </h4>
+                    </div>
+                    <div class="col-xs-4">
+                        <section layout="row" layout-align="end center" layout-sm="column" layout-wrap="">
+							<button class="btn btn-success" ng-click="ctrl.modalImport('xls');" ng-if="true">
+									Importar leads <i class="fa fa-file-excel-o" aria-hidden="true"></i>
+							</button>
+                            <button ng-if="ctrl.loja.importaFacebook" class="btn btn-primary" ng-click="ctrl.modalImport('facebook');">
+                                Importar leads <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                            </button>
+                        </section>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-4 col-xs-offset-8">
+                        <span class="pull-right">
+                            Selecionar Todos
+                        </span>
+                    </div>
+                </div>
+                <div class="row mailbox-header">
+                    <div class="col-xs-7">
+                        <div class="col-xs-2 col-xs-offset-1 text">
+                            Recebido em
+                        </div>
+                        <div class="col-xs-4 text">
+                            Remetente
+                        </div>
+                        <div class="col-xs-5 text">
+                            Assunto
+                        </div>
+                    </div>
+                    <div class="col-xs-2 text">
+                        Campanha
+                    </div>
+                    <div class="col-xs-2 text">
+                        Dados do cliente
+                    </div>
+                    <div class="col-xs-1">
+                        <md-switch aria-label="null" class="md-warn pull-right mailbox" md-no-ink="" ng-change="ctrl.selecionarTodos(ctrl.checkAll)" ng-model="ctrl.checkAll">
+                        </md-switch>
+                    </div>
+                </div>
+                <perfect-scrollbar class="scroller-mailbox" min-scrollbar-length="20" wheel-propagation="true" wheel-speed="3">
+                    <div class="row mailbox-message" ng-init="mail.show=false" ng-repeat="mail in ctrl.preLeads">
+                        <div class="col-xs-7 mailbox-item" ng-click="ctrl.openMail(mail)">
+                            <div class="col-xs-1 icon">
+                                <i class="fa {{mail.lida ? ' fa-envelope-o' : ' fa-envelope'}} fa-2x">
+                                </i>
+                            </div>
+
+                            <div class="col-xs-2 text">
+                                {{mail.createdAt | date:'dd/MM/yyyy HH:mm:ss' }}
+                            </div>
+                            <div class="col-xs-4 text text-elipsis">
+                                {{mail.remetente}}
+                            </div>
+                            <div class="col-xs-5 text">
+                                {{mail.assunto.length > 50 ? mail.assunto.substring(0, 50) + '...' : mail.assunto}}
+								<i  ng-if="mail.anexosList.length>0" class="fa fa-paperclip"></i>
+                            </div>
+                        </div>
+                        <div class="col-xs-2 mailbox-item">
+                            <sc-select ng-model="mail.midia" ng-required="true" placeholder="Selecione a campanha" sc-options="midia as midia.nome for midia in ctrl.midias">
+                            </sc-select>
+                        </div>
+                        <div align="center" class="col-xs-2 mailbox-item user-icon">
+                            <i class="fa fa-1-5x" ng-class="{'blue fa-user' : mail.cliente, 'fa-user-plus' :!mail.cliente }" ng-click="ctrl.modalCliente(mail);">
+                                <md-tooltip md-direction="bottom" >
+                                    Adicionar dados do cliente
+                                </md-tooltip>
+                            </i>
+                        </div>
+                        <div class="col-xs-1">
+                            <md-switch aria-label="null" class="md-secondary pull-right mailbox" md-no-ink="" ng-model="mail.selected">
+                            </md-switch>
+                        </div>
+                        <div class="col-xs-12 message-body" ng-if="mail.show">
+							<div>
+								<strong>Remetente: </strong>{{mail.remetente}}
+							</div>
+							<div>
+								<strong>Assunto: </strong>{{mail.assunto}}
+							</div>
+                            <div ng-bind-html="mail.message">
+							</div>
+							<span ng-if="mail.anexosList.length>0">
+								<br/>
+								<i class="fa fa-paperclip"></i>
+								<span ng-repeat="anexo in mail.anexosList">
+								  <a ng-click="ctrl.getAnexo(anexo.id)">{{anexo.nomeArquivo}}</a>{{!$last ? " / ": ""}}
+								</span>
+							  </span>
+                        </div>
+                    </div>
+                </perfect-scrollbar>
+                <div class="col-xs-12">
+                    <button  ng-repeat="equipe in ctrl.equipes | orderBy:'nome' " class="btn btn-primary pull-right" ng-click="ctrl.confimarEnviar(true,equipe)">
+                        Enviar para: {{equipe.nome}}
+                    </button>
+                    <button class="btn btn-danger pull-right" ng-click="ctrl.confimarEnviar(false)">
+                        Excluir selecionados
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

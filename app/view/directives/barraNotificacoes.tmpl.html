@@ -1,0 +1,87 @@
+<li class="menu-item">
+    <a class="bell-link" ng-click="controller.linkClickFunction();">
+        <span class="fa fa-bell-o fa-1-5x" ng-if="controller.isOnline()">
+		</span>
+		
+        <span class="notification_count" ng-if="controller.notificacoes && controller.isOnline()">
+            {{ controller.countUnread(controller.notificacoes) }}
+		</span>
+		
+		<span class="fa-stack fa-lg" ng-if="!controller.isOnline()">
+			<i class="fa fa-wifi fa-stack-1x"></i>
+			<i class="fa fa-ban fa-stack-2x text-danger"></i>
+		</span>
+    </a>
+    <div id="notificationContainer">
+        <div id="notificationTitle">
+            Últimas notificações
+            <span class="pull-right">
+                <a ng-click="controller.marcarTodas()">
+                    Marcar todas como lidas
+                </a>
+            </span>
+        </div>
+        <div id="notificationsBody">
+            <perfect-scrollbar class="scroller-notifications" min-scrollbar-length="20" wheel-propagation="true" wheel-speed="0.3">
+                <md-content>
+                    <md-list>
+                        <md-list-item class="md-2-line" ng-class="{'bg-unread':!n.lida}" ng-click="controller.notificationClick(n);" ng-repeat="n in controller.notificacoes | orderBy : ['lida','-updatedAt']">
+                            <div class="md-list-icon">
+                                <i class="material-icons uk-text-primary md-36" ng-if="n.type=='notificacao' || n.dtype=='N'">
+                                    error
+                                </i>
+                                <i class="material-icons uk-text-warning md-36" ng-if="n.type=='notificacaoLead' && n.tipo=='CONTATO'">
+                                    email
+                                </i>
+                                <i class="material-icons uk-text-warning md-36" ng-if="n.type=='notificacaoLead' && n.tipo=='NOVA'">
+                                    monetization_on
+                                </i>
+                                <i class="material-icons uk-text-danger md-36" ng-if="n.type=='notificacaoLead' && n.tipo=='ENCERRADA'">
+                                    remove_circle
+                                </i>
+                                <i class="fa fa-trophy fa-2x" ng-if="n.type=='notificacaoLead' && n.tipo=='SUCESSO'">
+                                </i>
+                                <i class="material-icons uk-text-primary md-36" ng-if="n.type=='notificacaoLead' && (n.tipo=='REATIVADA' || n.tipo=='REABERTA')">
+                                    <i class="fa fa-retweet">
+                                    </i>
+                                </i>
+                                <i class="material-icons uk-text-primary md-36" ng-if="n.type=='notificacaoLead' && n.tipo=='COMENTARIO'">
+                                    <i class="fa fa-comment">
+                                    </i>
+                                </i>
+                                <i class="material-icons uk-text-primary md-36" ng-if="n.type=='notificacaoLead' && n.tipo=='TRANSFERIDA'">
+                                    <i class="fa fa-exchange">
+                                    </i>
+                                </i>
+                                <i class="material-icons uk-text-primary md-36" ng-if="n.type=='notificacaoLead' && n.tipo=='ADIADA'">
+                                    <i class="fa fa-clock-o">
+                                    </i>
+                                </i>
+                                <i class="material-icons uk-text-primary md-36" ng-if="n.type=='notificacaoLead' && n.tipo=='ALERTA'">
+                                    <i class="fa fa-hourglass-half">
+                                    </i>
+                                </i>
+                                <i class="material-icons uk-text-primary md-36" ng-if="n.type=='notificacaoPrelead'">
+                                    email
+                                </i>
+                            </div>
+                            <div class="md-list-item-text">
+                                <h4>
+                                    {{n.titulo}} -
+                                    <span class="small">
+                                        {{n.updatedAt | date:'dd/MM/yyyy - HH:mm'}}
+                                    </span>
+                                </h4>
+                                <p>
+                                    {{n.descricao}}
+                                </p>
+                            </div>
+                            <md-divider ng-if="!$last">
+                            </md-divider>
+                        </md-list-item>
+                    </md-list>
+                </md-content>
+            </perfect-scrollbar>
+        </div>
+    </div>
+</li>

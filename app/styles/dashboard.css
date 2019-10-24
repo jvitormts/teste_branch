@@ -1,0 +1,161 @@
+.bg-lightblue{
+	background-color: #f9f9f9;
+
+}
+table.grade-dashboard {   
+	border: 2px solid #888;
+	margin-bottom: 0px;
+}
+table.grade-dashboard tr th, table.grade-dashboard tr td {
+	text-align: center;
+}
+
+table.grade-dashboard tr th{
+	text-transform: uppercase;
+	border-bottom: 2px solid #888;
+}
+table.grade-dashboard tr th.borderless {
+	text-align: center;
+	border: 2px solid #FFF;
+	border-right: 2px solid #888;
+	border-bottom: 2px solid #888;
+}
+
+table.grade-dashboard tr th.left, table.grade-dashboard tr td.left {
+	text-align: left;
+}
+
+table.grade-dashboard tr th.border-top, table.grade-dashboard tr td.border-top{
+	border-top: 2px solid #666;
+}
+table.grade-dashboard tr th.border-left, table.grade-dashboard tr td.border-left {
+	border-left: 2px solid #888;
+}
+table.grade-dashboard tr th.border-right, table.grade-dashboard tr td.border-right {
+	border-right: 2px solid #888;
+}
+div.funnel-dashboard {
+	width: 240px;
+	background: url("../images/funil-dashboard/bg-cauda-dashboard.png") left no-repeat , url("../images/funil-dashboard/bg-ponta-dashboard.png") right no-repeat;
+	background-color: #666;
+	float:left;
+	text-align: center;
+	color: #FFF;
+	height: 70px;
+	line-height: 70px;
+	text-shadow: 2px 2px #444;
+	font-size: 1.4em;
+}
+div.funnel-dashboard > div.text {
+	width: 100%;
+	padding: 0px 25px 0px 40px;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
+div.funnel-dashboard span.total-leads {
+	color:#2196f3;
+	font-weight: bolder
+}
+div.funnel-entrada{
+	min-width: 120px;
+	float:left;
+	height: 80px;
+	text-align: center;
+    font-weight: bold;
+}
+
+div.funnel-entrada i.fa{
+    color: #4e4e50;
+	font-weight: 1000;
+}
+div.funnel-entrada span{
+	font-size: 1.5em;
+    top: -17px;
+    position: relative;
+}
+div.funnel-vendidas{
+	min-width: 120px;
+	float:left;
+	text-align: center;
+	height: 80px;
+    font-weight: bold;
+}
+
+div.funnel-vendidas span{
+	font-size: 1.5em;
+    top: -6px;
+    left: -2px;
+    position: relative;
+}
+div.movimentacoes{
+    background: url(../images/curved-arrow.png) center no-repeat;
+    width: 100px;
+    height: 56px;
+    position: relative;
+    top: -128px;
+    left: -61px;
+    color: #666;
+    padding-top: 32px;
+    padding-right: 10px;
+    line-height: 28px;
+    font-size: 0.8em;
+	text-align: center;
+	text-shadow: none;
+}
+
+div.leads{
+	width: 81px;
+    position: relative;
+    bottom: 20px;
+    line-height: 28px;
+    font-size: 0.8em;
+}
+div.row.dashboard{
+	padding-top:15px;
+}
+div.dashboard-titulo {
+	text-align: left;
+	font-size: 1.5em;
+}
+
+div.dashboard-titulo button {
+	width: 100%;
+}
+div.bullet-dashboard {
+    width: 200px;
+    height: 200px;
+    line-height: 190px;
+    margin: 10px auto;
+    border-radius: 50%;
+    text-align: center;
+    color: #a0a0a0;
+    font-weight: bolder;
+    font-size: 2.8em;
+    box-shadow: 5px 5px 5px #CCC;
+}
+
+div.bullet-dashboard.tempo {
+    border: 6px #ff9800 solid;
+}
+div.bullet-dashboard.conversao {
+    border: 6px #11bd0f solid;
+}
+
+div.dropdown.sd ul.dropdown-menu li.active a{
+	border-radius: 10px;
+	color:#fff !important;
+}
+
+.dashboard-scroll {
+    overflow-y: hidden;
+	overflow-x: hidden;
+	min-width: 1200px;
+	height: 150px;
+	margin: auto;
+    position: relative;
+	padding-top:60px;
+}
+.dashboard-scroll .ps-scrollbar-x-rail {
+  opacity: 0.6;
+}

@@ -1,0 +1,195 @@
+<div class="row" ng-init="ctrl.init()">
+    <fieldset>
+        <legend>
+            Filtros
+        </legend>
+        <div class="registry-count">
+            Total de Registros: {{ctrl.registros}}
+        </div>
+        <div class="filter-content">
+			<div class="row">
+				<div class="col-xs-10">
+					<label>
+						Etiquetas:
+					</label>
+					<tags-input ng-model="ctrl.filtros.tags" placeholder="Selecione as etiquetas" display-property="tag" add-from-autocomplete-only="true">
+						<auto-complete source="ctrl.getTags($query)" debounce-delay="300" min-length="1" ></auto-complete>
+					</tags-input>
+				</div>
+				<div class="col-xs-2">
+					<label>
+						Nº da Lead:
+					</label>
+					<input ng-model="ctrl.filtros.leadId" class="form-control" ng-model-options="{debounce:400}" type="text"/>
+				</div>
+            </div>
+        </div>
+</div>
+</fieldset>
+<page-buttons ng-model="ctrl.filtros.page" pages="ctrl.paginas">
+</page-buttons>
+<div class="col-md-12">
+    <table class="table table-bordered" id="tableExport">
+        <thead>
+            <tr class="well">
+
+                <th ng-click="ctrl.filtros.order = (ctrl.filtros.order=='id ASC' ? 'id DESC' : 'id ASC')" style="outline: none;" width="1%">
+                    Id.
+                    <i class="material-icons" ng-if="ctrl.filtros.order=='id ASC'">
+                        arrow_drop_up
+                    </i>
+                    <i class="material-icons" ng-if="ctrl.filtros.order=='id DESC'">
+                        arrow_drop_down
+                    </i>
+                </th>
+                <th ng-click="ctrl.filtros.order = (ctrl.filtros.order=='situacao, ordemEtapa' ? 'situacao DESC, ordemEtapa DESC' : 'situacao, ordemEtapa')"
+                    style="outline: none;">
+                    Situação
+                    <i class="material-icons" ng-if="ctrl.filtros.order=='situacao, ordemEtapa'">
+                        arrow_drop_up
+                    </i>
+                    <i class="material-icons" ng-if="ctrl.filtros.order=='situacao DESC, ordemEtapa DESC'">
+                        arrow_drop_down
+                    </i>
+                </th>
+                <th ng-click="ctrl.filtros.order = (ctrl.filtros.order=='contatos' ? 'contatos DESC' : 'contatos')" style="outline: none;">
+                    Int.
+                    <i class="material-icons" ng-if="ctrl.filtros.order=='contatos'">
+                        arrow_drop_up
+                    </i>
+                    <i class="material-icons" ng-if="ctrl.filtros.order=='contatos DESC'">
+                        arrow_drop_down
+                    </i>
+                    <md-tooltip >
+                        Numero de contatos realizados na lead.
+                    </md-tooltip>
+                </th>
+                <th ng-click="ctrl.filtros.order = (ctrl.filtros.order=='createdAt' ? 'createdAt DESC' : 'createdAt')" style="outline: none;">
+                    Data de chegada
+                    <i class="material-icons" ng-if="ctrl.filtros.order=='createdAt'">
+                        arrow_drop_up
+                    </i>
+                    <i class="material-icons" ng-if="ctrl.filtros.order=='createdAt DESC'">
+                        arrow_drop_down
+                    </i>
+                </th>
+                <th ng-click="ctrl.filtros.order = (ctrl.filtros.order=='nomeCliente' ? 'nomeCliente DESC' : 'nomeCliente')" style="outline: none;">
+                    Nome do Cliente
+                    <i class="material-icons" ng-if="ctrl.filtros.order=='nomeCliente'">
+                        arrow_drop_up
+                    </i>
+                    <i class="material-icons" ng-if="ctrl.filtros.order=='nomeCliente DESC'">
+                        arrow_drop_down
+                    </i>
+                </th>
+                <th ng-click="ctrl.filtros.order = (ctrl.filtros.order=='usuario' ? 'usuario DESC' : 'usuario')" style="outline: none;">
+                    Responsável pela Lead
+                    <i class="material-icons" ng-if="ctrl.filtros.order=='usuario'">
+                        arrow_drop_up
+                    </i>
+                    <i class="material-icons" ng-if="ctrl.filtros.order=='usuario DESC'">
+                        arrow_drop_down
+                    </i>
+                </th>
+                <th ng-click="ctrl.filtros.order = (ctrl.filtros.order=='midia' ? 'midia DESC' : 'midia')" style="outline: none;">
+                    Campanha
+                    <i class="material-icons" ng-if="ctrl.filtros.order=='midia'">
+                        arrow_drop_up
+                    </i>
+                    <i class="material-icons" ng-if="ctrl.filtros.order=='midia DESC'">
+                        arrow_drop_down
+                    </i>
+                </th>
+                <th ng-click="ctrl.filtros.order = (ctrl.filtros.order=='canal' ? 'canal DESC' : 'canal')" style="outline: none;">
+                    Canal
+                    <i class="material-icons" ng-if="ctrl.filtros.order=='canal'">
+                        arrow_drop_up
+                    </i>
+                    <i class="material-icons" ng-if="ctrl.filtros.order=='canal DESC'">
+                        arrow_drop_down
+                    </i>
+                </th>
+                <th ng-click="ctrl.filtros.order = (ctrl.filtros.order=='produto' ? 'produto DESC' : 'produto')" style="outline: none;">
+                    Produto
+                    <i class="material-icons" ng-if="ctrl.filtros.order=='produto'">
+                        arrow_drop_up
+                    </i>
+                    <i class="material-icons" ng-if="ctrl.filtros.order=='produto DESC'">
+                        arrow_drop_down
+                    </i>
+                </th>
+                <th ng-click="ctrl.filtros.order = (ctrl.filtros.order=='valor' ? 'valor DESC' : 'valor')" style="outline: none;" ng-if="ctrl.loja.habilitaPreco">
+                    Preço
+                    <i class="material-icons" ng-if="ctrl.filtros.order=='valor'">
+                        arrow_drop_up
+                    </i>
+                    <i class="material-icons" ng-if="ctrl.filtros.order=='valor DESC'">
+                        arrow_drop_down
+                    </i>
+                </th>
+                <th ng-click="ctrl.filtros.order = (ctrl.filtros.order == 'email DESC, telefone DESC' ? 'email, telefone' : 'email DESC, telefone DESC'  )"
+                    style="outline: none;">
+                    Contato
+                    <i class="material-icons" ng-if="ctrl.filtros.order=='email, telefone'">
+                        arrow_drop_up
+                    </i>
+                    <i class="material-icons" ng-if="ctrl.filtros.order=='email DESC, telefone DESC'">
+                        arrow_drop_down
+                    </i>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr aria-label="null" ng-click="ctrl.openModal(lead.visualId)" ng-repeat="lead in ctrl.lista " style="outline: none;">
+                <td align="center">
+                    {{lead.visualId}}
+                </td>
+                <td align="center">
+                    <i class="fa fa-2x fa-thumbs-o-down" ng-if="lead.situacao =='PERDIDA'">
+                    </i>
+                    <i class="fa fa-2x fa-trophy" ng-if="lead.situacao =='GANHA'">
+                    </i>
+                    <i class="fa fa-2x fa-filter" ng-if="lead.situacao =='ABERTA' || lead.situacao =='ADIADA'">
+                        <md-tooltip md-direction="right" >
+                            {{ lead.ordemEtapa+1 +"ª etapa: " +lead.etapa }}
+                        </md-tooltip>
+                        <span class="etapa-ordem-badge">
+                            {{ lead.ordemEtapa+1 }}
+                        </span>
+                    </i>
+                    <i class="fa fa-share-square-o fa-2x fa-rotate-180" ng-if="lead.situacao =='ENCAMINHADA'">
+                    </i>
+                </td>
+                <td align="center">
+                    {{lead.contatos ? lead.contatos : 0}}
+                </td>
+                <td>
+                    {{lead.createdAt | date:'dd/MM/yyyy HH:mm:ss'}}
+                </td>
+                <td>
+                    {{lead.clienteId > 0 ? lead.nomeCliente : 'NÃO PREENCHIDO'}} {{lead.codigoOportunidadeSiebel ? ' - '+ lead.codigoOportunidadeSiebel:
+                    ''}}
+                </td>
+                <td>
+                    {{lead.usuario}}
+                </td>
+                <td>
+                    {{lead.midiaId ? lead.midia : 'Sem identificação'}}
+                </td>
+                <td>
+                    {{lead.canal}}
+                </td>
+                <td>
+                    {{ lead.produto ? lead.produto : "Não identificado"}}
+                </td>
+                <td ng-if="ctrl.loja.habilitaPreco">
+                    {{ lead.valor? "R$ " + (lead.valor | number : 2) : "Não preenchido" }}
+                </td>
+                <td>
+                    {{lead.clienteId ? '' : 'NÃO PREENCHIDO'}}{{lead.email ? lead.email : lead.telefone}}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+</div>

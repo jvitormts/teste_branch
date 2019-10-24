@@ -1,0 +1,178 @@
+<md-tab label="Configurações da Concessionária">
+    <md-content>
+        <div class="col-lg-offset-3 col-lg-6 col-md-8 col-md-offset-2 col-sm-12 panel-config">
+            <form class="form-horizontal" ng-submit="ctrl.salvarLoja();">
+                <div class="form-group">
+                    <label class="col-lg-4 control-label" for="inputDealershipName">
+                        Nome
+                    </label>
+                    <div class="col-lg-8">
+                        <input class="form-control" id="inputDealershipName" ng-model="ctrl.loja.nome" placeholder="Nome" type="text">
+                        </input>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-4 control-label" for="inputDealershipAddress">
+                        Endereço
+                    </label>
+                    <div class="col-lg-8">
+                        <input class="form-control" id="inputDealershipAddress" ng-model="ctrl.loja.endereco" placeholder="Endereço" type="text">
+                        </input>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-4 control-label" for="inputDealershipPhone">
+                        Telefone
+                    </label>
+                    <div class="col-lg-8">
+                        <input class="form-control" id="inputDealershipPhone" ng-model="ctrl.loja.telefone" placeholder="(XX) XXXXX-XXXX" type="text" ui-br-phone-number="">
+                        </input>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-4 control-label" for="select">
+                        E-mail de conexão com o SejaDireto
+                    </label>
+                    <label class="col-lg-8 control-label" for="select" style="text-align: left">
+                        {{ ctrl.loja.emailLead + "@loja.sejadireto.com.br" }}
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-4 control-label" for="select">
+                        Email padrão para CCO.
+                    </label>
+                    <div class="col-lg-8">
+                        <input class="form-control" id="standard_bcc" ng-model="ctrl.loja.emailCco" type="email"/>
+                    </div>
+                </div>
+                <div class="section-title">
+                    Parametrizações da concessionária
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-8 control-label-left">
+                        Ordernar leads na tela do vendedor por:
+                    </label>
+                    <div class="col-lg-4">
+                        <select class="form-control" ng-model="ctrl.loja.orderLead">
+                            <option value="timediff">
+                                Mais atrasadas
+                            </option>
+                            <option value="-createdAt">
+                                Mais recentes
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-8 control-label-left">
+                        Tempo padrão para agendamentos automáticos:
+                    </label>
+                    <div class="col-lg-4">
+                        <ae-input-tempo ng-model="ctrl.loja.agendamentoAutomatico">
+                        </ae-input-tempo>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-8 control-label-left">
+                        Tempo para repetição de aviso de atraso de tarefas:
+                    </label>
+                    <div class="col-lg-4">
+                        <ae-input-tempo ng-model="ctrl.loja.repeticaoAviso">
+                        </ae-input-tempo>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-8 control-label-left">
+                        Permitir encerrar lead sem produto: 
+                    </label>
+                    <div class="col-lg-4">
+                        <md-switch aria-label="null" class="md-secondary" ng-model="ctrl.loja.permitirFinalizarSemProduto" style="margin:0px;">
+                        </md-switch>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-8 control-label-left">
+                        Motivo de cancelamento padrão para SPAM ou leads inválidas:
+                    </label>
+                    <div class="col-lg-4">
+                        <sc-select ng-model="ctrl.loja.motivoLeadInvalida" ng-required="true" placeholder="Selecione o motivo do cancelamento" sc-options="motivo as motivo.name for motivo in ctrl.motivos ">
+                        </sc-select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-8 control-label-left">
+                        Motivo de cancelamento padrão para leads duplicadas:
+                    </label>
+                    <div class="col-lg-4">
+                        <sc-select ng-model="ctrl.loja.duplicadaId" ng-required="true" placeholder="Selecione o motivo do cancelamento" sc-options="motivo as motivo.name for motivo in ctrl.motivos ">
+                        </sc-select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-8 control-label-left">
+                        Motivo de cancelamento padrão para indisponibilidade de estoque:
+                    </label>
+                    <div class="col-lg-4">
+                        <sc-select ng-model="ctrl.loja.produtoIndisponivelId" ng-required="true" placeholder="Selecione o motivo do cancelamento" sc-options="motivo as motivo.name for motivo in ctrl.motivos ">
+                        </sc-select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-8 control-label-left">
+                        Permitir "venda concluida" apenas com anexo: 
+                    </label>
+                    <div class="col-lg-4">
+                        <md-switch aria-label="null" class="md-secondary" ng-model="ctrl.loja.anexoObrigatorio" style="margin:0px;">
+                        </md-switch>
+                    </div>
+                </div>
+                <div class="form-group" ng-if="ctrl.loja.anexoObrigatorio">
+                    <label class="col-lg-8 control-label-left">
+                        Texto para alerta do usuário ao clicar em venda concluida:
+                    </label>
+                    <div class="col-lg-4">
+                        <textarea class="form-control"  ng-model="ctrl.loja.textoAnexoObrigatorio" type="text" ng-required="true" maxlength="256">
+                        </textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-8 control-label-left">
+                        Receber notificações por encerramento e venda concluída: 
+                    </label>
+                    <div class="col-lg-4">
+                        <md-switch aria-label="null" class="md-secondary" ng-model="ctrl.loja.notificaEncerramento" style="margin:0px;">
+                        </md-switch>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-8 control-label-left">
+                        Habilitar preço na lead:
+                    </label>
+                    <div class="col-lg-4">
+                        <md-switch aria-label="null" class="md-secondary" ng-model="ctrl.loja.habilitaPreco" style="margin:0px;">
+                        </md-switch>
+                    </div>
+                </div>
+                <div class="form-group" ng-if="ctrl.rede.length > 0">
+                    <label class="col-lg-8 control-label-left">
+                        Habilitar encaminhamento para outras lojas:
+                    </label>
+                    <div class="col-lg-4">
+                        <md-switch aria-label="null" class="md-secondary" ng-model="ctrl.loja.habilitaEncaminhamento" style="margin:0px;">
+                        </md-switch>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <section class="buttons" layout="row" layout-align="center" layout-sm="column" layout-wrap="">
+                        <button class="btn btn-default" ng-click="ctrl.resetData('loja')" type="button">
+                            Limpar Alterações
+                        </button>
+                        <button class="btn btn-primary" type="submit">
+                            Atualizar
+                        </button>
+                    </section>
+                </div>
+            </form>
+        </div>
+    </md-content>
+</md-tab>

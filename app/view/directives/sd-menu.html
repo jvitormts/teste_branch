@@ -1,0 +1,65 @@
+<div class="sd-ul-container" ng-class="{'rede':(ctrl.rede && ctrl.rede.length>0) ||( ctrl.acessoEspecial && ctrl.acessoEspecial.length > 0)}">
+	<ul class="navbar-menu" ng-if="menuCtrl.menu">
+	    <li class="menu-item" ng-repeat="item in menuCtrl.menu | orderBy : 'ordem' ">
+	        <a ui-sref-active="active" ui-sref="{{item.condition ? item.href[menuCtrl.negocio] : item.href }}" class="menu-link">
+	            <span class="fa {{item.condition ? item.iconClass[menuCtrl.negocio] : item.iconClass }} fa-1-5x">
+	            </span>
+	            <span class="linkText">
+	                {{item.nome}}
+	            </span>
+	        </a>
+		</li>
+		<li class="menu-item dropdown sd" ng-if="menuCtrl.menu2">
+			  <a class="menu-link dropdown-toggle" data-toggle="dropdown" ><i class="fa fa-plus-circle fa-1-5x"></i>&nbsp;Mais<span class="caret"></span> </a>
+			  <ul class="dropdown-menu navbar-drop">
+				<li ng-repeat="item in menuCtrl.menu2 | orderBy : 'ordem' ">
+						<a ui-sref-active="active"  ui-sref="{{item.condition ? item.href[menuCtrl.negocio] : item.href }}" class="menu-sd">
+							<i class="fa {{item.condition ? item.iconClass[menuCtrl.negocio] : item.iconClass }} fa-1-5x">
+							</i>
+							{{item.nome}}
+						</a>
+				</li>
+			  </ul>
+		</li>
+	</ul>
+</div>
+<div class="sd-ul-container vertical" ng-class="{'in':ctrl.openvert}">
+		<div class="user-menu">
+			<div>
+				<i class="fa fa-user-circle-o fa-1-5x" aria-hidden="true"></i>
+				{{ctrl.profile.nome}}
+			</div>
+			<a ng-click="ctrl.modalUsuario(ctrl.profile)"  class="menu-link">
+				<i class="fa fa-1-5x fa-pencil"></i>
+				Editar dados e assinatura
+			</a>
+		</div>
+
+		<perfect-scrollbar class="menu-vertical-content"  min-scrollbar-length="20" wheel-propagation="true" wheel-speed="3" suppress-scroll-x="true">
+			<div class="menu-item" ng-repeat="item in menuCtrl.menu | orderBy : 'ordem' ">
+				<a ui-sref-active="active" ui-sref="{{item.condition ? item.href[menuCtrl.negocio] : item.href }}" class="menu-link">
+					<span class="fa {{item.condition ? item.iconClass[menuCtrl.negocio] : item.iconClass }} fa-1-5x">
+					</span>
+					<span class="linkText">
+						{{item.nome}}
+					</span>
+				</a>
+			</div>
+			<div class="menu-item" ng-repeat="item in menuCtrl.menu2 | orderBy : 'ordem' ">
+				<a ui-sref-active="active" ui-sref="{{item.condition ? item.href[menuCtrl.negocio] : item.href }}" class="menu-link">
+					<span class="fa {{item.condition ? item.iconClass[menuCtrl.negocio] : item.iconClass }} fa-1-5x">
+					</span>
+					<span class="linkText">
+						{{item.nome}}
+					</span>
+				</a>
+			</div>
+		</perfect-scrollbar>
+		<div class="logout">
+			<a ng-click="ctrl.logout()">
+				<i class="fa fa-sign-out">
+				</i>
+				Logout
+			</a>
+		</div>
+	</div>

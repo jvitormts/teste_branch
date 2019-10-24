@@ -1,0 +1,221 @@
+<div class="row" ng-init="ctrl.init()">
+    <fieldset>
+        <legend>
+            Filtros
+        </legend>
+        <div class="registry-count">
+            Total de Registros: {{ctrl.registros}}
+        </div>
+        <div class="filter-content">
+            <div class="col-md-8">
+                <date-range-buttons buttons="['today', 'thisWeek', 'lastForthnight', 'thisMonth', 'last3Months', 'lastYear', 'custom']" min-date="ctrl.min_date"
+                    ng-first-value="ctrl.filtros.dateRange" ng-model-end="ctrl.filtros.fim" ng-model-start="ctrl.filtros.inicio"
+                    ng-required="true">
+                </date-range-buttons>
+            </div>
+            <div class="col-md-4 text-right">
+                <label>
+                    Resultado:
+                </label>
+                <div class="btn-group">
+                    <a class="btn {{!ctrl.filtros.situacaoLead ?'btn-primary': 'btn-default'}}" ng-click="ctrl.filtros.situacaoLead=null ">
+                        Todos
+                        <md-tooltip md-direction="bottom" >
+                            Todas as leads
+                        </md-tooltip>
+                    </a>
+                    <a class="btn {{ctrl.filtros.situacaoLead=='GANHA' ?'btn-success': 'btn-default'}}" ng-click="ctrl.filtros.situacaoLead=='GANHA' ? ctrl.filtros.situacaoLead=null : ctrl.filtros.situacaoLead='GANHA' ">
+                        <i class="fa fa-1-5x fa-trophy">
+                        </i>
+                        <md-tooltip md-direction="bottom" >
+                            Leads vendidas
+                        </md-tooltip>
+                    </a>
+                    <a class="btn {{ctrl.filtros.situacaoLead=='ENCAMINHADA' ?'btn-primary': 'btn-default'}}" ng-click="ctrl.filtros.situacaoLead=='ENCAMINHADA' ? ctrl.filtros.situacaoLead=null : ctrl.filtros.situacaoLead='ENCAMINHADA' " ng-if="(ctrl.rede && ctrl.rede.length > 1)">
+                        <i class="fa fa-1-5x fa-share-square-o fa-rotate-180">
+                        </i>
+                        <md-tooltip md-direction="bottom" >
+                            Leads encaminhadas
+                        </md-tooltip>
+                    </a>
+                    <a class="btn {{ctrl.filtros.situacaoLead=='PERDIDA' ?'btn-danger': 'btn-default'}}" ng-click="ctrl.filtros.situacaoLead=='PERDIDA' ? ctrl.filtros.situacaoLead=null : ctrl.filtros.situacaoLead='PERDIDA' ">
+                        <i class="fa fa-1-5x fa-thumbs-o-down">
+                        </i>
+                        <md-tooltip md-direction="bottom" >
+                            Leads canceladas
+                        </md-tooltip>
+                    </a>
+                </div>
+            </div>
+            <div ng-if="ctrl.validarAcessoTela('home.equipe',ctrl.profile);">
+                <div class="col-md-6" ng-if="ctrl.equipes.length > 2">
+                    <label>
+                        Equipe:
+                    </label>
+                    <div class="btn-group">
+                        <a ng-repeat="equipe in ctrl.equipes | orderBy : 'id'" class="btn {{ctrl.filtros.equipe.id==equipe.id ?'btn-primary': 'btn-default'}}"
+                            ng-click="ctrl.filtros.equipe = equipe">
+                            {{equipe.nome}}
+                        </a>
+                    </div>
+                </div>
+                <div class="{{ctrl.equipes.length > 2 ? 'col-md-6' : 'col-md-12' }}">
+                    <sc-select multiple="true" ng-model="ctrl.filtros.usuarioIds" ng-required="true" placeholder="Selecione o(s) vendedor(es)" sc-options="vendedor.id as vendedor.nome for vendedor in ctrl.filtros.equipe.usuariosList">
+                    </sc-select>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <sc-select multiple="true" ng-model="ctrl.filtros.canalIds" ng-required="true" placeholder="Selecione o(s) canal(is)" sc-options="canal.id as canal.name for canal in ctrl.canais">
+                </sc-select>
+            </div>
+            <div class="col-md-6">
+                <sc-select multiple="true" ng-model="ctrl.filtros.midiaIds" ng-required="true" placeholder="Selecione a(s) campanha(s)"
+                    sc-options="midia.id as midia.nome for midia in ctrl.midias">
+                </sc-select>
+            </div>
+            <div class="col-md-6">
+			<tags-input use-strings='false' ng-model="ctrl.filtros.motivos" placeholder="Selecione os motivos" display-property="name" add-from-autocomplete-only="true" replace-spaces-with-dashes="false">
+				<auto-complete source="ctrl.filterMotivos($query)" debounce-delay="300" min-length="1" ></auto-complete>
+				</tags-input>
+            </div>
+            <div class="col-md-4">
+                <form ng-submit="ctrl.listar();">
+                    <div class="input-group">
+                        <input class="form-control" ng-model="ctrl.filtroTexto" placeholder="Pesquisar" type="text" />
+                        <span class="input-group-btn">
+                            <button class="btn btn-primary" type="submit" style="height: 36px;">
+                                <i class="fa fa-search fa-1-5x"></i>
+                            </button>
+                        </span>
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-2">
+                <a class="btn btn-success pull-right" ng-if="ctrl.validarAcessoFuncao('EXPORTAR_EXCEL',ctrl.profile)" ng-click="ctrl.exportarExcel()">
+                    <i class="fa fa-table" aria-hidden="true"></i> Exportar Excel
+                </a>
+            </div>
+        </div>
+    </fieldset>
+</div>
+<div class="row">
+    <page-buttons ng-model="ctrl.filtros.page" pages="ctrl.paginas">
+    </page-buttons>
+    <perfect-scrollbar class="scroller-garbage" min-scrollbar-length="20" wheel-propagation="true" wheel-speed="0.3">
+        <div class="col-md-12" style="min-width: 1800px">
+            <table class="table table-bordered">
+                <thead>
+                    <tr class="well">
+                        <th ng-click="ctrl.filtros.order = (ctrl.filtros.order=='nomeCliente' ? 'nomeCliente DESC' : 'nomeCliente')" style="outline: none;">
+                            Nome da Lead
+                            <i class="material-icons" ng-if="ctrl.filtros.order=='nomeCliente'">
+                                arrow_drop_up
+                            </i>
+                            <i class="material-icons" ng-if="ctrl.filtros.order=='nomeCliente DESC'">
+                                arrow_drop_down
+                            </i>
+                        </th>
+                        <th ng-click="ctrl.filtros.order = (ctrl.filtros.order=='usuario' ? 'usuario DESC' : 'usuario')" style="outline: none;">
+                            Responsável pela Lead
+                            <i class="material-icons" ng-if="ctrl.filtros.order=='usuario'">
+                                arrow_drop_up
+                            </i>
+                            <i class="material-icons" ng-if="ctrl.filtros.order=='usuario DESC'">
+                                arrow_drop_down
+                            </i>
+                        </th>
+                        <th ng-click="ctrl.filtros.order = (ctrl.filtros.order=='closedAt' ? 'closedAt DESC' : 'closedAt')" style="outline: none;">
+                            Data de Conclusão da Lead
+                            <i class="material-icons" ng-if="ctrl.filtros.order=='closedAt'">
+                                arrow_drop_up
+                            </i>
+                            <i class="material-icons" ng-if="ctrl.filtros.order=='closedAt DESC'">
+                                arrow_drop_down
+                            </i>
+                        </th>
+                        <th ng-click="ctrl.filtros.order = (ctrl.filtros.order=='canal' ? 'canal DESC' : 'canal')" style="outline: none;">
+                            Canal
+                            <i class="material-icons" ng-if="ctrl.filtros.order=='canal'">
+                                arrow_drop_up
+                            </i>
+                            <i class="material-icons" ng-if="ctrl.filtros.order=='canal DESC'">
+                                arrow_drop_down
+                            </i>
+                        </th>
+                        <th ng-click="ctrl.filtros.order = (ctrl.filtros.order=='midia' ? 'midia DESC' : 'midia')" style="outline: none;">
+                            Campanha
+                            <i class="material-icons" ng-if="ctrl.filtros.order=='midia'">
+                                arrow_drop_up
+                            </i>
+                            <i class="material-icons" ng-if="ctrl.filtros.order=='midia DESC'">
+                                arrow_drop_down
+                            </i>
+                        </th>
+                        <th ng-click="ctrl.filtros.order = (ctrl.filtros.order=='motivo' ? 'motivo DESC' : 'motivo')" style="outline: none;">
+                            Motivo
+                            <i class="material-icons" ng-if="ctrl.filtros.order=='motivo'">
+                                arrow_drop_up
+                            </i>
+                            <i class="material-icons" ng-if="ctrl.filtros.order=='motivo DESC'">
+                                arrow_drop_down
+                            </i>
+                        </th>
+                        <th ng-click="ctrl.filtros.order = (ctrl.filtros.order=='produto' ? 'produto DESC' : 'produto')" style="outline: none;">
+                            Produto
+                            <i class="material-icons" ng-if="ctrl.filtros.order=='produto'">
+                                arrow_drop_up
+                            </i>
+                            <i class="material-icons" ng-if="ctrl.filtros.order=='produto DESC'">
+                                arrow_drop_down
+                            </i>
+                        </th>
+                        <th ng-click="ctrl.filtros.order = (ctrl.filtros.order=='situacao' ? 'situacao DESC' : 'situacao')" style="outline: none;">
+                            Resultado
+                            <i class="material-icons" ng-if="ctrl.filtros.order=='situacao'">
+                                arrow_drop_up
+                            </i>
+                            <i class="material-icons" ng-if="ctrl.filtros.order=='situacao DESC'">
+                                arrow_drop_down
+                            </i>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr aria-label="null" ng-repeat="lead in ctrl.lista " ng-click="ctrl.openModal(lead)">
+                        <td>
+                            {{lead.titulo ? lead.titulo : "Nova Lead #"+lead.id}}
+                        </td>
+                        <td>
+                            {{lead.usuario}}
+                        </td>
+                        <td>
+                            {{ lead.closedAt | date:'dd/MM/yyyy HH:mm:ss'}}
+                        </td>
+                        <td>
+                            {{lead.canal}}
+                        </td>
+                        <td>
+                            {{lead.midia}}
+                        </td>
+                        <td>
+                            {{ lead.situacao =='GANHA' ? "Venda concluída com sucesso" : lead.motivo }}
+                        </td>
+                        <td>
+                            {{lead.produto ? lead.produto : "NÃO PREENCHIDO"}}
+                        </td>
+                        <td align="center" style="vertical-align:middle;">
+                            <i class="fa fa-2x fa-thumbs-o-down" ng-if="lead.situacao =='PERDIDA'">
+                            </i>
+                            <i class="fa fa-2x fa-trophy" ng-if="lead.situacao =='GANHA'">
+                            </i>
+                            <i class="fa fa-2x fa-share-square-o fa-rotate-180" ng-if="lead.situacao =='ENCAMINHADA'">
+                            </i>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </perfect-scrollbar>
+    <page-buttons ng-model="ctrl.filtros.page" pages="ctrl.paginas">
+    </page-buttons>
+</div>

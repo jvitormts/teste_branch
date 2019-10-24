@@ -1,0 +1,124 @@
+<div class="row">
+    <div class="col-xs-12">
+        <h4>{{chartRede.loja}}</h4>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
+        <div class="col-xs-12 bulletTempoTitle">Tempo médio de primeiro atendimento</div>
+        <div class="col-xs-12">
+            <div class="bulletTempo">
+                {{chartRede.total}}
+            </div>
+        </div>
+        <div class="col-xs-12 bulletTempoTitle">em horas</div>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
+        <div class="panel panel-primary " style="padding: 0;margin: 0; width: 100%">
+            <canvas chart-colors="chartRede.colors" chart-data="chartRede.data" chart-labels="chartRede.labels" chart-options="chartRede.options" chart-series="chartRede.series" class="chart chart-bar" id="bar">
+            </canvas>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
+    
+        <div class="col-xs-12" ng-if="ctrl.filtros[0].tipoRelatorio=='usuario'">
+            * As leads encerradas por atendimento em duplicidade não foram contabilizadas na taxa de conversão dos vendedores.
+        </div>
+        <div class="col-xs-12">
+            * No periodo analisado, as leads encerradas com o motivo Lead Inválida/SPAM foram desconsideradas do relatório.
+        </div>
+        <table class="table table-bordered" id="tableExport" ng-init="ctrl.order='-total'">
+            <thead>
+                <tr>
+                    <th bgcolor="#e0e0e0" style="text-align: center;">
+                        {{chartRede.chartMainColumn}}
+                    </th>
+                    <th width="20%" bgcolor="#e0e0e0" ng-click="ctrl.order = (ctrl.order=='-total' ? 'total' : '-total')" style="outline: none;text-align: center;">
+                        Tempo médio de primeiro
+                        <i class="material-icons" ng-if="ctrl.order=='total'">
+                            arrow_drop_up
+                        </i>
+                        <i class="material-icons" ng-if="ctrl.order=='-total'">
+                            arrow_drop_down
+                        </i>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="row in chartRede.tabela | orderBy:ctrl.order track by $index">
+                    <td>
+                        {{row.label}}
+                    </td>
+                    <td width="10%"  style="text-align: center;">
+                        {{row.total > 0 ? row.total : '< 1' }}hr(s)
+                    </td>
+                </tr>
+            </tbody>
+            <thead ng-init="ctrl.order='total'">
+                <tr>
+                    <th align="right" bgcolor="#e0e0e0">
+                        Total:
+                    </th>
+                    <th bgcolor="#e0e0e0"  style="text-align: center;">
+                        {{chartRede.total}}hr(s)
+                    </th>
+                </tr>
+            </thead>
+        </table>
+        
+    </div>
+</div>
+
+<div class="col-xs-12" style="font-style: italic;">
+    <div align="center" class="col-xs-12">
+        <strong>
+            Filtros Utilizados
+        </strong>
+    </div>
+    <div class="col-xs-4">
+        <strong>
+            Período:
+        </strong>
+    </div>
+    <div class="col-xs-8">
+        {{ctrl.filtros[0].inicio}} a {{ctrl.filtros[0].fim}}
+    </div>
+    <div class="col-xs-4">
+        <strong>
+            Valores do Eixo X:
+        </strong>
+    </div>
+    <div class="col-xs-8">
+        <span ng-if="ctrl.filtros[0].tipoRelatorio=='midia'">
+            Campanha
+        </span>
+        <span ng-if="ctrl.filtros[0].tipoRelatorio=='canal'">
+            Canal
+        </span>
+        <span ng-if="ctrl.filtros[0].tipoRelatorio=='usuario'">
+            Vendedor
+        </span>
+    </div>
+    <div class="col-xs-4">
+        <strong>
+            Tipo de veículo:
+        </strong>
+    </div>
+    <div class="col-xs-8">
+        <span ng-if="ctrl.filtros[0].tipoVeiculo==null">
+            Todos
+        </span>
+        <span ng-if="ctrl.filtros[0].tipoVeiculo=='NOVO'">
+            Novo
+        </span>
+        <span ng-if="ctrl.filtros[0].tipoVeiculo=='SEMINOVO'">
+            Semi-novo
+        </span>
+    </div>
+    <div class="col-xs-4">
+        <strong>
+            Canal(is):
+        </strong>
+    </div>
+    <div class="col-xs-8">
+        {{ ctrl.getTextoFiltro(ctrl.filtros[0].canalIds,'canais','name') }}
+    </div>
+</div>

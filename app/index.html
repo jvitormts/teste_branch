@@ -1,0 +1,244 @@
+<!doctype html>
+<html class="no-js">
+
+<head>
+    <meta charset="utf-8">
+    <title>Seja Direto</title>
+    <base href="/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#2196f3">
+    <meta name="description" content="">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Add to homescreen for Chrome on Android -->
+
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="Seja Direto">
+    <link rel="apple-touch-icon" sizes="180x180" href="images/icons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="images/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="images/icons/favicon-16x16.png">
+    <link rel="manifest" type="application/json" href="manifest.json">
+    <link rel="shortcut icon" href="images/icons/favicon.ico">
+    <meta name="apple-mobile-web-app-title" content="Seja Direto">
+    <meta name="application-name" content="Seja Direto">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-config" content="images/icons/browserconfig.xml">
+    <meta name="theme-color" content="#ffffff">
+
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:200,300,400,500" rel="stylesheet">
+
+
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <!-- build:css(.) styles/vendor.css -->
+    <!-- bower:css -->
+    <link rel="stylesheet" href="bower_components/angular-material/angular-material.css" />
+    <link rel="stylesheet" href="bower_components/angularjs-slider/dist/rzslider.css" />
+    <link rel="stylesheet" href="bower_components/angular-toastr/dist/angular-toastr.css" />
+    <link rel="stylesheet" href="bower_components/angular-moment-picker/dist/angular-moment-picker.min.css" />
+    <link rel="stylesheet" href="bower_components/components-font-awesome/css/font-awesome.css" />
+    <link rel="stylesheet" href="bower_components/perfect-scrollbar/css/perfect-scrollbar.css" />
+    <link rel="stylesheet" href="bower_components/angular-popeye/release/popeye.css" />
+    <link rel="stylesheet" href="bower_components/bootswatch-dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="bower_components/select2/select2.css" />
+    <link rel="stylesheet" href="bower_components/select2-bootstrap-css/select2-bootstrap.css" />
+    <link rel="stylesheet" href="bower_components/angular-ui-select/dist/select.css" />
+    <link rel="stylesheet" href="bower_components/summernote/dist/summernote.css" />
+    <link rel="stylesheet" href="bower_components/ng-tags-input/ng-tags-input.min.css" />
+    <link rel="stylesheet" href="bower_components/ng-tags-input/ng-tags-input.bootstrap.min.css" />
+    <!-- endbower -->
+    <!-- endbuild -->
+    <!-- build:css(.tmp) styles/main.css -->
+    <link rel="stylesheet" href="styles/notification-bar.css">
+    <link rel="stylesheet" href="styles/chat-bar.css">
+    <link rel="stylesheet" href="styles/toolbar.css">
+    <link rel="stylesheet" href="styles/mailbox.css">
+    <link rel="stylesheet" href="styles/configs.css">
+    <link rel="stylesheet" href="styles/modals.css">
+    <link rel="stylesheet" href="styles/sd-navbar.css">
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/grid.css">
+    <link rel="stylesheet" href="styles/dashboard.css">
+    <link rel="stylesheet" href="styles/lead.css">
+    <!-- endbuild -->
+
+</head>
+
+<body ng-app="sejaDiretoApp">
+    <!--[if lt IE 7]>
+      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+
+    <!-- Add your site or application content here -->
+    <ui-view></ui-view>
+    <!-- build:js(.) scripts/vendor.js -->
+    <!-- bower:js -->
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+    <script src="bower_components/angular-animate/angular-animate.js"></script>
+    <script src="bower_components/angular-cookies/angular-cookies.js"></script>
+    <script src="bower_components/angular-resource/angular-resource.js"></script>
+    <script src="bower_components/angular-route/angular-route.js"></script>
+    <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+    <script src="bower_components/chart.js/dist/Chart.js"></script>
+    <script src="bower_components/angular-chart.js/dist/angular-chart.js"></script>
+    <script src="bower_components/angular-touch/angular-touch.js"></script>
+    <script src="bower_components/angular-aria/angular-aria.js"></script>
+    <script src="bower_components/angular-messages/angular-messages.js"></script>
+    <script src="bower_components/angular-material/angular-material.js"></script>
+    <script src="bower_components/angular-native-dragdrop/draganddrop.js"></script>
+    <script src="bower_components/angular-auto-validate/dist/jcs-auto-validate.js"></script>
+    <script src="bower_components/angular-input-masks/angular-input-masks-standalone.js"></script>
+    <script src="bower_components/angular-nl2br-filter/index.js"></script>
+    <script src="bower_components/jquery-ui/jquery-ui.js"></script>
+    <script src="bower_components/angular-ui-sortable/sortable.js"></script>
+    <script src="bower_components/angularjs-slider/dist/rzslider.js"></script>
+    <script src="bower_components/jquery.cookie/jquery.cookie.js"></script>
+    <script src="bower_components/angular-toastr/dist/angular-toastr.tpls.js"></script>
+    <script src="bower_components/angular-moment-picker/dist/angular-moment-picker.min.js"></script>
+    <script src="bower_components/moment/min/moment.min.js"></script>
+    <script src="bower_components/moment/min/moment-with-locales.min.js"></script>
+    <script src="bower_components/underscore/underscore.js"></script>
+    <script src="bower_components/perfect-scrollbar/js/perfect-scrollbar.jquery.js"></script>
+    <script src="bower_components/angular-perfect-scrollbar/src/angular-perfect-scrollbar.js"></script>
+    <script src="bower_components/angular-popeye/release/popeye.js"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="bower_components/select2/select2.js"></script>
+    <script src="bower_components/angular-ui-select/dist/select.js"></script>
+    <script src="bower_components/angular-sc-select/dist/sc-select.js"></script>
+    <script src="bower_components/angular-spinner/dist/angular-spinner.min.js"></script>
+    <script src="bower_components/summernote/dist/summernote.js"></script>
+    <script src="bower_components/summernote/dist/lang/summernote-pt-BR.js"></script>
+    <script src="bower_components/angular-summernote/dist/angular-summernote.js"></script>
+    <script src="bower_components/file-saver/FileSaver.js"></script>
+    <script src="bower_components/string-mask/src/string-mask.js"></script>
+    <script src="bower_components/js-sha512/src/sha512.js"></script>
+    <script src="bower_components/angular-i18n/angular-locale_pt-br.js"></script>
+    <script src="bower_components/angular-file-model/angular-file-model.js"></script>
+    <script src="bower_components/ngstorage/ngStorage.js"></script>
+    <script src="bower_components/ng-tags-input/ng-tags-input.min.js"></script>
+    <script src="bower_components/raven-js/dist/raven.js"></script>
+    <script src="bower_components/raven-js/dist/plugins/angular.js"></script>
+    <!-- endbower -->
+    <!-- endbuild -->
+
+    <script>
+        Raven
+            .config('https://2664fe6e52db496c89f83968365a8562@sentry.io/1550571')
+            .addPlugin(Raven.Plugins.Angular)
+            .install();
+    </script>
+
+    <!-- build:js({.tmp,app}) scripts/scripts.js -->
+    <script src="scripts/app.js"></script>
+
+    <script src="scripts/home/home.ctrl.js"></script>
+
+    <script src="scripts/auth/csrf.provider.js"></script>
+    <script src="scripts/auth/auth.ctrl.js"></script>
+    <script src="scripts/auth/auth.service.js"></script>
+
+    <script src="scripts/atividades/atividades.ctrl.js"></script>
+    <script src="scripts/atividades/atividades.service.js"></script>
+
+    <script src="scripts/equipe/equipe.ctrl.js"></script>
+    <script src="scripts/equipe/equipe.service.js"></script>
+    <script src="scripts/equipe/usuario.ctrl.js"></script>
+    <script src="scripts/equipe/usuario.service.js"></script>
+
+
+    <script src="scripts/listas/clientes.ctrl.js"></script>
+    <script src="scripts/listas/tags.ctrl.js"></script>
+    <script src="scripts/listas/listaleads.service.js"></script>
+    <script src="scripts/listas/encerradas.ctrl.js"></script>
+    <script src="scripts/listas/encerradas.service.js"></script>
+    <script src="scripts/listas/acompanhamento.ctrl.js"></script>
+    <script src="scripts/listas/acompanhamento.service.js"></script>
+    <script src="scripts/listas/identificacao.leads.ctrl.js"></script>
+    <script src="scripts/listas/preleads.service.js"></script>
+
+
+    <script src="scripts/leads/leads.service.js"></script>
+    <script src="scripts/leads/leads.ctrl.js"></script>
+    <script src="scripts/leads/leadModal.ctrl.js"></script>
+    <script src="scripts/leads/novoNegocio.ctrl.js"></script>
+    <script src="scripts/leads/formularioInteracoes.ctrl.js"></script>
+
+
+    <script src="scripts/configuracoes/configuracoes.service.js"></script>
+    <script src="scripts/configuracoes/timing.service.js"></script>
+    <script src="scripts/configuracoes/configuracoes.ctrl.js"></script>
+    <script src="scripts/configuracoes/notificacoes.service.js"></script>
+    <script src="scripts/configuracoes/mailgun.api.service.js"></script>
+
+    <script src="scripts/produtos/produtos.ctrl.js"></script>
+    <script src="scripts/produtos/produtos.service.js"></script>
+    <script src="scripts/produtos/imoveis.ctrl.js"></script>
+    <script src="scripts/produtos/veiculos.ctrl.js"></script>
+
+    <script src="scripts/filters/leads.filter.js"></script>
+    <script src="scripts/filters/etapasAcima.filter.js"></script>
+    <script src="scripts/filters/dateRange.filter.js"></script>
+    <script src="scripts/filters/produtos.filter.js"></script>
+
+    <script src="scripts/directives/aeLeadCard.dir.js"></script>
+    <script src="scripts/directives/aeInputTempo.dir.js"></script>
+    <script src="scripts/directives/aeMenu.dir.js"></script>
+    <script src="scripts/directives/sc-select-multiple.js"></script>
+    <script src="scripts/directives/aeDateRangeButtons.dir.js"></script>
+    <script src="scripts/directives/aeFunilVendedor.dir.js"></script>
+    <script src="scripts/directives/aeAtividadesVendedor.dir.js"></script>
+    <script src="scripts/directives/customFormValidators.js"></script>
+    <script src="scripts/directives/aeNotificationBar.dir.js"></script>
+    <script src="scripts/directives/aePageButtons.dir.js"></script>
+    <script src="scripts/directives/aeAnexos.dir.js"></script>
+    <script src="scripts/directives/center-doughnut-property.js"></script>
+    <script src="scripts/directives/aeTimelineLead.dir.js"></script>
+    <script src="scripts/directives/aeFormularioInteracaoModal.dir.js"></script>
+    <script src="scripts/directives/aeFormularioInteracaoFull.dir.js"></script>
+    <script src="scripts/directives/aeLeadFields.dir.js"></script>
+
+
+    <script src="scripts/relatorios/relatorios.ctrl.js"></script>
+    <script src="scripts/relatorios/relatorios.service.js"></script>
+    <script src="scripts/relatorios/rede.ctrl.js"></script>
+    <script src="scripts/relatorios/rede.service.js"></script>
+
+    <script src="scripts/servicos/modal.service.js"></script>
+    <script src="scripts/servicos/mensagens.service.js"></script>
+    <script src="scripts/servicos/bloqueador.service.js"></script>
+    <script src="scripts/servicos/horarios.service.js"></script>
+    <script src="scripts/servicos/anexos.service.js"></script>
+
+    <script src="scripts/dashboard/dashboard.service.js"></script>
+    <script src="scripts/dashboard/dashboard.ctrl.js"></script>
+
+    <!-- endbuild -->
+
+    <div class="footer">
+
+    </div>
+
+    <script>
+		
+        if ('serviceWorker' in navigator && location.protocol == 'https:') {
+            window.addEventListener('load', function () {
+                navigator.serviceWorker.register('/service-worker.js').then(function (registration) {
+                    // Registration was successful
+                    console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                }).catch(function (err) {
+                    // registration failed :(
+                    console.log('ServiceWorker registration failed: ', err);
+                });
+            });
+        } 
+    </script>
+    
+    <a href="https://api.whatsapp.com/send?phone=5531973568937" target="blank"><img src="images/icons/wpp-icon-spt.png" id="wpp-button"/></a>
+
+</body>
+
+</html>

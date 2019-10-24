@@ -1,0 +1,76 @@
+<a id="chat-link" class="wave in bell-link" title="Chat">
+	<i class="material-icons">&#xE0B7;</i><span class="notification_count" ng-if="chatCtrl.unreadMessages>0">{{chatCtrl.unreadMessages}}</span>
+</a>
+<div class="page-chatbar"  id="chatbar">
+	<div class="chatbar-contacts" ng-hide="hideChatHistory">
+	    <div class="contacts-search">
+	        <input type="text" ng-model="searchText" ng-init="'Procure seus contatos'" class="searchinput" placeholder="{{searchText}}" />
+	        <i class="searchicon fa fa-search"></i>
+	        <div class="searchhelper">Procure por contatos e histórico de chats</div>
+	    </div>
+		<perfect-scrollbar class="scroller-contacts" min-scrollbar-length="20" wheel-propagation="true" wheel-speed="3">
+		    <ul class="contacts-list">
+		        <li class="contact" ng-repeat="user in users | filter:{displayName:searchText,show:true} " ng-click="showChatHistory(user)" ng-class="{'bg-unread':user.unreadMessages>0}">
+		            <div class="contact-avatar">
+		                <i class="material-icons chatbar" ng-if="!user.photo">
+                            person
+                        </i>
+		            </div>
+		            <div class="contact-info">
+		                <div class="contact-name">{{user.displayName}}</div>
+		                <div class="contact-status">
+		                    <div ng-class="user.online ? 'online': 'offline'"></div>
+		                    <div class="status">{{user.online ? 'online': 'offline'}}</div>
+		                </div>
+						<div class="contact-info">
+			                <div class="last-chat-time">
+			                    {{user.lastOnline | date:'dd/MM HH:mm'}}
+			                </div>
+						</div>
+		            </div>
+		        </li>
+		    </ul>
+	    </perfect-scrollbar>
+	</div>
+	<div>
+		<div class="chatbar-messages" ng-show="hideChatHistory">
+		    <div class="messages-contact">
+		        <div class="contact-avatar">
+	                <i class="material-icons chatbar" ng-if="!user.photo">
+                        person
+                    </i>
+		        </div>
+		        <div class="contact-info">
+		            <div class="contact-name">{{selectedUser.displayName}}</div>
+		            <div class="contact-status">
+		                <div ng-class="selectedUser.online ? 'online': 'offline'"></div>
+		                <div class="status">{{selectedUser.online ? 'online': 'offline'}}</div>
+		            </div>
+		            <div class="last-chat-time">
+		                {{user.lastOnline | date:'dd/MM HH:mm'}}
+		            </div>
+		            <div class="back" ng-click="showUsers()">
+		                <i class="fa fa-arrow-circle-left"></i>
+		            </div>
+		        </div>
+		    </div>
+			<perfect-scrollbar class="scroller-mensages" min-scrollbar-length="20" wheel-propagation="true" wheel-speed="3">
+			    <ul class="messages-list">
+			        <li  ng-repeat="message in messages | orderBy: '-timestamp': true" ng-class="{'message': {{message.from === profile.$id}}, 'message reply': {{message.from === selectedUser.$id}}}">
+			            <div class="message-info">
+			                <div class="bullet {{message.read ? '': 'unread'}}"></div>
+			                <div class="contact-name">{{message.from === profile.$id ? 'Eu': selectedUser.displayName}}</div>
+			                <div class="message-time">{{message.timestamp | date: 'dd/MM HH:mm'}}</div>
+			            </div>
+			            <div class="message-body" ng-bind-html="message.body | nl2br"></div>
+			        </li>
+			    </ul>
+			</perfect-scrollbar>
+			<div class="input-bar">
+				<form class="form-group" ng-keypress="(($event.keyCode === 13) && !($event.shiftKey)) ? sendMessage() : return;">
+				    <textarea class="form-control send-message" placeholder="Escreva uma mensagem" ng-model="message"></textarea>
+			   </form>
+		   </div>
+		</div>
+	</div>
+</div>

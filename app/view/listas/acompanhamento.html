@@ -1,0 +1,255 @@
+<div class="row">
+    <fieldset>
+        <legend>
+            Filtros
+        </legend>
+        <div class="filter-content">
+			<div class="row">
+				<div class="col-lg-4 col-sm-12">
+					<date-range-buttons buttons="['today', 'last3Days', 'thisWeek','custom']" min-date="ctrl.min_date"  ng-first-value="ctrl.filtros.selectedDate"
+						ng-model-end="ctrl.filtros.fim" ng-model-start="ctrl.filtros.inicio" ng-required="true">
+					</date-range-buttons>
+				</div>
+				<div class="col-lg-2 col-sm-4">
+					<label>
+					Equipes:
+					</label>
+					<div class="drop-hover dropdown sd">
+					<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style="max-width: 200px">
+						{{ctrl.filtros.equipe.nome}}
+						<span class="caret"></span>
+					</button>
+					<ul class="dropdown-menu">
+						<li ng-repeat="equipe in ctrl.equipes | orderBy : 'id'" ng-class="{'active':equipe.id == ctrl.filtros.equipe.id}">
+						<a ng-click="ctrl.filtros.equipe = equipe" style="text-transform: uppercase" class="active">
+							{{equipe.nome}}</a>
+						</li>
+					</ul>
+					</div>
+				</div>
+				<div class="col-lg-6 col-sm-8">
+					<sc-select multiple="true" ng-model="ctrl.filtros.usuarioIds" ng-required="true" placeholder="Selecione os vendedores" sc-options="vendedor.id as vendedor.nome for vendedor in ctrl.filtros.equipe.usuariosList">
+					</sc-select>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-3 col-sm-6">
+					<label>
+						Tipo de contato:
+					</label>
+					<div class="btn-group">
+						<a class="btn {{ ctrl.filtros.dtypes.indexOf('ICE')==5 ?'btn-primary': 'btn-default'}}" ng-click="ctrl.filtros.dtypes=['','ICT','ICW','IV','IO','ICE'] ">
+							Todas
+						</a>
+						<a class="btn {{ctrl.filtros.dtypes.indexOf('ICE')==0 ? 'btn-primary': 'btn-default'}}" ng-click="ctrl.filtros.dtypes=['ICE'] ">
+							<i class="fa-1-5x fa fa-envelope">
+							</i>
+							<md-tooltip class="bigger" md-direction="bottomn" >
+								E-mails enviados
+							</md-tooltip>
+						</a>
+						<a class="btn {{ctrl.filtros.dtypes.indexOf('ICT')==0 ?'btn-primary': 'btn-default'}}" ng-click="ctrl.filtros.dtypes = ['ICT']">
+							<i class="fa-1-5x fa fa-phone">
+							</i>
+							<md-tooltip class="bigger" md-direction="bottomn" >
+								Ligações realizadas
+							</md-tooltip>
+						</a>
+						<a class="btn {{ctrl.filtros.dtypes.indexOf('ICW')==0 ?'btn-primary': 'btn-default'}}" ng-click="ctrl.filtros.dtypes=['ICW']">
+							<i class="fa-1-5x fa fa-whatsapp">
+							</i>
+							<md-tooltip class="bigger" md-direction="bottomn" >
+								Contatos por whatsapp realizados
+							</md-tooltip>
+						</a>
+						<a class="btn {{ctrl.filtros.dtypes.indexOf('IV')==0 ?'btn-primary': 'btn-default'}}" ng-click="ctrl.filtros.dtypes=['IV']">
+							<i class="fa-1-5x fa fa-map-marker">
+							</i>
+							<md-tooltip class="bigger" md-direction="bottomn" >
+								Visitas Realizadas
+							</md-tooltip>
+						</a>
+						<a class="btn {{ctrl.filtros.dtypes.indexOf('IO')==0 ?'btn-primary': 'btn-default'}}" ng-click="ctrl.filtros.dtypes=['IO']">
+							<i class="fa-1-5x fa fa-ellipsis-h">
+							</i>
+							<md-tooltip class="bigger" md-direction="bottomn" >
+								Outros tipo de interações realizadas
+							</md-tooltip>
+						</a>
+					</div>
+				</div>
+				<div class="col-lg-3 col-sm-6">
+					<label>
+						Outras interações:
+					</label>
+					<div class="btn-group">
+						<a class="btn {{ ctrl.filtros.dtypes.indexOf('IAEC')==2 ?'btn-primary': 'btn-default'}}" ng-click="ctrl.filtros.dtypes=['','IT','IAEC'] ">
+							Todas
+						</a>
+						<a class="btn {{ctrl.filtros.dtypes.indexOf('IT')==0 ? 'btn-primary': 'btn-default'}}" ng-click="ctrl.filtros.dtypes=['IT'] ">
+							<i class="fa-1-5x fa fa-exchange">
+							</i>
+							<md-tooltip class="bigger" md-direction="bottomn" >
+								Transferência de Lead
+							</md-tooltip>
+						</a>
+						<a class="btn {{ctrl.filtros.dtypes.indexOf('IAEC')==0 ?'btn-primary': 'btn-default'}}" ng-click="ctrl.filtros.dtypes = ['IAEC']">
+							<i class="fa-1-5x fa fa-comment">
+							</i>
+							<md-tooltip class="bigger" md-direction="bottomn" >
+								Comentários
+							</md-tooltip>
+						</a>
+					</div>
+				</div>
+
+				<div class="col-lg-6 col-sm-12">
+					<form ng-submit="ctrl.listar();">
+						<div class="input-group">
+							<input class="form-control" ng-model="ctrl.filtros.busca" placeholder="Pesquisar" type="text" ng-model-options="{ debounce: 1000 }">
+							<span class="input-group-btn">
+								<button class="btn btn-primary" type="submit" style="height: 36px;">
+									<i class="fa fa-search fa-1-5x"></i>
+									<md-tooltip md-visible="ctrl.showTooltip">*Clique na lupa para executar a buscar</md-tooltip>
+								</button>
+							</span>
+							</input>
+						</div>
+					</form>
+				</div>
+			</div>
+        </div>
+    </fieldset>
+</div>
+<div class="col-xs-12">
+    <page-buttons ng-model="ctrl.filtros.page" pages="ctrl.paginas" reload-function="ctrl.listar">
+    </page-buttons>
+    <div class="col-md-12">
+			<div class="total-registros-clientes">
+				Total de Registros: {{ctrl.registros}}
+			</div>
+            <table class="table table-bordered">
+                <thead>
+                    <tr class="well">
+                        <th ng-click="ctrl.order = (ctrl.order=='contato.dtype' ? '-contato.dtype' : 'contato.dtype')" style="outline: none;" width="1%">
+                            Tipo
+                            <i class="material-icons" ng-if="ctrl.order=='contato.dtype'">
+                                arrow_drop_up
+                            </i>
+                            <i class="material-icons" ng-if="ctrl.order=='-contato.dtype'">
+                                arrow_drop_down
+                            </i>
+                        </th>
+                        <th ng-click="ctrl.order = (ctrl.order=='contato.createdAt' ? '-contato.createdAt' : 'contato.createdAt')" style="outline: none;"
+                            width="14%">
+                            Data da ação
+                            <i class="material-icons" ng-if="ctrl.order=='contato.createdAt'">
+                                arrow_drop_up
+                            </i>
+                            <i class="material-icons" ng-if="ctrl.order=='-contato.createdAt'">
+                                arrow_drop_down
+                            </i>
+                        </th>
+                        <th ng-click="ctrl.order = (ctrl.order=='lead.clienteId.nome' ? '-lead.clienteId.nome' : 'lead.clienteId.nome')" style="outline: none;"
+                            width="25%">
+                            Nome do Cliente
+                            <i class="material-icons" ng-if="ctrl.order=='lead.clienteId.nome'">
+                                arrow_drop_up
+                            </i>
+                            <i class="material-icons" ng-if="ctrl.order=='-lead.clienteId.nome'">
+                                arrow_drop_down
+                            </i>
+                        </th>
+                        <th ng-click="ctrl.order = (ctrl.order=='lead.usuarioId.nome' ? '-lead.usuarioId.nome' : 'lead.usuarioId.nome')" style="outline: none;"
+                            width="20%">
+                            Responsável
+                            <i class="material-icons" ng-if="ctrl.order=='lead.usuarioId.nome'">
+                                arrow_drop_up
+                            </i>
+                            <i class="material-icons" ng-if="ctrl.order=='-lead.usuarioId.nome'">
+                                arrow_drop_down
+                            </i>
+                        </th>
+                        
+                        <th style="outline: none;" width="20%" ng-if="ctrl.filtros.dtypes.indexOf('IT')>=0 || ctrl.filtros.dtypes.indexOf('IAEC')>=0 ">
+                            Para
+						</th>
+						
+						<th ng-click="ctrl.order = (ctrl.order[0] == 'lead.produtoList[0].fabricante' ? ['-lead.produtoList[0].fabricante', '-lead.produtoList[0].modelo'] : ['lead.produtoList[0].fabricante', 'lead.produtoList[0].modelo'] )"
+                            style="outline: none;">
+                            Produto
+                            <i class="material-icons" ng-if="ctrl.order[0]=='lead.produtoList[0].fabricante'">
+                                arrow_drop_up
+                            </i>
+                            <i class="material-icons" ng-if="ctrl.order[0]=='-lead.produtoList[0].fabricante'">
+                                arrow_drop_down
+                            </i>
+                        </th>
+                        <th>
+                            Contato
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr aria-label="null" ng-click="ctrl.openModal(row.leadId)" ng-repeat="row in ctrl.lista  | orderBy : ctrl.order">
+                        <td align="center">
+                            <i class="fa-1-5x" ng-class="{'fa fa-envelope': row.dtype === 'ICE',
+                                      'fa fa-phone': row.dtype  === 'ICT',
+                                      'fa fa-whatsapp': row.dtype  === 'ICW',
+                                      'fa fa-map-marker': row.dtype  === 'IV',
+                                      'fa fa-ellipsis-h': row.dtype  === 'IO',
+                                      'fa fa-exchange': row.dtype  === 'IT',
+                                      'fa fa-comment': row.dtype =='IAEC'}">
+                                <md-tooltip class="bigger" md-direction="right"  ng-if="row.dtype  === 'ICT'">
+                                    Ligação realizada
+                                </md-tooltip>
+                                <md-tooltip class="bigger" md-direction="right"  ng-if="row.dtype  === 'ICE'">
+                                    E-mail enviado
+                                </md-tooltip>
+                                <md-tooltip class="bigger" md-direction="right"  ng-if="row.dtype  === 'IV'">
+                                    Visita Realizada
+                                </md-tooltip>
+                                <md-tooltip class="bigger" md-direction="right"  ng-if="row.dtype  === 'ICW'">
+                                    Contato por whatsapp realizado
+                                </md-tooltip>
+                                <md-tooltip class="bigger" md-direction="right"  ng-if="row.dtype  === 'IO'">
+                                    Outro tipo de interação realizada
+                                </md-tooltip>
+                            </i>
+                        </td>
+                        <td>
+                            {{row.createdAt | date:'dd/MM/yyyy HH:mm:ss'}}
+                        </td>
+                        <td>
+                            {{row.nomeCliente}}
+                        </td>
+                        <td>
+							{{row.dtype !='IT' && row.dtype !='IAEC' ? row.responsavel : ''}}
+							{{row.dtype =='IT'  ? row.usuarioOrigem : ''}}
+							{{row.dtype =='IAEC' ? row.responsavelComentario : ''}}
+							{{row.dtype =='IAEC' && !row.responsavelComentario ? 'Seja Direto' : ''}}
+						</td>
+                        <td ng-if="ctrl.filtros.dtypes.indexOf('IT')>=0 || ctrl.filtros.dtypes.indexOf('IAEC')>=0 ">
+							{{row.dtype =='IT' ? row.usuarioDestino : ''}}
+							{{row.dtype =='IAEC' ? row.responsavel : ''}}
+                        </td>
+                        <td>
+                            {{row.veiculo ? row.veiculo : ''}}
+                            {{row.produtoGenerico ? row.produtoGenerico : ''}}
+                            {{row.imovel ? row.imovel : ''}}
+                        </td>
+                        <td ng-if="row.dtype  == 'ICE'">
+                            {{row.email}}
+                        </td>
+                        <td ng-if="row.dtype  != 'ICE'">
+                            {{row.telefone}}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+	<div class="col-xs-12">
+    <page-buttons ng-model="ctrl.filtros.page" pages="ctrl.paginas"  ng-init="ctrl.init()">
+    </page-buttons>
+	</div>
+</div>

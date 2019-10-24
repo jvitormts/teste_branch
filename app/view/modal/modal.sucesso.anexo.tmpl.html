@@ -1,0 +1,22 @@
+<div class="modal-header">
+  <h4 class="modal-title">
+    {{ctrl.loja.textoAnexoObrigatorio}}
+  </h4>
+</div>
+<div class="modal-body">
+  <form class="form-horizontal" ng-submit="ctrl.encerrarComSucessoAnexo();">
+    <div class="row">
+      <ae-anexos interacao="ctrl.interacaoSucesso"></ae-anexos>
+    </div>
+    <div class="form-group">
+      <section class="buttons" layout="row" layout-align="center" layout-sm="column" layout-wrap="">
+        <button class="btn btn-default" ng-click="ctrl.modalSucessoAnexo.close();" type="reset">
+          Cancelar
+        </button>
+        <button class="btn btn-primary" type="submit">
+          Registrar
+        </button>
+      </section>
+    </div>
+  </form>
+</div>

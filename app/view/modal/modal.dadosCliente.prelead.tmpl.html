@@ -1,0 +1,54 @@
+<div class="modal-header" ng-init="ctrl.cliente={};ctrl.cliente.telefoneList = [{}]">
+    <h4 class="modal-title">
+        Dados do cliente
+    </h4>
+</div>
+<div class="modal-body">
+    <div class="user-card-edit">
+        <form ng-submit="ctrl.salvarCliente(ctrl.cliente);">
+            <div class="input-group">
+                <span aria-label="null" class="input-group-addon" id="basic-addon1">
+                    <i aria-hidden="true" class="fa fa-user fa-1-5x">
+                    </i>
+                </span>
+                <div class="form-group">
+                    <input aria-label="null" class="form-control" disable-validation-message="" ng-model="ctrl.cliente.nome" ng-required="true" placeholder="Nome" type="text">
+                    </input>
+                </div>
+            </div>
+            <div class="input-group">
+                <span class="input-group-addon" id="basic-addon1">
+                    <i aria-hidden="true" class="fa fa-envelope-square fa-1-5x">
+                    </i>
+                </span>
+                <div class="form-group">
+                    <input class="form-control" disable-validation-message="" ng-model="ctrl.cliente.email" placeholder="Email" type="email" ng-required="!ctrl.cliente.telefoneList[0].telefone">
+                    </input>
+                </div>
+            </div>
+            <div class="input-group" ng-class="{'col-xs-9': $index+1 == ctrl.cliente.telefoneList.length }" ng-repeat="telefone in ctrl.cliente.telefoneList track by $index" style="margin-top: 3px;">
+                <span class="input-group-addon" id="basic-addon1">
+                    <i aria-hidden="true" class="fa fa-phone-square fa-1-5x">
+                    </i>
+                </span>
+                <div class="form-group">
+                    <input class="form-control" disable-validation-message="" ng-model="telefone.telefone" placeholder="Telefone" type="text" ui-br-phone-number="">
+                    </input>
+                </div>
+                <div class="input-group-btn">
+                    <button class="btn btn-success" ng-click="ctrl.cliente.telefoneList.push({})" ng-if="$first" type="button">
+                        <i aria-hidden="true" class="fa fa-plus-square">
+                        </i>
+                    </button>
+                    <button class="btn btn-danger" ng-click="ctrl.cliente.telefoneList.splice($index,1);" ng-if="!$first" type="button">
+                        <i aria-hidden="true" class="fa fa-minus-square">
+                        </i>
+                    </button>
+                </div>
+            </div>
+            <button class="btn btn-primary button-relative" type="submit" ng-click="console.log(ctrl)">
+                Salvar
+            </button>
+        </form>
+    </div>
+</div>

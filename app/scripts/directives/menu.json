@@ -1,0 +1,88 @@
+[
+	{
+		"nome": "Negócios",
+		"permissao": 1,
+		"href": "home.leads",
+		"iconClass": "fa-usd",
+		"ordem": 2
+	},
+	{
+		"nome": "Atividades",
+		"permissao": 2,
+		"href": "home.atividades",
+		"iconClass": "fa-calendar",
+		"ordem": 3
+	},
+	{
+		"nome": "Clientes",
+		"permissao": 4,
+		"href": "home.clientes",
+		"iconClass": "fa-address-book",
+		"ordem": 7
+	},
+	{
+		"nome": "Relatórios",
+		"permissao": 16,
+		"href": "home.relatorios",
+		"iconClass": "fa-line-chart",
+		"ordem": 1
+	},
+	{
+		"nome": "Acompanhamento",
+		"permissao": 32,
+		"href": "home.acompanhamento",
+		"iconClass": "fa-book",
+		"ordem": 4
+	},
+	{
+		"nome": "Usuários",
+		"permissao": 64,
+		"href": "home.equipe",
+		"iconClass": "fa-users",
+		"ordem": 6
+	},
+	{
+		"nome": "Triagem de Leads",
+		"permissao": 128,
+		"href": "home.idleads",
+		"iconClass": "fa-thumb-tack",
+		"ordem": 8
+	},
+	{
+		"nome": "Configurações",
+		"permissao": 256,
+		"href": "home.configuracoes",
+		"iconClass": "fa-cogs",
+		"ordem": 9
+	},
+	{
+		"nome": "Produtos",
+		"permissao": 512,
+		"href": {
+			"VEICULOS":"home.veiculos",
+			"IMOVEIS": "home.imoveis",
+			"OUTROS": "home.produtos"
+		},
+		"condition": true,
+		"iconClass": {
+			"VEICULOS":"fa-car",
+			"IMOVEIS": "fa-home",
+			"OUTROS": "fa-gift"
+		},
+		"ordem": 10
+	},
+	{
+		"nome": "Relatórios da Rede",
+		"permissao": 1024,
+		"href": "home.rede",
+		"iconClass": "fa-line-chart",
+		"ordem": 0
+	},
+	{
+		"nome": "Dashboard",
+		"permissao": 2048,
+		"href": "home.dashboard",
+		"iconClass": "fa-pie-chart",
+		"ordem": -1
+	}
+]

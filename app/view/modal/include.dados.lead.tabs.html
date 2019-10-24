@@ -1,0 +1,241 @@
+<div class='col-xs-12 col-sm-7 col-md-7 col-lg-7' ng-cloak>
+  <md-content>
+    <md-tabs md-dynamic-height md-border-bottom md-swipe-content class="md-no-scroll" md-center-tabs="true">
+      <md-tab label="Dados do Cliente" ng-click="editarDadosLead=false;editClient=false;">
+        <md-content ng-init="editClient=false" ng-show="!editClient">
+          <div class="col-xs-12" ng-class="{'col-sm-6 col-md-6 col-lg-6': ctrl.lead.clienteId.empresa}">
+            <i aria-hidden="true" class="fa fa-user fa-1-5x">
+            </i> {{ctrl.lead.clienteId.nome}}&nbsp;&nbsp;
+          </div>
+          <div class="col-xs-12" ng-class="{'col-sm-6 col-md-6 col-lg-6': ctrl.lead.clienteId.empresa}">
+            <i aria-hidden="true" class="fa fa-envelope-square fa-1-5x">
+            </i>
+            <span ng-class="{'text-danger':ctrl.lead.clienteId.emailValidado=='INVALIDO'}">{{ctrl.lead.clienteId.email}}
+              <md-tooltip md-direction="bottom" ng-if="ctrl.lead.clienteId.emailValidado=='INVALIDO'">
+                E-mail inválido. Favor verificar possíveis erros de digitação.
+              </md-tooltip>
+            </span>
+          </div>
+          <div class="col-xs-12" ng-class="{'col-sm-6 col-md-6 col-lg-6': ctrl.lead.clienteId.empresa}">
+            <i aria-hidden="true" class="fa fa-phone-square fa-1-5x">
+            </i>
+            <span ng-repeat="telefone in ctrl.lead.clienteId.telefoneList">
+              {{ctrl.formataTel(telefone.telefone)}}<a ng-show="telefone.telefone.length == 11"
+                class="fa fa-whatsapp green"
+                href="https://api.whatsapp.com/send?phone={{ctrl.whatsappWebLauncher(telefone.telefone)}}"
+                target="_blank">
+                <md-tooltip md-direction="bottom">Clique para abrir o Whatsapp Web</md-tooltip>
+              </a>{{ !$last ? ', ' : '' }}
+            </span>&nbsp;&nbsp;
+          </div>
+          <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6" ng-if="ctrl.lead.clienteId.empresa">
+            <i aria-hidden="true" class="fa fa-building fa-1-5x">
+            </i>{{ ctrl.lead.clienteId.empresa ? ctrl.lead.clienteId.empresa : ''}}
+          </div>
+          <div class="col-xs-12" ng-if="ctrl.lead.clienteId.cpfCnpj">
+            <i aria-hidden="true" class="fa fa-id-card-o">
+            </i>
+            {{ ctrl.lead.clienteId.cpfCnpj ? ctrl.lead.clienteId.cpfCnpj : ''}}
+          </div>
+          <div class="lapis-edit cliente">
+            <i aria-hidden="true" class="fa fa-pencil fa-1-5x" ng-click="editClient=!editClient">
+            </i>
+          </div>
+        </md-content>
+      </md-tab>
+      <md-tab label="Dados da Lead" ng-click="editarDadosLead=false;editClient=false;">
+        <md-content ng-init="editarDadosLead=false" ng-show="!editarDadosLead">
+          <div class="col-xs-12">
+            <strong>
+              Canal:
+            </strong>
+            {{ctrl.lead.canalId.name}}
+          </div>
+          <div class="col-xs-12">
+            <strong>
+              Campanha:
+            </strong>
+            {{ ctrl.lead.midiaId ? ctrl.lead.midiaId.nome : 'Selecione a campanha'}}
+          </div>
+          <div class="col-xs-12" ng-class="{'col-xs-11': !ctrl.loja.habilitaPreco}">
+            <strong>
+              Produto:
+            </strong>
+            {{ ctrl.lead.produtoList.length ? ctrl.textoProduto(ctrl.lead.produtoList[0]): 'Digite o nome do produto'}}
+          </div>
+          <div class="col-xs-12" ng-if="!editarDadosLead && ctrl.loja.habilitaPreco">
+            <strong>
+              Valor:
+            </strong>
+            {{ ctrl.lead.valor ? "R$ " + (ctrl.lead.valor | number : 2) : "Não Preenchido" }}
+          </div>
+          <div class="lapis-edit lead">
+            <i aria-hidden="true" class="fa fa-pencil fa-1-5x"
+              ng-click="editarDadosLead = true; selectedMidia = ctrl.lead.midiaId;selectedProduto = ctrl.lead.produtoList[0];ctrl.valor = ctrl.lead.valor;">
+            </i>
+          </div>
+        </md-content>
+      </md-tab>
+    </md-tabs>
+  </md-content>
+  <div ng-show="editClient" style="padding-top:6px; display: block"
+    ng-swipe-left="editarDadosLead=false;editClient=false;">
+    <form name="formularioCliente" ng-submit="ctrl.editCliente(); editClient=!editClient">
+      <div>
+        <div class="input-group">
+          <span aria-label="null" class="input-group-addon" id="basic-addon1">
+            <i aria-hidden="true" class="fa fa-user fa-1-5x">
+            </i>
+          </span>
+          <div class="form-group">
+            <input aria-label="null" class="form-control" disable-validation-message=""
+              ng-model="ctrl.lead.clienteId.nome" ng-required="true" placeholder="Nome" type="text">
+            </input>
+          </div>
+        </div>
+        <div class="input-group">
+          <span class="input-group-addon" id="basic-addon1">
+            <i aria-hidden="true" class="fa fa-envelope-square fa-1-5x">
+            </i>
+          </span>
+          <div class="form-group">
+            <input class="form-control" name="inputEmail" disable-validation-message=""
+              ng-model="ctrl.lead.clienteId.email" placeholder="Email" type="email">
+            </input>
+          </div>
+          <md-tooltip md-direction="bottom"
+            ng-if="formularioCliente.inputEmail.$invalid && !formularioCliente.inputEmail.$pristine">
+            E-mail inválido. Favor verificar possíveis erros de digitação.
+          </md-tooltip>
+        </div>
+        <div class="input-group" ng-repeat="telefone in ctrl.lead.clienteId.telefoneList track by $index"
+          style="margin-top: 3px;">
+          <span class="input-group-addon" id="basic-addon1">
+            <i aria-hidden="true" class="fa fa-phone-square fa-1-5x">
+            </i>
+          </span>
+          <div class="form-group">
+            <input class="form-control" disable-validation-message="" ng-model="telefone.telefone"
+              placeholder="Telefone" type="text" ui-br-phone-number="">
+            </input>
+          </div>
+          <div class="input-group-btn">
+            <button class="btn btn-success" ng-click="ctrl.lead.clienteId.telefoneList.push({})" ng-if="$first"
+              type="button">
+              <i aria-hidden="true" class="fa fa-plus-square">
+              </i>
+            </button>
+            <button class="btn btn-danger" ng-click="ctrl.lead.clienteId.telefoneList.splice($index,1);" ng-if="!$first"
+              type="button">
+              <i aria-hidden="true" class="fa fa-minus-square">
+              </i>
+            </button>
+          </div>
+        </div>
+        <div class="input-group">
+          <span aria-label="null" class="input-group-addon" id="basic-addon1">
+            <i aria-hidden="true" class="fa fa-building fa-1-5x">
+            </i>
+          </span>
+          <div class="form-group">
+            <input aria-label="null" class="form-control" disable-validation-message=""
+              ng-model="ctrl.lead.clienteId.empresa" placeholder="Empresa" type="text">
+            </input>
+          </div>
+        </div>
+        <div class="input-group">
+          <span aria-label="null" class="input-group-addon" id="basic-addon1">
+            <i aria-hidden="true" class="fa fa-id-card-o">
+            </i>
+          </span>
+          <input aria-label="null" class="form-cont md-center-tabs=" true "rol" disable-validation-message=""
+            ng-model="ctrl.lead.clienteId.cpfCnpj" placeholder="CPF/CNPJ" type="text">
+          </input>
+          <div class="input-group-btn">
+            <button class="btn btn-primary" type="submit" style="margin-top: -4px;height: 34px;">
+              Salvar
+            </button>
+            <button class="btn btn-default" ng-click="editClient=!editClient" style="margin-top: -4px;height: 34px;"
+              type="button">
+              X
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div ng-show="editarDadosLead" style="padding-top:6px; display: block"
+    ng-swipe-left="editarDadosLead=false;editClient=false;">
+    <form
+      ng-submit="ctrl.editDadosLead(selectedMidia, selectedProduto, ctrl.valor); editarDadosLead = !editarDadosLead;">
+      <label class="col-xs-2 col-sm-2 col-md-2 col-lg-2 lead-data-label" for="inputTo">
+        Canal:
+      </label>
+      <div align="left" class="col-xs-10 col-sm-10 col-md-10 col-lg-10 input-group form-group">
+        <sc-select ng-model="ctrl.lead.canalId" ng-required="true" placeholder="Selecione o canal"
+          sc-options="canal as canal.name for canal in ctrl.canais">
+        </sc-select>
+      </div>
+      <label class="col-xs-2 col-sm-2 col-md-2 col-lg-2 lead-data-label" for="inputTo">
+        Campanha:
+      </label>
+      <div align="left" class="col-xs-10 col-sm-10 col-md-10 col-lg-10 input-group form-group">
+        <sc-select ng-model="selectedMidia" ng-required="true" placeholder="Selecione a campanha"
+          sc-options="midia as midia.nome for midia in ctrl.midias">
+        </sc-select>
+      </div>
+      <label class="col-xs-2 col-sm-2 col-md-2 col-lg-2 lead-data-label" for="inputTo">
+        Produto:
+      </label>
+      <div align="left" class="col-xs-10 col-sm-10 col-md-10 col-lg-10 input-group form-group">
+        <sc-select refresh-delay="700" ng-model="selectedProduto" ng-required="true"
+          placeholder="Digite o nome do produto"
+          sc-options="produto as produto.texto for produto in ctrl.buscarProdutos(searchText)"
+          ng-change="ctrl.changeProduto(selectedProduto);">
+        </sc-select>
+        <div class="input-group-btn" ng-show="!ctrl.loja.habilitaPreco">
+          <button class="btn btn-primary" type="submit" type="button">
+            Salvar
+          </button>
+          <button class="btn btn-default" ng-click="editarDadosLead = !editarDadosLead;"
+            style="margin-top: -4px;height: 34px;" type="button">
+            X
+          </button>
+        </div>
+      </div>
+      <label class="col-xs-2 col-sm-2 col-md-2 col-lg-2 lead-data-label" for="inputTo"
+        ng-show="ctrl.loja.habilitaPreco">
+        Valor:
+      </label>
+      <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10 input-group form-group" ng-show="ctrl.loja.habilitaPreco">
+        <input class="form-control" ng-model="ctrl.valor" ui-money-mask="2" disable-validation-message="" />
+        <div class="input-group-btn">
+          <button class="btn btn-primary" style="height: 34px;" type="submit">
+            Salvar
+          </button>
+          <button class="btn btn-default" ng-click="editarDadosLead = !editarDadosLead;" style="height: 34px;"
+            type="button">
+            X
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="col-xs-12 col-sm-5 col-md-5 col-lg-5 tags-externo">
+  <md-content>
+    <md-tabs md-dynamic-height md-border-bottom md-swipe-content class="md-no-scroll" md-center-tabs="true">
+      <md-tab label="Etiquetas">
+        <md-content>
+        </md-content>
+      </md-tab>
+    </md-tabs>
+  </md-content>
+  <div class="col-xs-12">
+    <tags-input ng-model="ctrl.lead.tags" placeholder="Adicione uma etiqueta" min-length="1" max-length="20"
+      display-property="tag" on-tag-added="ctrl.editTags($tag)" on-tag-removed="ctrl.editTags($tag)">
+      <auto-complete source="ctrl.getTags($query)" debounce-delay="500" min-length="1"></auto-complete>
+    </tags-input>
+  </div>
+</div>

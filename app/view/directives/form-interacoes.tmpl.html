@@ -1,0 +1,263 @@
+<div class="col-md-12 interacao-nav" ng-class="{'left':ctrl.interacao.dtype}" ng-if="ctrl.lead.usuarioId.id==ctrl.profile.id && (ctrl.lead.situacao=='ABERTA'  || ctrl.lead.situacao=='ADIADA')">
+	<section layout="row" layout-align="center" layout-sm="row" layout-wrap="row">
+		<ul class="nav nav-tabs">
+			<li ng-class="{'disabled':!(ctrl.interacoesAceitas.indexOf('ICE')>=0), 'active': ctrl.interacao.dtype == 'ICE'}">
+				<a ng-click="ctrl.selecaoAbaInteracao('ICE');" ng-disabled="ctrl.interacoesAceitas.indexOf('ICE')>=0" id="linkICE">
+					<i class="fa icone-aba-interacao fa-envelope">
+					</i>
+					<span class="texto-aba-interacao">
+						Email
+					</span>
+				</a>
+			</li>
+			<li ng-class="{'disabled':!(ctrl.interacoesAceitas.indexOf('ICT')>=0) , 'active':  ctrl.interacao.dtype == 'ICT'}">
+				<a ng-click="ctrl.selecaoAbaInteracao('ICT');">
+					<i class="fa icone-aba-interacao fa-phone">
+					</i>
+					<span class="texto-aba-interacao">
+						Telefone
+					</span>
+				</a>
+			</li>
+			<li ng-class="{'disabled':!(ctrl.interacoesAceitas.indexOf('ICW')>=0), 'active':  ctrl.interacao.dtype == 'ICW'}">
+				<a ng-click="ctrl.selecaoAbaInteracao('ICW');">
+					<i class="fa icone-aba-interacao fa-whatsapp">
+					</i>
+					<span class="texto-aba-interacao">
+						Whatsapp
+					</span>
+				</a>
+			</li>
+			<li ng-class="{'disabled':!(ctrl.interacoesAceitas.indexOf('IV')>=0), 'active':  ctrl.interacao.dtype == 'IV'}">
+				<a ng-click="ctrl.selecaoAbaInteracao('IV');">
+					<i class="fa icone-aba-interacao fa-map-marker">
+					</i>
+					<span class="texto-aba-interacao">
+						Visita
+					</span>
+				</a>
+			</li>
+			<li ng-class="{'disabled':!(ctrl.interacoesAceitas.indexOf('IO')>=0), 'active':  ctrl.interacao.dtype == 'IO'}">
+				<a ng-click="ctrl.selecaoAbaInteracao('IO');">
+					<i class="fa icone-aba-interacao fa-ellipsis-h">
+					</i>
+					<span class="texto-aba-interacao">
+						Outros
+					</span>
+				</a>
+			</li>
+			<li ng-class="{'disabled':!(ctrl.interacoesAceitas.indexOf('IA')>=0), 'active':  ctrl.interacao.dtype == 'IA'}">
+				<a ng-click="ctrl.selecaoAbaInteracao('IA');">
+					<i class="fa icone-aba-interacao fa-calendar">
+					</i>
+					<span class="texto-aba-interacao">
+						Agendamento
+					</span>
+				</a>
+			</li>
+		</ul>
+	</section>
+</div>
+<div class="col-md-12 top-nav" ng-if="ctrl.profile.id!=ctrl.lead.usuarioId.id">
+	<section ng-class="{'layout-align-center-stretch': !ctrl.isMobile() || !ctrl.interacao.dtype}" layout="row" layout-wrap="">
+		<ul class="nav nav-tabs">
+			<li>
+				<a ng-click="ctrl.selecaoAbaInteracao('IAEC');">
+					<i class="fa fa-comment">
+					</i>
+					Comentário
+				</a>
+			</li>
+			<li ng-if="ctrl.lead.situacao == 'ADIADA'">
+				<a ng-click="ctrl.selecaoAbaInteracao('IA');">
+					<i class="fa fa-calendar">
+					</i>
+					Agendamento
+				</a>
+			</li>
+			<li>
+				<a ng-click="ctrl.selecaoAbaInteracao('IAG');">
+					<i class="fa fa-hourglass-half">
+					</i>
+					Lembrete
+					<md-tooltip md-direction="bottom">Criar alerta para a lead</md-tooltip>
+				</a>
+			</li>
+		</ul>
+	</section>
+</div>
+<div class="row inner-form-interacoes" ng-show="ctrl.interacao.dtype">
+	<form class="form-horizontal" ng-submit="ctrl.novaInteracao(ctrl.interacao);">
+		<div class="form-group" ng-if="ctrl.interacao.dtype=='IA'">
+			<label class="col-xs-12 col-sm-2  col-md-2 control-label" for="selectType">
+				Tipo
+			</label>
+			<div class="col-xs-12 col-sm-10 col-md-10 tipo-agendamento-btn">
+				<div class="btn-group">
+					<a class="btn {{ctrl.interacao.tipo=='CONTATO' ?'btn-primary': 'btn-default'}}" ng-click="ctrl.interacao.tipo='CONTATO';">
+						Contato
+					</a>
+					<a class="btn {{ctrl.interacao.tipo=='VISITA' ?'btn-primary': 'btn-default'}}" ng-click="ctrl.interacao.tipo='VISITA';">
+						Visita
+					</a>
+					<a class="btn {{ctrl.interacao.tipo=='POSTPONE' ?'btn-primary': 'btn-default'}}" ng-click="ctrl.interacao.tipo='POSTPONE';"
+					 ng-if="ctrl.lead.etapaFunilId.ordem>0 || ctrl.avancarEtapaAposInteracao">
+						Adiar atendimento
+					</a>
+				</div>
+			</div>
+			<div class="col-xs-12 col-sm-10 col-md-10 tipo-agendamento-select">
+				<select ng-model="ctrl.interacao.tipo" class="form-control" placeholder="">
+					<option value="" disabled selected>Tipo de Agendamento</option>
+					<option value="CONTATO">
+						CONTATO
+					</option>
+					<option value="VISITA">
+						VISITA
+					</option>
+					<option value="POSTPONE">
+						ADIAR ATENDIMENTO
+					</option>
+				</select>
+			</div>
+		</div>
+		<div class="form-group alert-selector" ng-if="ctrl.interacao.dtype=='IAG'">
+			<label class="col-xs-12 col-sm-2 col-md-2 control-label" for="selectType">
+				Data
+			</label>
+			<div class="col-xs-12 col-sm-10 col-md-4">
+				<input class="form-control" disable="false" format="L" locale="pt-br" min-view="month" moment-picker="ctrl.interacao.dataAlerta"
+				 ng-model="ctrl.interacao.dataAlerta" min-date="ctrl.minTime | date :'dd/MM/yyyy HH:mm'" change="ctrl.limpaSelectHoraAlerta(); ctrl.listarHorasAlerta();" ng-required="true" placeholder="Selecione a data">
+				</input>
+			</div>
+			<label class="col-xs-12 col-sm-2 col-md-1 control-label" for="selectType">
+				Hora
+			</label>
+			<div class="col-xs-12 col-sm-10 col-md-5">
+				<select class="form-control" id="selectHoraAlerta" ng-model="ctrl.interacao.horaAlerta" ng-options="hour.value as hour.text for hour in ctrl.listaHorasAlerta"
+				 ng-required="true">
+				 <option value="" style="color: #bbb;" disabled selected>Selecione o horário</option>
+				</select>
+			</div>
+		</div>
+		<div class="form-group" ng-if="ctrl.interacao.dtype=='IA'">
+			<label class="col-xs-12 col-sm-2 col-md-2 control-label" for="selectType">
+				Data
+			</label>
+			<div class="col-md-4" ng-if="ctrl.interacao.tipo=='VISITA' || ctrl.interacao.tipo=='POSTPONE'">
+				<input class="form-control" disable="false" format="L" locale="pt-br" min-date="(ctrl.interacao.tipo=='POSTPONE' ? ctrl.maxTime : ctrl.minTime | date :'dd/MM/yyyy HH:mm')"
+				 min-view="month" moment-picker="ctrl.interacao.data" ng-model="ctrl.interacao.data" ng-required="true" change="ctrl.listarHoras(newValue)">
+				</input>
+			</div>
+			<div class="col-md-4" ng-if="ctrl.interacao.tipo=='CONTATO'">
+				<select class="form-control" id="select" ng-model="ctrl.interacao.data" ng-options="date.value as date.text for date in ctrl.listaDatas"
+				 ng-required="true" ng-change="ctrl.listarHoras(ctrl.interacao.data)">
+				</select>
+			</div>
+			<label class="col-md-1 control-label" for="selectType">
+				Hora
+			</label>
+			<div class="col-md-5">
+				<select class="form-control" id="select" ng-model="ctrl.interacao.dataVencimento" ng-if="ctrl.interacao.dtype=='IA'" ng-options="hour.value as hour.text for hour in ctrl.listaHoras"
+				 ng-required="true">
+				</select>
+			</div>
+		</div>
+		<div class="form-group" ng-class="{'has-error':ctrl.lead.clienteId.emailValidado!='VALIDO'}" ng-if="ctrl.interacao.dtype=='ICE'">
+			<label class="col-xs-12 col-sm-2  col-md-2 control-label" for="inputTo">
+				Para
+			</label>
+			<div class="col-xs-12 col-sm-10 col-md-10">
+				<div class="input-group">
+					<input class="form-control" id="inputTo" ng-model="ctrl.interacao.para" ng-readonly="true" ng-required="true" placeholder="Para"
+					 type="text">
+					<md-tooltip md-direction="bottom"  ng-if="ctrl.lead.clienteId.emailValidado!='VALIDO'">
+						E-mail inválido. Favor verificar possíveis erros de digitação.
+					</md-tooltip>
+					<div class="input-group-btn">
+						<button class="btn {{!ctrl.showBcc ? 'btn-default' : 'btn-primary'}}" ng-click="ctrl.showBcc=!ctrl.showBcc" type="button">
+							CCO
+						</button>
+					</div>
+					</input>
+				</div>
+			</div>
+		</div>
+		<div class="form-group" ng-if="ctrl.interacao.dtype=='ICE' && ctrl.showBcc">
+			<label class="col-xs-12 col-sm-2  col-md-2 control-label" for="cco">
+				CCO
+			</label>
+			<div class="col-xs-12 col-sm-10 col-md-10" ng-init="ctrl.interacao.cco=ctrl.loja.emailCco">
+				<input class="form-control" id="bcc" ng-model="ctrl.interacao.cco" placeholder="Para" type="text">
+				</input>
+			</div>
+		</div>
+		<div class="form-group" ng-if="ctrl.interacao.dtype=='ICE'">
+			<label class="col-xs-12 col-sm-2  col-md-2 control-label" for="inputSubject">
+				Assunto
+			</label>
+			<div class="col-xs-12 col-sm-10 col-md-10">
+				<input class="form-control" id="inputSubject" ng-model="ctrl.interacao.assunto" ng-required="true" placeholder="Assunto"
+				 type="text">
+				</input>
+			</div>
+		</div>
+		<div class="form-group" ng-if="ctrl.interacao.dtype!='IA'">
+			<ae-anexos interacao="ctrl.interacao"></ae-anexos>
+		</div>
+		<div class="form-group">
+			<div class="col-xs-12 col-sm-2  col-md-2 control-label" for="textArea">
+				{{ctrl.interacao.dtype=='ICE'? "Mensagem" : "Descrição"}}
+			</div>
+			<div class="col-xs-12 col-sm-10 col-md-10">
+				<textarea ng-if="!ctrl.isMobile() &&  ctrl.interacao.dtype != 'IAG' && ctrl.interacao.dtype != 'IA'" summernote config="ctrl.summernoteConfig" id="descricaoEmail" ng-model="ctrl.interacao.descricao"
+				 ng-required="ctrl.interacao.dtype != 'IAG' || ctrl.interacao.dtype != 'IA'? true : false" rows="6">
+				</textarea>
+				<textarea ng-if="ctrl.isMobile() || ctrl.interacao.dtype == 'IAG' || ctrl.interacao.dtype == 'IA' " id="descricaoEmail" ng-model="ctrl.interacao.descricao" ng-required="ctrl.interacao.dtype != 'IAG' && ctrl.interacao.dtype != 'IA'" rows="4" style="width: 100%"
+				 placeholder="{{ctrl.interacao.dtype=='ICE'? 'Mensagem' : 'Descrição'}}">
+				</textarea>
+			</div>
+		</div>
+		<div class="form-group" ng-if="!ctrl.isMobile() && ctrl.interacao.dtype!='IA' && ctrl.interacao.dtype!='IAEC' && ctrl.interacao.dtype!='IAG'">
+			<div class="col-sm-offset-2 col-md-offset-2 col-sm-10 col-md-10" ng-if="ctrl.proximaEtapa">
+				<label>
+					<input ng-model="ctrl.avancarEtapaAposInteracao" type="checkbox" ng-click="ctrl.encerrarLeadAposInteracao=false" /> Avançar para a próxima etapa
+				</label>
+			</div>
+			<div class="col-sm-offset-2 col-md-offset-2 col-sm-10 col-md-10">
+				<label>
+					<input ng-model="ctrl.encerrarLeadAposInteracao" type="checkbox" ng-click="ctrl.avancarEtapaAposInteracao=false" /> Encerrar lead após o registro desta interação.
+				</label>
+			</div>
+		</div>
+		<div class="form-group" ng-if="ctrl.encerrarLeadAposInteracao">
+			<div ng-include="'view/home/include.cancelOnInteraction.html'">
+			</div>
+		</div>
+		<div class="form-group botoes-interacao">
+			<div class="col-lg-12" align="center">
+				<button class="btn btn-default" ng-click="ctrl.requestData.tipo  ? ctrl.voltar()  : ctrl.cancelar() ;" type="button">
+					{{ctrl.requestData.tipo ? "Voltar" : "Cancelar"}}
+				</button>
+				<button class="btn btn-primary" type="submit" ng-disabled="!ctrl.habilitarBotaoInteracao">
+					{{ctrl.interacao.dtype=='ICE'? "Enviar" : ctrl.interacao.dtype=='IAG'? "Agendar Lembrete" : "Registrar"}}
+				</button>
+			</div>
+			<div class="col-sm-offset-2 col-md-offset-2 col-sm-10 col-md-10" ng-if="ctrl.interacao.dtype=='IAEC'">
+				<i class="blue">*O comentário será exibido a todos com acesso a esta lead</i>
+			</div>
+			<div class="col-sm-offset-2 col-md-offset-2 col-sm-10 col-md-10" ng-if="ctrl.interacao.dtype=='IAG'">
+				<i class="red">*O conteúdo do lembrete só será exibido para você</i>
+			</div>
+		</div>
+		<div class="form-group botoes-interacao-mob">
+			<button class="btn btn-default" ng-click="ctrl.requestData.tipo  ? ctrl.voltar()  : ctrl.cancelar() ;" type="button">
+				<i ng-if="!ctrl.requestData.tipo" class="fa fa-times-circle fa-1-5x" style="margin-top:3px"> </i>
+				<i ng-if="ctrl.requestData.tipo" class="fa fa-arrow-circle-left fa-1-5x" style="margin-top:3px"> </i>
+			</button>
+			<button class="btn btn-primary" type="submit" ng-disabled="!ctrl.habilitarBotaoInteracao">
+				<img src="images/icons/send-button.svg" width="16px" style="margin: 5px 0px"> </i>
+			</button>
+		</div>
+	</form>
+</div>

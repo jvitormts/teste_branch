@@ -1,0 +1,352 @@
+@supports (display:grid) {
+    .md-button.md-fab.md-fab-novo-negocio {
+        width: 4.5em;
+        height: 4.5em;
+        z-index: 100;
+        background-color: #ff9800;
+        display: none;
+    }
+    .md-button.md-fab.md-fab-novo-negocio:hover {
+        background-color: #fdc570;
+    }
+    .md-button.md-fab.md-fab-novo-negocio:hover md-icon {
+        color: #Fff;
+    }
+    .md-button.md-fab.md-fab-novo-negocio md-icon {
+        font-size: 3em;
+        min-width: 1em;
+        min-height: 1em;
+        color: #fff8e1;
+    }
+    .funnelStepsContainer{
+        display:grid;
+        overflow-x: auto;
+		overflow-y: hidden;
+    }
+    .funnel-grid {
+        display: grid;
+        grid-auto-rows: minmax(70px,auto);
+        grid-gap: .1rem;
+        padding-right: 25px;
+    }
+    lead-card > div {
+        overflow: hidden;
+        cursor: pointer;
+        display: grid;
+        grid-template-columns: repeat(6,1fr);
+        grid-auto-rows: 1fr;
+        color: rgba(0,0,0,0.87);
+        background-color: rgb(255,255,255);
+        grid-gap: .5rem;
+        padding: .5rem;
+        grid-template-areas: 
+        "titulo titulo  titulo  titulo  produto produto"
+        "info2  info2   info2   info1   info1   info1"    ;
+        background: #fff;
+        border-radius: 2px;
+        border-top: .1rem rgba(0,0,0,0.12) solid;
+        overflow-x: hidden;
+        margin: 0.15rem;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+        transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+    }
+    lead-card > div:hover{
+    box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+    }
+    titulo-lead{    
+        font-size: 1em;
+        font-weight: 500;
+        letter-spacing: .005em;
+        grid-area: titulo;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    lead-info1{
+        display: grid;
+        grid-template-columns: repeat(5,1fr);
+        grid-area: info1;
+        align-self: end;
+        justify-self: end;
+        grid-template-areas:"midia midia midia midia icone"
+    }
+    .icone-status{
+        grid-area: icone;
+        justify-self: end;
+        align-self: end;
+	}
+	lead-info1 i.icone-interacao{
+		display: none;
+        grid-area: icone2;
+        justify-self: start;
+        align-self: end;
+	}
+    lead-info2{
+        grid-area: info2;
+        align-self: end;
+        justify-self: start;
+        font-size: 1em;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    lead-info2 i{
+        font-size: 1em;
+    }
+    midia-lead{
+        grid-area: midia;
+        border-radius: 10px;
+        font-size: 0.8em;
+        padding: 0px 3px;
+        color: #fff;
+        background-color: #9e9e9e;
+        text-align: center;
+        white-space: nowrap;
+    }
+    produto-lead{
+        grid-area: produto;
+        align-self: end;
+        justify-self: end;
+        margin-top: 0.25em;
+        font-size: 0.8em;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+	}
+
+	
+    produto-lead.sem-produto{
+        justify-self: end;
+	}
+	
+	produto-lead span.fa-stack{
+        align-self: end;
+        justify-self: end;
+	}
+
+    lead-card > div.postponed{
+        color: #999;
+    }
+
+    i.red{
+        color: red;
+    }
+    i.orange{
+        color: #ff9800;
+    }
+    i.gray{
+        color: #aaa;
+    }
+    i.blue{
+        color: #39F;
+    }
+
+    lead-card > div i.fa{
+        font-size: 1.3em;
+    }
+    produto-lead i.fa{
+        font-size: 1em;
+    }
+
+
+    div.filters {
+        min-height: 45px;
+        max-height: 65px;
+    }
+
+    @media (max-width: 550px) {
+        .funnelStepsContainer-1{
+            grid-template-columns: repeat(1,minmax(calc(100vw - 30px),1fr));
+        }
+        .funnelStepsContainer-2{
+            grid-template-columns: repeat(2,minmax(calc(100vw - 30px),1fr));
+        } 
+        .funnelStepsContainer-3{
+            grid-template-columns: repeat(3,minmax(calc(100vw - 30px),1fr));
+        }
+        .funnelStepsContainer-4{
+            grid-template-columns: repeat(4,minmax(calc(100vw - 30px),1fr));
+        }
+        .funnelStepsContainer-5{
+            grid-template-columns: repeat(5,minmax(calc(100vw - 30px),1fr));
+        }
+        .funnelStepsContainer-6{
+            grid-template-columns: repeat(6,minmax(calc(100vw - 30px),1fr));
+        }
+        .funnelStepsContainer-7{
+            grid-template-columns: repeat(7,minmax(calc(100vw - 30px),1fr));
+        }
+        .funnelStepsContainer-8{
+            grid-template-columns: repeat(8,minmax(calc(100vw - 30px),1fr));
+        }
+        .funnelStepsContainer-9{
+            grid-template-columns: repeat(8,minmax(calc(100vw - 30px),1fr));
+        }
+        .funnelStepsContainer-10{
+            grid-template-columns: repeat(8,minmax(calc(100vw - 30px),1fr));
+        }
+    }
+    @media (max-width: 750px) {
+        div.filters button.novo-negocio, div.filters .search-in {
+            display: none;
+        }
+        .md-button.md-fab.md-fab-novo-negocio {
+            display: initial;
+            position: absolute;
+            bottom: 15px;
+            right: 5px;
+        }
+        #octadesk-octachat-appchat {
+            display: none;
+        }
+    }
+    /* Telefones em paisagem a tablet em retrato */
+    @media (min-width: 550px) and (max-width: 1024px) {
+        .funnelStepsContainer-1{
+            grid-template-columns: repeat(1,minmax(calc(50vw - 15px),1fr));
+        }
+        .funnelStepsContainer-2{
+            grid-template-columns: repeat(2,minmax(calc(50vw - 15px),1fr));
+        }
+        .funnelStepsContainer-3{
+            grid-template-columns: repeat(3,minmax(calc(50vw - 15px),1fr));
+        }
+        .funnelStepsContainer-4{
+            grid-template-columns: repeat(4,minmax(calc(50vw - 15px),1fr));
+        }
+        .funnelStepsContainer-5{
+            grid-template-columns: repeat(5,minmax(calc(50vw - 15px),1fr));
+        }
+        .funnelStepsContainer-6{
+            grid-template-columns: repeat(6,minmax(calc(50vw - 15px),1fr));
+        }
+        .funnelStepsContainer-7{
+            grid-template-columns: repeat(7,minmax(calc(50vw - 15px),1fr));
+        }
+        .funnelStepsContainer-8{
+            grid-template-columns: repeat(8,minmax(calc(50vw - 15px),1fr));
+        }
+        .funnelStepsContainer-9{
+            grid-template-columns: repeat(8,minmax(calc(50vw - 15px),1fr));
+        }
+        .funnelStepsContainer-10{
+            grid-template-columns: repeat(8,minmax(calc(50vw - 15px),1fr));
+        }
+    }
+
+    /* Desktop grande */
+    @media (min-width: 1024px) {
+        .funnelStepsContainer-1{
+            grid-template-columns: repeat(1,minmax(248px,1fr));
+        }
+        .funnelStepsContainer-2{
+            grid-template-columns: repeat(2,minmax(248px,1fr));
+        }
+        .funnelStepsContainer-3{
+            grid-template-columns: repeat(3,minmax(248px,1fr));
+        }
+        .funnelStepsContainer-4{
+            grid-template-columns: repeat(4,minmax(248px,1fr));
+        }
+        .funnelStepsContainer-5{
+            grid-template-columns: repeat(5,minmax(248px,1fr));
+        }
+        .funnelStepsContainer-6{
+            grid-template-columns: repeat(6,minmax(248px,1fr));
+        }
+        .funnelStepsContainer-7{
+            grid-template-columns: repeat(7,minmax(248px,1fr));
+        }
+        .funnelStepsContainer-8{
+            grid-template-columns: repeat(8,minmax(248px,1fr));
+        }
+        .funnelStepsContainer-9{
+            grid-template-columns: repeat(9,minmax(248px,1fr));
+        }
+        .funnelStepsContainer-10{
+            grid-template-columns: repeat(10,minmax(248px,1fr));
+        }
+        .funnelStepsContainer-11{
+            grid-template-columns: repeat(11,minmax(248px,1fr));
+        }
+        .funnelStepsContainer-12{
+            grid-template-columns: repeat(12,minmax(248px,1fr));
+        }
+        .funnelStepsContainer-13{
+            grid-template-columns: repeat(13,minmax(248px,1fr));
+        }
+        .funnelStepsContainer-14{
+            grid-template-columns: repeat(14,minmax(248px,1fr));
+        }
+        .funnelStepsContainer-15{
+            grid-template-columns: repeat(15,minmax(248px,1fr));
+        }
+    }
+
+
+    @media (min-width: 1024px)  and (max-width:1360px){
+        lead-card > div {
+            vertical-align: bottom;
+            grid-template-areas: 
+			"titulo titulo  titulo  titulo  produto produto"
+			"info2  info2   info2   info2  info2   info2"
+			"info1  info1   info1   info1  info1   info1"    ;
+		}
+		i.texto-produto{
+			display: none;
+		}
+		produto-lead{
+			grid-area: produto;
+			align-self: start;
+            justify-self: end;
+		}
+
+		lead-card > div {
+			grid-template-rows: 22px 18px 22px;
+		}
+		lead-info2 {
+			align-self: center;
+		}
+		lead-info2 i.icone-interacao{
+			display: none;
+		}
+		lead-info1 i.icone-interacao{
+			display: block;
+		}
+		lead-info1{
+			align-self: end;
+			justify-self: start;
+			grid-template-areas:"midia midia midia midia icone"
+		}
+		lead-info1.ajuste{
+			grid-template-areas:"icone2 midia midia midia icone"
+		}
+    }
+
+
+}
+
+
+div.funnelStepTitle {
+	width: 100%;
+	background: url("../images/start-funil.png") left no-repeat , url("../images/end-funil.png") right no-repeat;
+	color: #FFF;
+	height: 55px;
+	background-color: #aaa;
+}
+
+div.funnelStepTitle div.text {
+	font-size: 1.5em;
+	margin-left: 35px;
+	line-height: 1.5em;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis
+}
+.business-badge {
+	font-size: 0.8em;
+	margin-left: 35px;
+	color: #666;
+	line-height: 0.8em;
+}
+    

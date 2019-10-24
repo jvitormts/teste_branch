@@ -1,0 +1,132 @@
+<div class="row">
+    <fieldset>
+        <legend>
+            Filtros
+        </legend>
+        <div class="registry-count">
+            Total de Registros: {{ctrl.total}}
+        </div>
+        <form ng-submit="ctrl.buscarImoveis(ctrl.filtros)">
+            <div class="col-md-3">
+                <div style="margin-top: 6px;width: 250px;float:left">
+                    <input class="form-control" ng-model="ctrl.filtroTexto" placeholder="Pesquisar" type="text">
+                    </input>
+                </div>
+                <div class="btn-group" style="margin-top: 6px">
+                    <button class="btn btn-default" type="submit">
+                        <i class="fa fa-search fa-1-5x">
+                        </i>
+                    </button>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div style="margin-top: 6px;width: 250px;float:left">
+                    <input class="form-control" ng-model="ctrl.filtroCod" placeholder="Codigo do imóvel" type="number">
+                    </input>
+                </div>
+                <div class="btn-group" style="margin-top: 6px">
+                    <button class="btn btn-default" type="submit">
+                        <i class="fa fa-search fa-1-5x">
+                        </i>
+                    </button>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <label>
+                    Negócio:
+                </label>
+                <div class="btn-group">
+                    <a class="btn {{ctrl.filtros.aluguel ?'btn-primary': 'btn-default'}}" ng-click="ctrl.filtros.aluguel = !ctrl.filtros.aluguel;">
+                        Alguel
+                    </a>
+                    <a class="btn {{ctrl.filtros.venda  ?'btn-primary': 'btn-default'}}" ng-click="ctrl.filtros.venda=!ctrl.filtros.venda;">
+                        Venda
+                    </a>
+                </div>
+            </div>
+        </form>
+    </fieldset>
+</div>
+<div class="row">
+
+    <page-buttons ng-model="ctrl.filtros.page" pages="ctrl.paginas">
+    </page-buttons>
+
+    <perfect-scrollbar class="scroller-garbage" min-scrollbar-length="20" wheel-propagation="true" wheel-speed="0.3">
+        <div class="col-md-12">
+            <table class="table table-bordered">
+                <thead>
+                    <tr class="well">
+                        <th align="center" ng-click="ctrl.filtros.order = ctrl.filtros.order=='i.codImovel' ? 'i.codImovel DESC ' : 'i.codImovel'">
+                            Codigo
+                            <i class="material-icons" ng-if="ctrl.filtros.order=='i.codImovel'">
+                                arrow_drop_up
+                            </i>
+                            <i class="material-icons" ng-if="ctrl.filtros.order=='i.codImovel DESC'">
+                                arrow_drop_down
+                            </i>
+                        </th>
+                        <th align="center"  ng-click="ctrl.filtros.order = ctrl.filtros.order=='i.tipo' ? 'i.tipo DESC ' : 'i.tipo'">
+                            Tipo
+                            <i class="material-icons" ng-if="ctrl.filtros.order=='i.tipo'">
+                                arrow_drop_up
+                            </i>
+                            <i class="material-icons" ng-if="ctrl.filtros.order=='i.tipo DESC'">
+                                arrow_drop_down
+                            </i>
+                        </th>
+                        <th align="center" ng-click="ctrl.filtros.order = ctrl.filtros.order=='i.valorAluguel' ? 'i.valorAluguel DESC ' : 'i.valorAluguel'">
+                            Valor
+                            <i class="material-icons" ng-if="ctrl.filtros.order=='i.valorAluguel'">
+                                arrow_drop_up
+                            </i>
+                            <i class="material-icons" ng-if="ctrl.filtros.order=='i.valorAluguel DESC'">
+                                arrow_drop_down
+                            </i>
+                        </th>
+                        <th align="center" ng-click="ctrl.filtros.order = ctrl.filtros.order=='i.quartos, i.bairro' ? 'i.quartos DESC, i.bairro DESC' : 'i.quartos, i.bairro'">
+                            Nº de Quartos/ Bairro
+                            <i class="material-icons" ng-if="ctrl.filtros.order=='i.quartos, i.bairro'">
+                                arrow_drop_up
+                            </i>
+                            <i class="material-icons" ng-if="ctrl.filtros.order=='i.quartos DESC, i.bairro DESC'">
+                                arrow_drop_down
+                            </i>
+                        </th>
+                        <th align="center">
+                            Negócio
+                        </th>
+                        <th align="center" width="10%">
+                            Ações
+                        </th>
+                    </tr>
+                </thead>
+                <tr ng-repeat="produto in ctrl.lista">
+                    <td>
+                        {{produto.codImovel | zpad: 6}}
+                    </td>
+                    <td>
+                        {{produto.tipo}}
+                    </td>
+                    <td>
+                        {{produto.aluguel ? (produto.valorAluguel | number : 2) + "(aluguel) " : ""}} {{produto.venda ? (produto.valorVenda | number
+                        : 2) + "(venda) " : ""}}
+                    </td>
+                    <td>
+                        {{produto.quartos}} Quartos / {{produto.bairro}}
+                    </td>
+                    <td>
+                        {{produto.aluguel ? "Aluguel" : ""}}{{produto.aluguel && produto.venda ? " e " : ""}}{{produto.venda ? "Venda" : ""}}
+                    </td>
+                    <td align="center">
+                        <button class="btn btn-danger" button="button" ng-click="ctrl.removerProduto(produto)">
+                            Excluir
+                        </button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </perfect-scrollbar>
+    <page-buttons ng-model="ctrl.filtros.page" pages="ctrl.paginas">
+    </page-buttons>
+</div>

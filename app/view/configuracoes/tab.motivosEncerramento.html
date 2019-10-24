@@ -1,0 +1,39 @@
+<md-tab label="Motivos de encerramento">
+    <md-content>
+        <div class="col-lg-offset-3 col-lg-6 col-md-8 col-md-offset-2 col-sm-12 panel-config">
+            <perfect-scrollbar class="scroller-configs" min-scrollbar-length="20" refresh-on-change="true" wheel-propagation="true" wheel-speed="1">
+                <div class="col-lg-12" ng-repeat="motivo in ctrl.motivos | filter : {active: true} | orderBy : ['name','id']">
+                    <div class="input-group">
+                        <input class="form-control" ng-disabled="!motivo.edit" ng-model="motivo.name" type="text"/>
+                        <div class="input-group-btn" ng-if="motivo.edit">
+                            <button class="btn btn-success inline-edit" ng-click="ctrl.salvarMotivo(motivo);" ng-disabled="motivo.fixed || !motivo.name" type="button">
+                                <i class="fa fa-floppy-o"></i>
+                            </button>
+                            <button class="btn btn-default inline-edit" ng-click="ctrl.resetData('motivos')" type="button">
+                                <i class="fa fa-ban"></i>
+                            </button>
+                        </div>
+                        <div class="input-group-btn" ng-if="!motivo.edit">
+                            <button class="btn btn-primary inline-edit" ng-click="motivo.edit=true" type="button">
+                                <i class="fa fa-pencil"></i>
+                            </button>
+                            <button class="btn btn-danger inline-edit" ng-click="ctrl.removerMotivo(motivo)" ng-disabled="" type="button">
+                                <i class="fa fa-trash-o"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </perfect-scrollbar>
+            <div class="form-group">
+                <section class="buttons" layout="row" layout-align="center" layout-sm="column" layout-wrap="">
+                    <button class="btn btn-default" ng-click="" type="button">
+                        Limpar Alterações
+                    </button>
+                    <button class="btn btn-primary" ng-click="ctrl.novoMotivo()" type="submit">
+                        Adicionar novo
+                    </button>
+                </section>
+            </div>
+        </div>
+    </md-content>
+</md-tab>

@@ -1,0 +1,28 @@
+<div class="tab-1">
+  <div class="tab-content-header">
+    <label>Anexos recebidos</label>
+  </div>
+  <div class="tab-content-body">
+	  <div ng-repeat="anexo in ctrl.anexos.recebidos" class="anexo-box">
+		<i class="fa fa-file-image-o fa-3x" aria-hidden="true" ng-if="['png','jpg','bmp','gif'].indexOf(anexo.extensao)>=0"></i>
+		<i class="fa fa-file-pdf-o fa-3x" aria-hidden="true" ng-if="anexo.extensao == 'pdf'"></i>
+		<i class="fa fa-file-o fa-3x" aria-hidden="true" ng-if="['png','jpg','bmp','gif','pdf'].indexOf(anexo.extensao)==-1"></i>
+		<a ng-click="ctrl.getAnexo(anexo.id)">{{anexo.nomeArquivo}}</a>
+		
+		<a ng-click="ctrl.deleteAnexo(anexo.id)" class="text-danger"><i class="fa fa-trash"></i></a>
+	  </div>
+  </div>
+  <div class="tab-content-header">
+    <label>Anexos enviados</label>
+  </div>
+  <div class="tab-content-body">
+	  <div ng-repeat="anexo in ctrl.anexos.enviados" class="anexo-box">
+		<i class="fa fa-file-image-o fa-3x" aria-hidden="true" ng-if="['png','jpg','bmp','gif'].indexOf(anexo.extensao)>=0"></i>
+		<i class="fa fa-file-pdf-o fa-3x" aria-hidden="true" ng-if="anexo.extensao == 'pdf'"></i>
+		<i class="fa fa-file-o fa-3x" aria-hidden="true" ng-if="['png','jpg','bmp','gif','pdf'].indexOf(anexo.extensao)==-1"></i>
+		<a ng-click="ctrl.getAnexo(anexo.id)">{{anexo.nomeArquivo}}</a>
+		
+		<a ng-click="ctrl.deleteAnexo(anexo.id)" class="text-danger"><i class="fa fa-trash"></i></a>
+	  </div>
+  </div>
+</div>

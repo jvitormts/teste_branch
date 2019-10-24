@@ -1,0 +1,93 @@
+<div class="modal" role="dialog">
+    <div class="modal-dialog" style="width:650px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button aria-hidden="true" class="close" data-dismiss="modal" ng-click="firstContactModal.hide()" type="button">
+                    ×
+                </button>
+                <h4 class="modal-title">
+                    Dados do Cliente
+                </h4>
+            </div>
+            <form class="form-horizontal" ng-submit="saveContact(contact);firstContactModal.hide();">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="form-group">
+                            <label class="col-md-2 control-label" for="inputSubject">
+                                Nome
+                            </label>
+                            <div class="col-md-10">
+                                <input class="form-control" disable-validation-message="" ng-model="contact.name" ng-required="true" placeholder="Nome" type="text">
+                                </input>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <label class="col-md-2 control-label" for="inputSubject">
+                                Email
+                            </label>
+                            <div class="col-md-10">
+                                <input class="form-control" disable-validation-message="" ng-model="contact.email" ng-required="true" placeholder="Email" type="email">
+                                </input>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <label class="col-md-2 control-label" for="inputSubject">
+                                Telefone
+                            </label>
+                            <div class="col-md-10">
+                                <input class="form-control" disable-validation-message="" ng-model="contact.phonenumber" ng-required="false" placeholder="Telefone" type="text" ui-br-phone-number="">
+                                </input>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <label class="col-md-2 control-label" for="inputModel"> 
+                                Produto
+                            </label>
+                            <div class="col-md-10">
+                                <sc-select ng-model="contact.productId" placeholder="Selecione o carro" sc-options="car.id as car.displayName for car in cars">
+                                </sc-select>
+                            </div>
+                        </div>
+                    </div>
+                    <perfect-scrollbar class="scroller-email" min-scrollbar-length="20" ng-if="email" wheel-propagation="true" wheel-speed="3">
+                        <div class="modal-header">
+                            <h4 class="modal-title">
+                                Detalhes Email:
+                            </h4>
+                        </div>
+                        <div class="div-email">
+                            <strong>
+                                De:
+                            </strong>
+                            {{email.from}}
+                            <br/>
+                            <strong>
+                                Assunto:
+                            </strong>
+                            {{email.subject}}
+                            <br/>
+                            <p ng-bind-html="email.body">
+                            </p>
+                        </div>
+                    </perfect-scrollbar>
+                </div>
+                <div class="row">
+                    <div align="center" class="col-lg-12">
+                        <button class="btn btn-default" ng-click="firstContactModal.hide()" ng-if="!contact.id" type="button">
+                            Cancelar
+                        </button>
+                        <button class="btn btn-primary" type="submit">
+                            {{!contact.id? 'Registrar' : 'Atualizar dados'}}
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,30 @@
+<div class="modal-header">
+    <h4 class="modal-title">
+        Mudança de Etapa
+    </h4>
+</div>
+<div class="modal-body">
+    <form class="form-horizontal" ng-submit="ctrl.blockAvanco=true;ctrl.avancarEtapaPara();">
+        <div class="row" style="margin-bottom: 2em;">
+            <div class="form-group">
+                <label class="col-md-2 control-label" for="inputSubject">
+                    Etapa
+                </label>
+                <div class="col-md-10">
+                    <select class="form-control" id="selectNextStep" ng-model="ctrl.interacaoAvanco.para" ng-options="etapa as etapa.nome for etapa in ctrl.etapas | orderBy:'ordem'" ng-required="true">
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-lg-10 col-lg-offset-2">
+                <button class="btn btn-default" ng-click="$close();" type="reset">
+                    Cancelar
+                </button>
+                <button class="btn btn-primary" type="submit" ng-disabled="ctrl.blockAvanco">
+                    Registrar
+                </button>
+            </div>
+        </div>
+    </form>
+</div>

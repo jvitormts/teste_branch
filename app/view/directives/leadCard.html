@@ -1,0 +1,75 @@
+<md-content class="card" drag="lead" ng-init="ctrl.verificarStatus(lead)" ui-draggable="true"  ng-click="ctrl.openModal(lead)">
+    <md-card class="md-whiteframe-5dp" ng-class="{'postponed':lead.situacao == 'ADIADA'}">
+        <md-card-header>
+            <md-icon class="material-icons blue lead-status-icon md-avatar-icon" ng-if="lead.status=='ociosa' && lead.situacao == 'ABERTA'">
+                
+                <md-tooltip md-direction="bottom" >
+                    Lead ociosa
+                </md-tooltip>
+            </md-icon>
+            <md-icon class="material-icons orange lead-status-icon md-avatar-icon" ng-if="lead.status=='aVencer' && lead.situacao == 'ABERTA'">
+                
+                <md-tooltip md-direction="bottom" >
+                    Tarefa próxima de vencer prazo
+                </md-tooltip>
+            </md-icon>
+            <md-icon class="material-icons red lead-status-icon md-avatar-icon" ng-if="lead.status=='atrasada' && lead.situacao == 'ABERTA'">
+                
+                <md-tooltip md-direction="bottom" >
+                    Tarefa atrasada
+                </md-tooltip>
+            </md-icon>
+            <md-icon class="lead-status-icon md-avatar-icon" ng-if="lead.situacao == 'ADIADA'">
+                <span class="fa-stack leadcard">
+                    <i class="fa fa-calendar fa-stack-1x">
+                    </i>
+                    <i class="fa fa-clock-o fa-stack-1x small-bottom-right">
+                    </i>
+                </span>
+                <md-tooltip md-direction="bottom" >
+                    Atendimento adiado
+                </md-tooltip>
+            </md-icon>
+            <span class="source-badge">
+                {{ lead.midiaId? lead.midiaId.nome : 'Sem Identificação' }}
+            </span>
+            <md-card-header-text class="lead-card">
+                <span class="md-title">
+                    {{ctrl.twoWordsName(lead.titulo)}}
+                </span>
+                <div class="lead-product-info" ng-if="lead.produtoList.length > 0">
+                    <i class="fa fa-car" ng-if="lead.produtoList[0].type=='veiculo'">
+                    </i>
+                    <i class="fa fa-home" ng-if="lead.produtoList[0].type=='imovel'">
+                    </i>
+                    <i class="fa fa-gift" ng-if="lead.produtoList[0].type=='produtoGenerico'">
+                    </i>
+                    <i>
+                        {{ ctrl.formataTextoProduto(ctrl.formataProduto(lead.produtoList[0])) }}
+                    </i>
+                    <md-tooltip md-direction="bottom" >
+                        {{ ctrl.formataProduto(lead.produtoList[0]) }}
+                    </md-tooltip>
+                </div>
+                <span class="md-subhead">
+                    <i class="fa fa-envelope lead-marker" ng-if="lead.emailNaoLido">
+                        <md-tooltip md-direction="bottom" >
+                            Novo email
+                        </md-tooltip>
+                    </i>
+                    <i class="fa fa-map-marker lead-marker" ng-if="lead.visitaHoje">
+                        <md-tooltip md-direction="bottom" >
+                            Visita agendada para hoje
+                        </md-tooltip>
+                    </i>
+                    <i class="fa fa-comment lead-marker-comment" ng-if="lead.comentarioNaoLido">
+                        <md-tooltip md-direction="bottom" >
+                            Novo comentário na lead
+                        </md-tooltip>
+                    </i>
+                    {{::lead.createdAt | date:'dd/MM/yyyy - HH:mm'}}
+                </span>
+            </md-card-header-text>
+        </md-card-header>
+    </md-card>
+</md-content>

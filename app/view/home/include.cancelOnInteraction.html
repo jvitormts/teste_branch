@@ -1,0 +1,66 @@
+<div class="form-group" style="margin:0px 10px 0px 10px;">
+    <label class="col-md-2 control-label" for="inputSubject">
+        Motivo
+    </label>
+    <div class="col-md-10">
+        <sc-select ng-model="ctrl.interacaoCancelamento.motivoCancelamentoId" ng-required="true" placeholder="Selecione o motivo do cancelamento" sc-options="motivo as motivo.name for motivo in ctrl.motivos">
+        </sc-select>
+    </div>
+    <div class="col-md-offset-2 col-md-10 text-danger" ng-if="ctrl.loja.produtoIndisponivelId && ctrl.lead.produtoId.id == -1">
+        * Para selecionar outro motivo de cancelamento deve-se associar um veículo à lead.
+    </div>
+</div>
+<div class="form-group" ng-if="false && ctrl.interacaoCancelamento.motivoCancelamentoId.id == ctrl.loja.produtoIndisponivelId.id" style="margin:0px 10px 0px 10px;">
+    <label class="col-md-2 control-label" style="padding-left: 0px;">
+        Tipo de Produto:
+    </label>
+    <div class="col-md-10">
+        <div class="btn-group" ng-init="interaction.carType='used'">
+            <a class="btn {{interaction.carType=='used' ?'btn-primary': 'btn-default'}}" ng-click="interaction.carType='used'">
+                Usado
+            </a>
+            <a class="btn {{interaction.carType=='new' ?'btn-primary': 'btn-default'}}" ng-click="interaction.carType='new'">
+                Novo
+            </a>
+        </div>
+    </div>
+</div>
+<div align="center" class="col-md-12" for="textArea" ng-if="interaction.carType=='new' || interaction.carType=='used' || block_unavailable_product_reason">
+    Assinale os veículos que o cliente deseja:
+</div>
+<div ng-if="interaction.carType==='new'">
+    <div class="form-group col-md-12" style="margin:0px 10px 0px 10px;">
+        <sc-select ng-model="interaction.cars[0]" ng-required="true" placeholder="Selecione o veículo" sc-options="{brand:car.brand, model:car.model} as car.completeDisplayName for car in carList">
+        </sc-select>
+    </div>
+    <div class="form-group col-md-12" style="margin:0px 10px 0px 10px;">
+        <sc-select ng-model="interaction.cars[1]" placeholder="Selecione um segundo veículo (opcional)" sc-options="{brand:car.brand, model:car.model} as car.completeDisplayName for car in carList">
+        </sc-select>
+    </div>
+</div>
+<div class="form-group" ng-if="block_unavailable_product_reason || interaction.carType==='used'" style="margin:0px 10px 0px 10px;">
+    <div class="col-md-4">
+        <input class="form-control" name="inputClientName" ng-model="interaction.cars[0].brand" ng-required="true" placeholder="Marca" type="text">
+        </input>
+    </div>
+    <div class="col-md-6">
+        <input class="form-control" name="inputClientName" ng-model="interaction.cars[0].model" ng-required="true" placeholder="Modelo" type="text">
+        </input>
+    </div>
+    <div class="col-md-2">
+        <input class="form-control" name="inputClientName" ng-model="interaction.cars[0].year" placeholder="Ano" type="number">
+        </input>
+    </div>
+    <div class="col-md-4">
+        <input class="form-control" name="inputClientName" ng-model="interaction.cars[1].brand" ng-required="(interaction.cars[1].brand || interaction.cars[1].model || interaction.cars[1].year)" placeholder="Marca (opcional)" type="text">
+        </input>
+    </div>
+    <div class="col-md-6">
+        <input class="form-control" name="inputClientName" ng-model="interaction.cars[1].model" ng-required="(interaction.cars[1].brand || interaction.cars[1].model || interaction.cars[1].year)" placeholder="Modelo (opcional)" type="text">
+        </input>
+    </div>
+    <div class="col-md-2">
+        <input class="form-control" name="inputClientName" ng-model="interaction.cars[1].year" placeholder="Ano" type="number">
+        </input>
+    </div>
+</div>

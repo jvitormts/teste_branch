@@ -1,0 +1,112 @@
+<div class="modal-header">
+    <h4 class="modal-title">
+        Dados do Veículo
+    </h4>
+</div>
+<div class="modal-body">
+    <form class="form-horizontal" ng-submit="ctrl.salvarProduto(ctrl.produto)">
+        <div class="row">
+            <div class="form-group">
+                <label class="col-md-3 control-label" for="inputSubject">
+                    Marca
+                </label>
+                <div class="col-md-9">
+                    <input class="form-control" disable-validation-message="" ng-model="ctrl.produto.fabricante" ng-required="true" placeholder="Marca" type="text">
+                    </input>
+                </div>
+                <label class="col-md-3 control-label" for="inputSubject">
+                    Modelo
+                </label>
+                <div class="col-md-9">
+                    <input class="form-control" disable-validation-message="" ng-model="ctrl.produto.modelo" ng-required="true" placeholder="Modelo" type="text">
+                    </input>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group">
+                <label class="col-md-3 control-label" for="inputSubject">
+                    Ano
+                </label>
+                <div class="col-md-4">
+                    <input class="form-control" disable-validation-message="" ng-disabled="ctrl.produto.id" ng-model="ctrl.produto.anoFabricacao"  placeholder="Ano Fabricação" type="number" min="1900" max="2100">
+                    </input>
+                </div>
+                <div class="col-md-1">&nbsp;</div>
+                <div class="col-md-4">
+                    <input class="form-control" disable-validation-message="" ng-disabled="ctrl.produto.id" ng-model="ctrl.produto.anoModelo" placeholder="Ano Modelo" type="number" min="1900" max="2100">
+                    </input>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group">
+                <label class="col-md-3 control-label" for="productCondition">
+                    Condição
+                </label>
+                <div class="col-md-9">
+                    <select class="form-control" name="condition" ng-model="ctrl.produto.condicao" ng-required="true">
+                        <option value="NOVO">
+                            Novo
+                        </option>
+                        <option value="SEMINOVO">
+                            Seminovo
+                        </option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row animate-hide" ng-hide="!ctrl.produto.condicao || ctrl.produto.condicao === 'NOVO' ? true: false">
+            <div class="form-group">
+                <label class="col-md-3 control-label" for="inputSubject">
+                    Quilometragem
+                </label>
+                <div class="col-md-9">
+                    <input class="form-control" ng-model="ctrl.produto.quilometragem" placeholder="Quilometragem" type="number">
+                    </input>
+                </div>
+            </div>
+        </div>
+        <div class="row animate-hide" ng-hide="!ctrl.produto.condicao || ctrl.produto.condicao === 'NOVO' ? true: false">
+            <div class="form-group">
+                <label class="col-md-3 control-label" for="inputSubject">
+                    Placa
+                </label>
+                <div class="col-md-9">
+                    <input class="form-control" ng-model="ctrl.produto.placa" placeholder="Placa" type="text" ui-br-car-plate-mask="" no-validade="true">
+                    </input>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group"  ng-init="ctrl.produto.situacao='EM_ESTOQUE'">
+                <label class="col-md-3 control-label" for="productCondition">
+                    Situação
+                </label>
+                <div class="col-md-9">
+                    <select class="form-control" name="condition" ng-model="ctrl.produto.situacao" ng-required="true">
+                        <option selected="" value="EM_ESTOQUE">
+                            Em Estoque
+                        </option>
+                        <option value="VENDIDO">
+                            Vendido
+                        </option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="form-group"><br/> &nbsp;
+            <section layout="row" layout-align="center" layout-sm="column" layout-wrap="">
+                <button class="btn btn-danger" button="button" ng-click="$close()">
+                    Cancelar
+                </button> &nbsp;
+                <button class="btn btn-default" ng-if="!ctrl.produto.id" type="reset">
+                    Limpar
+                </button>  &nbsp;               
+                <button class="btn btn-primary" type="submit">
+                    Registrar
+                </button>
+            </section>
+        </div>
+    </form>
+</div>

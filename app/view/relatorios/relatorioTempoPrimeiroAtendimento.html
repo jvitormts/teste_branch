@@ -1,0 +1,115 @@
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
+        <div class="col-xs-12 bulletTempoTitle">Tempo médio de primeiro atendimento</div>
+        <div class="col-xs-12">
+            <div class="bulletTempo">
+                {{ctrl.chart.total}}
+            </div>
+        </div>
+        <div class="col-xs-12 bulletTempoTitle">em horas</div>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
+    
+        <div class="col-xs-12" ng-if="ctrl.chart.filtrosUsados.tipoRelatorio=='usuario'">
+            * As leads encerradas por atendimento em duplicidade não foram contabilizadas na taxa de conversão dos vendedores.
+        </div>
+        <div class="col-xs-12">
+            * No periodo analisado, as leads encerradas com o motivo Lead Inválida/SPAM foram desconsideradas do relatório.
+        </div>
+        <table class="table table-bordered" id="tableExport" ng-init="ctrl.order='-total'">
+            <thead>
+                <tr>
+                    <th bgcolor="#e0e0e0" style="text-align: center;">
+                        {{ctrl.chart.chartMainColumn}}
+                    </th>
+                    <th width="20%" bgcolor="#e0e0e0" ng-click="ctrl.order = (ctrl.order=='-total' ? 'total' : '-total')" style="outline: none;text-align: center;">
+                        Tempo médio de primeiro
+                        <i class="material-icons" ng-if="ctrl.order=='total'">
+                            arrow_drop_up
+                        </i>
+                        <i class="material-icons" ng-if="ctrl.order=='-total'">
+                            arrow_drop_down
+                        </i>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="row in ctrl.chart.tabela | orderBy:ctrl.order track by $index">
+                    <td>
+						<button type="button" class="btn btn-default btn-sm" ng-click="ctrl.modalTempos(ctrl.chart.filtrosUsados, row);">
+							<i class="fa fa-info-circle" aria-hidden="true"></i>
+						</button>&nbsp;{{row.label}} 
+                    </td>
+                    <td width="10%"  style="text-align: center;">
+                        {{row.total > 0 ? row.total + ' hr(s)' : '< 5 mins' }}
+                    </td>
+                </tr>
+            </tbody>
+            <thead ng-init="ctrl.order='total'">
+                <tr>
+                    <th align="right" bgcolor="#e0e0e0">
+                        Total:
+                    </th>
+                    <th bgcolor="#e0e0e0"  style="text-align: center;">
+                        {{ctrl.chart.total}}hr(s)
+                    </th>
+                </tr>
+            </thead>
+        </table>
+        
+    </div>
+
+    <section layout="row" layout-align="center" class="wide">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-8">
+                <div class="panel panel-primary " style="padding: 0;margin: 0; width: 100%">
+                    <canvas chart-colors="ctrl.chart.colors" chart-data="ctrl.chart.data" chart-labels="ctrl.chart.labels" chart-options="ctrl.chart.options" chart-series="ctrl.chart.series" class="chart chart-bar" id="bar">
+                    </canvas>
+                </div>
+            </div>
+        </section>
+</div>
+
+<div class="col-xs-12" style="font-style: italic;">
+    <div align="center" class="col-xs-12">
+        <strong>
+            Filtros Utilizados
+        </strong>
+    </div>
+    <div class="col-xs-4">
+        <strong>
+            Período:
+        </strong>
+    </div>
+    <div class="col-xs-8">
+        {{ctrl.chart.filtrosUsados.inicio}} a {{ctrl.chart.filtrosUsados.fim}}
+    </div>
+    <div class="col-xs-4">
+        <strong>
+            Valores do Eixo X:
+        </strong>
+    </div>
+    <div class="col-xs-8">
+        <span ng-if="ctrl.chart.filtrosUsados.tipoRelatorio=='midia'">
+            Campanha
+        </span>
+        <span ng-if="ctrl.chart.filtrosUsados.tipoRelatorio=='usuario'">
+            Vendedor
+        </span>
+    </div>
+    <div class="col-xs-4">
+        <strong>
+            Midia(s):
+        </strong>
+    </div>
+    <div class="col-xs-8">
+        {{ ctrl.getTextoFiltro(ctrl.chart.filtrosUsados.midiaIds,'midias','nome') }}
+    </div>
+    <div class="col-xs-4">
+        <strong>
+            Vendedor(es):
+        </strong>
+    </div>
+    <div class="col-xs-8">
+        {{ ctrl.getTextoFiltro(ctrl.chart.filtrosUsados.usuarioIds,'usuarios','nome',3) }}
+    </div>
+</div>

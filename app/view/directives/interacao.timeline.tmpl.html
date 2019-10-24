@@ -1,0 +1,57 @@
+<span>
+  <div class="timeline-datetime">
+    <span class="timeline-time">
+      {{(interacao.dtype!='IA' ? interacao.createdAt : interacao.dataVencimento) | date: 'HH:mm'}}
+      <i class="{{interacao.icone}}">
+        <md-tooltip md-direction="right">
+          {{interacao.tooltip}}
+        </md-tooltip>
+      </i>
+    </span>
+    <span class="timeline-date">
+      {{(interacao.dtype!='IA' ? interacao.createdAt : interacao.dataVencimento) | date: 'dd/MM/yy'}}
+    </span>
+  </div>
+  <div
+    class="timeline-badge {{interacao.dtype=='IC'? 'highlight red': ''}} {{interacao.dtype=='IAE'? 'highlight blue': ''}}">
+    <i
+      class="fa {{timeline.icones[interacao.dtype]}} {{(interacao.done && interacao.dtype == 'IA')? 'past-appt' : interacao.cor}}">
+    </i>
+    <i class="fa fa-times-circle icon-delete-interacao" aria-hidden="true"
+      ng-click="timeline.deleteInteracao(interacao)" ng-if="timeline.validarFullAccess(timeline.profile)"></i>
+  </div>
+</span>
+<div class="timeline-panel">
+  <div ng-class="{'past-appt': (interacao.done && interacao.dtype == 'IA')}" class="timeline-body"
+    ng-init="interacao.showBody=false">
+    <strong class="{{interacao.cor}}">{{interacao.assunto}}{{interacao.assunto && interacao.texto ? ": " : ""}}</strong>
+    <span ng-if="!interacao.done && interacao.dtype != 'IAG'"
+      ng-bind-html="trustAsHtml(interacao.open ? interacao.descricao : interacao.texto)"></span>
+    <span
+      ng-if="interacao.descricao && interacao.done && interacao.dtype != 'IAG'">{{interacao.descricao | htmlToPlaintext}}</span>
+    <span ng-if="interacao.dtype == 'IAG'"><strong>Lembrete</strong><span
+        ng-if="interacao.descricao"><strong>:&nbsp;</strong>{{interacao.descricao | htmlToPlaintext}}</span></span>
+    <a ng-click="timeline.verMais(interacao);" ng-if="interacao.mostrarVerMais">
+      {{interacao.open ? "Ver menos" : "Ver mais"}}
+    </a>
+
+    <button ng-click="timeline.downloadLigacao(interacao)" ng-if="interacao.recebida">
+      <i class="fa fa-download" aria-hidden="true"></i>
+      <md-tooltip>Fazer download do audio da ligação</md-tooltip>
+      <strong>Ligação realizada com sucesso</strong>
+    </button>
+    <span ng-if="!interacao.recebida && interacao.dtype == 'ICT' && interacao.recebida != null">
+      <strong>Ligação não atendida</strong>
+    </span>
+    <span ng-if="interacao.anexosList.length>0">
+      <br />
+      <i class="fa fa-paperclip"></i>
+      <span ng-repeat="anexo in interacao.anexosList">
+        <a ng-click="timeline.getAnexo(anexo.id)">{{anexo.nomeArquivo}}</a>{{!$last ? " / ": ""}}
+      </span>
+    </span>
+  </div>
+  <div class="timeline-small-time">
+    {{(interacao.dtype!='IA' ? interacao.createdAt : interacao.dataVencimento) | date: 'dd/MM/yy HH:mm'}}
+  </div>
+</div>

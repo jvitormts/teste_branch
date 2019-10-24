@@ -1,0 +1,380 @@
+.lead-page {
+  background-color: #ededed;
+  display: grid;
+  grid-area: page;
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-areas:
+    "header header header header header header"
+    "body body body body body body";
+  grid-template-rows: 80px 1fr;
+}
+
+.lead-header {
+    display: grid;
+    grid-area: header;
+    grid-template-columns: repeat(6, 1fr);
+    grid-template-areas: "name name etapas etapas responsavel responsavel";
+    position: fixed;
+    width: 100%;
+    background-color: #eee;
+    z-index: 101;
+    padding: 10px 5px;
+}
+.lead-body {
+  display: grid;
+  grid-area: body;
+  grid-gap: 1em;
+  grid-template-areas: "body-left body-left body-left body-left body-right body-right";
+  grid-template-columns: repeat(6, 1fr);
+  margin-top: 20px;
+}
+
+.lead-body-left {
+  background-color: #ffffff;
+  display: grid;
+  grid-area: body-left;
+  grid-template-areas:
+    "interacoes-header"
+    "formulario"
+    "timeline";
+  grid-template-rows: 60px min-content min-content;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  white-space:nowrap;
+
+}
+
+.lead-body-right {
+  display: grid;
+  background-color: #FFF;
+  grid-area: body-right;
+  grid-template-areas:
+    "lead-tags"
+    "lead-tabs";
+  grid-template-rows: min-content 500px;
+}
+
+.interacoes-header {
+  display: grid;
+  grid-area: interacoes-header;
+  grid-template-columns: repeat(2, 1fr);
+  align-self: end;
+  
+}
+
+.interacoes-header label {
+  font-weight: bold;
+  border-bottom: 2px solid #62c4ff;
+  width: 200px;
+  color: #3f51b5;
+  justify-self: left;
+  text-transform: uppercase;
+  margin: 10px;
+  text-align: center;
+}
+
+.interacoes-header section {
+  justify-self: right;
+}
+
+.lead-dados-conteudo div.email {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-right: 2px;
+}
+
+.lead-dados {
+  display: grid;
+  grid-area: lead-dados;
+  grid-template-rows: 30px 60px;
+  grid-template-areas:
+    "lead-dados-label"
+    "lead-dados-conteudo";
+    
+}
+
+.lead-tags {
+  display: grid;
+  background-color: #ffffff;
+  grid-area: lead-tags;
+  grid-template-rows: 45px min-content;
+}
+
+.lead-tags label {
+  font-weight: bold;
+  border-bottom: 2px solid #62c4ff;
+  width: 100px;
+  color: #3f51b5;
+  justify-self: center;
+  text-transform: uppercase;
+  margin-top: 5px;
+  text-align: center;
+}
+
+.lead-dados-label {
+  display: grid;
+  grid-area: lead-dados-label;
+  grid-template-columns: repeat(6, 1fr);
+}
+
+.lead-dados-conteudo {
+  display: grid;
+  grid-area: lead-dados-conteudo;
+  grid-template-columns: repeat(6, 1fr);
+  align-items: top;
+
+}
+
+.etapas {
+  grid-area: etapas;
+  justify-self: center;
+  align-self: center;
+  padding-top: 10px;
+}
+
+.etapas div {
+  text-align: center;
+  top: -4px
+}
+
+.lead-header .name {
+  display: grid;
+  grid-area: name;
+  grid-template-columns: 45px 1fr;
+  grid-template-rows: 40px 25px;
+  grid-template-areas: "link nome"
+					   "contato contato";
+}
+.lead-header .name .link {
+	align-self: center;
+	justify-self: start;
+	grid-area: link;
+}
+
+.lead-header .name div.contato {
+  font-weight: normal;
+  grid-area: contato;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+}
+
+.lead-header .name div.nome {
+  font-weight: bold;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-right: 2px;
+  font-size: 1.5em;
+  grid-area: nome;
+
+}
+
+.lead-header .name a {
+  margin-top: 3px;
+}
+
+.lead-header .name h4 {
+  margin-left: 10px;
+}
+
+.lead-header .responsavel {
+  display: grid;
+  grid-area: responsavel;
+  justify-self: right;
+}
+
+div.etapas,
+div.etapas * {
+  box-sizing: border-box;
+}
+
+div.etapas ul {
+  display: inline-block;
+  background: #ccc;
+  height: 10px;
+  border-radius: 20px;
+  padding-inline-start: 0;
+}
+
+div.etapas li {
+  text-decoration: none;
+  position: relative;
+  display: inline-block;
+  margin: 9px 30px;
+  top: -8px;
+  border-radius: 50%;
+  color: white;
+  margin: 0px 10px;
+  formulario font-size: 14px;
+}
+
+div.etapas li i {
+  font-size: 2.5em;
+  background-color: #FFF;
+  line-height: 28px;
+  border-radius: 50%;
+}
+
+div.etapas li i.fa-check-circle {
+  color: #45b5a2;
+}
+
+div.etapas li i.fa-circle-thin {
+  color: #b1b1b1;
+}
+
+
+.ui-helper-hidden-accessible {
+  display: none;
+}
+
+form-interacoes-full {
+  grid-area: formulario;
+  overflow-x: scroll;
+  overflow-y: hidden;
+}
+
+timeline {
+  grid-area: timeline;
+  overflow-x: scroll;
+  overflow-y: hidden;
+}
+
+.lead-body-left .scroller {
+  overflow:none;
+  height: inherit;
+  min-height: 260px;
+  position: inherit;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  white-space:nowrap;
+  
+}
+
+.lead-body-left .timeline>li>.timeline-panel {
+  min-width: 75%;
+  max-width: 75%;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  white-space:nowrap;
+
+}
+
+
+
+
+.lead-tabs {
+  grid-area: lead-tabs;
+  display: grid;
+  grid-template-rows: 50px 1fr;
+}
+
+.tab-content-header {
+  height: 50px;
+  padding: 5px;
+  width: 100%;
+}
+
+.tab-content-header label {
+  font-weight: bold;
+  border-bottom: 2px solid #62c4ff;
+  width: 200px;
+  color: #3f51b5;
+  justify-self: left;
+  text-transform: uppercase;
+  margin: 10px;
+  text-align: center;
+}
+
+.tab-content-form {
+  display: inline-block;
+  width: 100%;
+}
+
+.tab-content-form label,
+.tab-content-body label {
+  font-weight: bold;
+}
+
+.tab-content-form .input-group {
+  padding-left: 15px;
+}
+
+.tab-content-body {
+  display: inline-block;
+  width: 100%;
+}
+
+.anexo-box {
+  display: grid;
+  margin: 10px;
+  background-color: #ededed;
+  grid-template-columns: 40px 1fr 10px;
+  padding: 15px 10px 10px 10px;
+}
+
+.anexo-box i {
+  align-self: center;
+  justify-self: start;
+
+}
+
+.anexo-box a {
+  margin-left: 10px;
+  align-self: end;
+  justify-self: start;
+  cursor: pointer;
+
+}
+
+.anexo-box a.text-danger {
+  align-self: end;
+  justify-self: end;
+}
+
+.tab-content-body.nota {
+  padding: 10px;
+}
+
+.tab-content-body.notas {
+  padding: 20px;
+}
+
+.nota-box {
+  position: relative;
+  background: #8fa8aa;
+  color: #FFF;
+  border-radius: .4em;
+  padding: 10px;
+  margin-bottom: 5px;
+}
+
+.nota-box:after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 20%;
+  width: 0;
+  height: 0;
+  border: 0.344em solid transparent;
+  border-right-color: #8fa8aa;
+  border-left: 0;
+  border-top: 0;
+  margin-top: -0.172em;
+  margin-left: -0.344em;
+}
+
+div.timeline-badge:hover  > i.icon-delete-interacao{
+	display: initial;
+}
+
+div.timeline-badge > i.icon-delete-interacao{
+	position: absolute;
+	top:-20px;
+	right: -5px;
+	display: none;
+	color: #dd3a43;
+}

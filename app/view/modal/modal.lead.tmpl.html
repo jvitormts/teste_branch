@@ -1,0 +1,164 @@
+<div class="modal-header" role="dialog" style="padding:0px">
+  <div class="row" style="margin:0px">
+    <div class="col-xs-12">
+      <h4 class="modal-title">
+        {{ctrl.lead.titulo}}
+      </h4>
+    </div>
+    <div class="col-xs-12">
+      <strong>
+        Recebida em:
+      </strong>
+      {{ctrl.lead.createdAt | date:'dd/MM/yyyy - HH:mm'}}
+      <span ng-if="!profile.salesman">
+        <strong>
+          Vendedor responsável:
+        </strong>
+        {{ctrl.lead.usuarioId.nome}}
+      </span>
+    </div>
+  </div>
+</div>
+<div class="modal-body timeline-body">
+  <div ng-include="'view/modal/include.dados.lead.tabs.html?version=030718'"></div>
+  <div class="col-xs-12 acoes-lead">
+    <section layout="row" layout-align="center" layout-sm="row" layout-wrap="row" ng-cloak>
+
+      <div class="timelineStep" ng-if="ctrl.etapaAnterior">
+        <div class="text">
+          {{ctrl.etapaAnterior.nome}}
+        </div>
+      </div>
+      <div class="timelineStep active">
+        <div class="text">
+          {{ctrl.lead.etapaFunilId.nome}}
+        </div>
+      </div>
+      <div class="timelineStep" ng-if="ctrl.proximaEtapa">
+        <div class="text">
+          {{ctrl.proximaEtapa.nome}}
+        </div>
+      </div>
+      <md-button aria-label="null" class="md-fab md-fab-timeline forward" ng-click="ctrl.abrirModalAvanco()" ng-if="ctrl.lead.usuarioId.id==ctrl.profile.id && (ctrl.lead.situacao=='ABERTA'  || ctrl.lead.situacao=='ADIADA')">
+        <md-tooltip md-direction="bottom" >
+          Mudança de Etapa do Funil
+        </md-tooltip>
+        <i class="fa fa-arrow-right">
+        </i>
+      </md-button>
+      <md-button aria-label="null" class="md-fab md-fab-timeline trophy" ng-click="ctrl.encerrarLeadComSucesso()" ng-if="ctrl.lead.usuarioId.id==ctrl.profile.id && (ctrl.lead.situacao=='ABERTA'  || ctrl.lead.situacao=='ADIADA')">
+        <md-tooltip md-direction="bottom" >
+          Venda concluída
+        </md-tooltip>
+        <i class="fa fa-trophy">
+        </i>
+      </md-button>
+      <md-button aria-label="null" class="md-fab md-fab-timeline cancel" ng-click="ctrl.abrirModalCancelamento()" ng-if="ctrl.lead.usuarioId.id==ctrl.profile.id && (ctrl.lead.situacao=='ABERTA'  || ctrl.lead.situacao=='ADIADA')">
+        <md-tooltip md-direction="bottom" >
+          Encerrar Lead
+        </md-tooltip>
+        <i class="fa fa-minus">
+        </i>
+      </md-button>
+      <md-button aria-label="null" class="md-fab md-fab-timeline transfer" ng-click="ctrl.abrirModalTransferencia()" ng-if="ctrl.validarAcessoFuncao('TRANSFERIR_LEAD',ctrl.profile)">
+        <md-tooltip md-direction="bottom" >
+          Transferir lead para um vendedor da mesma loja
+        </md-tooltip>
+        <i class="fa fa-exchange">
+        </i>
+      </md-button>
+      <md-button aria-label="null" class="md-fab md-fab-timeline" ng-click="ctrl.abrirModalTransferenciaRede()" ng-if="(ctrl.lead.situacao=='ABERTA'  || ctrl.lead.situacao=='ADIADA') && ctrl.validarAcessoFuncao('TRANSFERIR_LEAD_REDE',ctrl.profile)">
+        <md-tooltip md-direction="bottom" >
+          Transferir lead para um vendedor de outra loja
+        </md-tooltip>
+        <i class="fa fa-share-square-o">
+        </i>
+      </md-button>
+      <md-button aria-label="null" class="md-fab md-fab-garbage md-secondary" ng-click="ctrl.abrirModalReativar()" ng-if="(ctrl.lead.situacao=='PERDIDA'  || ctrl.lead.situacao=='GANHA'  || ctrl.lead.situacao=='ENCAMINHADA')">
+        <md-tooltip md-direction="bottom" >
+          Reabrir lead
+        </md-tooltip>
+        <i class="fa fa-retweet">
+        </i>
+      </md-button>
+      <md-button aria-label="null" class="md-fab md-fab-timeline cancel" ng-click="ctrl.excluirLead()" ng-if="ctrl.validarAcessoFuncao('EXCLUIR_LEAD',ctrl.profile)">
+        <md-tooltip md-direction="bottom" >
+          Excluir lead/cliente
+        </md-tooltip>
+        <i class="fa fa-trash">
+        </i>
+      </md-button>
+    </section>
+  </div>
+  <div class="col-xs-12 form-interacoes">
+    <form-interacoes init="ctrl.init" lead="ctrl.lead" form-open="ctrl.formOpen"></form-interacoes>
+  </div>
+  <div class="col-xs-12" ng-class="{'form-open': ctrl.formOpen}">
+    <timeline lead="ctrl.lead"></timeline>
+  </div>
+  <div class="col-xs-12 form-interacoes mobile">
+    <form-interacoes init="ctrl.init" lead="ctrl.lead" mobile="true" form-open="ctrl.formOpen"></form-interacoes>
+
+    <div class="acoes-lead-fab">
+      <md-fab-speed-dial md-open="ctrl.openFab" md-direction="up" class="md-scale">
+        <md-fab-actions>
+          <md-button aria-label="null" class="md-fab md-fab-timeline forward" ng-click="ctrl.abrirModalAvanco()" ng-if="ctrl.lead.usuarioId.id==ctrl.profile.id && (ctrl.lead.situacao=='ABERTA'  || ctrl.lead.situacao=='ADIADA')">
+            <md-tooltip md-direction="bottom" >
+              Mudança de Etapa do Funil
+            </md-tooltip>
+            <i class="fa fa-arrow-right">
+            </i>
+          </md-button>
+          <md-button aria-label="null" class="md-fab md-fab-timeline trophy" ng-click="ctrl.encerrarLeadComSucesso()" ng-if="ctrl.lead.usuarioId.id==ctrl.profile.id && (ctrl.lead.situacao=='ABERTA'  || ctrl.lead.situacao=='ADIADA')">
+            <md-tooltip md-direction="bottom" >
+              Venda concluída
+            </md-tooltip>
+            <i class="fa fa-trophy">
+            </i>
+          </md-button>
+          <md-button aria-label="null" class="md-fab md-fab-timeline cancel" ng-click="ctrl.abrirModalCancelamento()" ng-if="ctrl.lead.usuarioId.id==ctrl.profile.id && (ctrl.lead.situacao=='ABERTA'  || ctrl.lead.situacao=='ADIADA')">
+            <md-tooltip md-direction="bottom" >
+              Encerrar Lead
+            </md-tooltip>
+            <i class="fa fa-minus">
+            </i>
+          </md-button>
+          <md-button aria-label="null" class="md-fab md-fab-timeline transfer" ng-click="ctrl.abrirModalTransferencia()" ng-if="ctrl.validarAcessoFuncao('TRANSFERIR_LEAD',ctrl.profile)">
+            <md-tooltip md-direction="bottom" >
+              Transferir lead para um vendedor da mesma loja
+            </md-tooltip>
+            <i class="fa fa-exchange">
+            </i>
+          </md-button>
+          <md-button aria-label="null" class="md-fab md-fab-timeline" ng-click="ctrl.abrirModalTransferenciaRede()" ng-if="ctrl.lead.usuarioId.id==ctrl.profile.id && (ctrl.lead.situacao=='ABERTA'  || ctrl.lead.situacao=='ADIADA') && ctrl.validarAcessoFuncao('TRANSFERIR_LEAD_REDE',ctrl.profile)">
+            <md-tooltip md-direction="bottom" >
+              Transferir lead para um vendedor de outra loja
+            </md-tooltip>
+            <i class="fa fa-share-square-o">
+            </i>
+          </md-button>
+          <md-button aria-label="null" class="md-fab md-fab-garbage md-secondary" ng-click="ctrl.abrirModalReativar()" ng-if="(ctrl.lead.situacao=='PERDIDA'  || ctrl.lead.situacao=='GANHA')">
+            <md-tooltip md-direction="bottom" >
+              Reabrir lead
+            </md-tooltip>
+            <i class="fa fa-retweet">
+            </i>
+          </md-button>
+          <md-button aria-label="null" class="md-fab md-fab-timeline cancel" ng-click="ctrl.excluirLead()" ng-if="ctrl.validarAcessoFuncao('EXCLUIR_LEAD',ctrl.profile)">
+            <md-tooltip md-direction="bottom" >
+              Excluir lead/cliente
+            </md-tooltip>
+            <i class="fa fa-trash">
+            </i>
+          </md-button>
+        </md-fab-actions>
+        <md-fab-trigger>
+          <md-button aria-label="menu" class="md-fab md-primary">
+            <i class="fa fa-plus">
+            </i>
+          </md-button>
+        </md-fab-trigger>
+      </md-fab-speed-dial>
+    </div>
+  </div>
+</div>

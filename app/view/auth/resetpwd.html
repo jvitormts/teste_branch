@@ -1,0 +1,21 @@
+<div class="container main-content">
+    <div aling="center" style="width: 100%;text-align: center;">
+        <img src="../images/sejadireto-trans.png" style="height:92px;width:272px; margin: auto;">
+        </img>
+    </div>
+    <form ng-submit="authCtrl.enviarReset(email)">
+        <div class="loginbox-textbox form-group">
+            <input class="form-control" ng-model="email" placeholder="Email" type="text" ng-required="true"/>
+        </div>        
+        <div class="loginbox-submit">
+            <input class="btn btn-primary btn-block" type="submit" value="Enviar"  />
+        </div>
+    </form>
+    <div class="logobox">
+    </div>
+    <div ng-show="authCtrl.message">
+        <span>
+            {{ authCtrl.message }}
+        </span>
+    </div>
+</div>

@@ -1,0 +1,49 @@
+<div class="modal-header">
+    <h4 class="modal-title">
+        Importação de Leads <i class="fa fa-1-5x" ng-class="{'fa-facebook-official': ctrl.import.type == 'facebook', 'fa-file-excel-o' : ctrl.import.type == 'xls' }" aria-hidden="true"></i>
+    </h4>
+</div>
+<div class="modal-body">
+    <form class="form-horizontal" ng-submit="ctrl.importArquivo();">
+		
+		<div class="row" style="font-weight: bold" ng-if="ctrl.import.type==='xls'">
+			<div class="col-xs-offset-3 col-xs-9">
+				Siga os passos a seguir para fazer a importação:
+				<ol>	
+					<li>Baixa a planilha <a href="https://s3.amazonaws.com/br.com.sejadireto.files/planilha_padrao_importacaoSD_nova.xlsx" target="_blank">aqui</a></li>
+					<li> Preencha os dados dos clientes (separe os telefones por ponto e vírgula ";") </li>
+					<li> Faça o upload da planilha preenchida </li>
+				</ol>
+			</div>
+		</div>
+        <div class="row">
+            <div class="form-group">
+                <label class="col-md-3 control-label" for="inputSubject">
+                    Arquivo
+                </label>
+                <div class="col-md-9">
+                    <input type="file" name="pic" accept="{{ctrl.import.type == 'facebook' ? '.csv' : '.xls,.xlsx'}}" file-model="ctrl.import.file" ng-required="true" >
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-3 control-label" for="inputSubject">
+                    Equipe
+                </label>
+                <div class="col-md-9">
+                    <select class="form-control" id="inputSubject" ng-model="ctrl.import.equipe" ng-options="equipe.id as equipe.nome for equipe in ctrl.equipes" ng-required="true">
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <section class="buttons" layout="row" layout-align="center" layout-sm="column" layout-wrap="">
+                <button class="btn btn-default" ng-click="$close();" type="reset">
+                    Cancelar
+                </button>
+                <button class="btn btn-primary" type="submit" ng-disabled="ctrl.import.blockbutton">
+                    <i class="fa fa-upload" aria-hidden="true"></i> Importar 
+                </button>
+            </section>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,92 @@
+<perfect-scrollbar class="scroller-equipe" min-scrollbar-length="20" wheel-propagation="true" wheel-speed="0.3" ng-if="ctrl.edit">
+    <div class="col-md-8 col-md-offset-2">
+        <div class="section-title">
+            Equipe
+        </div>
+        <form class="form-horizontal" ng-submit="ctrl.salvarEquipe();">
+            <div class="form-group">
+                <label class="col-lg-4 control-label" for="inputDealershipName">
+                    Nome
+                </label>
+                <div class="col-lg-8">
+                    <input class="form-control" id="inputDealershipName" ng-model="ctrl.equipe.nome" ng-required="true" placeholder="Nome" type="text">
+                    </input>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-4 control-label">
+                    Email de recebimento de leads da equipe
+                </label>
+                <div class="col-lg-8">
+                    <input class="form-control" id="standard_bcc" ng-model="ctrl.equipe.email" ng-required="!ctrl.equipe.semEmail" type="email"  ng-disabled="ctrl.equipe.semEmail"/>
+				</div>				
+                <div class="col-lg-offset-4 col-lg-8" ng-if="ctrl.equipe.id!=1" ng-init="ctrl.equipe.semEmail = !ctrl.equipe.email && ctrl.equipe.id ? true : false">
+					<label>
+						<input type="checkbox" ng-model="ctrl.equipe.semEmail" ng-click="ctrl.equipe.email = null;"/>
+						Esta equipe não receberá leads automaticamente
+					</label>
+				</div>
+            </div>
+            <div class="section-title">
+                Usuários da equipe
+            </div>
+            <div class="form-group">
+                <sc-select multiple="true" ng-model="ctrl.equipe.usuariosList" ng-required="true" placeholder="Selecione os usuários" sc-options="vendedor as vendedor.nome for vendedor in ctrl.vendedores">
+                </sc-select>
+            </div>
+            <div class="section-title">
+                Etapas do funil
+            </div>
+			<div class="col-xs-12" align="center">
+				<ul ui-sortable="ctrl.sortableOptions" ng-model="ctrl.equipe.etapas">
+					<li ng-repeat="etapa in ctrl.equipe.etapas " class="btn {{etapa.id == ctrl.etapa.id ? 'btn-primary' : 'btn-default'}}" ng-click="ctrl.etapa=etapa">
+						{{etapa.nome}} <i class="fa fa-chevron-right"></i>
+					</li>
+					<button class="btn btn-small btn-success not-sortable" type="button" ng-click="ctrl.addEtapa()">
+						<i class="fa fa-plus"></i>
+					</button>
+				</ul>
+				* Clique e arraste as etapas para reorganizar o funil da equipe
+			</div>
+			<div ng-if="ctrl.etapa" >
+				<div class="form-group">
+					<label class="col-lg-4 control-label" for="inputDealershipAddress">
+						Nome da Etapa
+					</label>
+					<div class="col-lg-8">
+						<input class="form-control" id="inputDealershipAddress" ng-model="ctrl.etapa.nome" placeholder="Endereço" type="text" ng-required="true">
+						</input>
+					</div>
+				</div>
+				<div class="section-title">
+					Parametrizações da etapa {{ctrl.etapa.nome}}
+				</div>
+				<div class="form-group">
+					<label class="col-lg-8 control-label-left">
+						Alerta de tempo restante para tarefa agendada
+					</label>
+					<div class="col-lg-4">
+						<ae-input-tempo ng-model="ctrl.etapa.avisoTarefaVencimento">
+						</ae-input-tempo>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-lg-8 control-label-left">
+						Tempo máximo de agendamento da próxima tarefa
+					</label>
+					<div class="col-lg-4">
+						<ae-input-tempo ng-model="ctrl.etapa.tempoMaximoAgendamento">
+						</ae-input-tempo>
+					</div>
+				</div>
+	
+			</div>
+			<div class="col-xs-12">
+				<section layout="row" layout-align="center" layout-sm="column" layout-wrap="" style="margin-top:20px;">
+					<button class="btn btn-default" type="button" ng-click="ctrl.selecionarAba(ctrl.equipe.id); ctrl.selecionaAba(ctrl.equipes[0].id);">Cancelar</button>
+					<button class="btn btn-primary" type="submit">Salvar</button>
+				</section>
+			</div>
+        </form>
+    </div>
+</perfect-scrollbar>

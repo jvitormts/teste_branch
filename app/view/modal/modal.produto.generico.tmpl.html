@@ -1,0 +1,61 @@
+<div class="modal-header">
+    <h4 class="modal-title">
+        Dados do Produto
+    </h4>
+</div>
+<div class="modal-body">
+    <form class="form-horizontal" ng-submit="ctrl.salvarProduto(ctrl.produto)">
+        <div class="row">
+            <div class="form-group">
+                <label class="col-md-3 control-label" for="inputSubject">
+                    Produto
+                </label>
+                <div class="col-md-9">
+                    <input class="form-control" disable-validation-message="" ng-model="ctrl.produto.descricao" ng-required="true" placeholder="Produto" type="text">
+                    </input>
+                </div>
+                <label class="col-md-3 control-label" for="inputSubject">
+                    Modelo
+                </label>
+                <div class="col-md-9">
+                    <input class="form-control" disable-validation-message="" ng-model="ctrl.produto.modelo" placeholder="Modelo" type="text">
+                    </input>
+                </div>
+                <label class="col-md-3 control-label" for="inputSubject">
+                    Tipo
+                </label>
+                <div class="col-md-9">
+                    <input class="form-control" disable-validation-message="" ng-model="ctrl.produto.tipo" placeholder="Tipo" type="text">
+                    </input>
+                </div>
+                <label class="col-md-3 control-label" for="inputSubject">
+                    Unidade
+                </label>
+                <div class="col-md-9">
+                    <input class="form-control" disable-validation-message="" ng-model="ctrl.produto.unidade" placeholder="Unidade" type="text">
+                    </input>
+                </div>
+                <label class="col-md-3 control-label" for="inputSubject">
+                    Preço
+                </label>
+                <div class="col-md-9">
+                    <input class="form-control" disable-validation-message="" ng-model="ctrl.produto.preco" placeholder="Preço" type="text" ui-money-mask="2">
+                    </input>
+                </div>
+            </div>
+        </div>
+        <div class="form-group"><br/> &nbsp;
+            <section layout="row" layout-align="center" layout-sm="column" layout-wrap="">
+                <button class="btn btn-danger" button="button" ng-click="$close()">
+                    Cancelar
+                </button> &nbsp;
+                <button class="btn btn-default" ng-if="!ctrl.produto.id" type="reset">
+                    Limpar
+                </button>  &nbsp;               
+                <button class="btn btn-primary" type="submit">
+                    Registrar
+                </button>
+            </section>
+        </div>
+    </form>
+</div>

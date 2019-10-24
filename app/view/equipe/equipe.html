@@ -1,0 +1,215 @@
+<div class="col-md-12" ng-init="ctrl.init();">
+    <md-content>
+        <div class="equipe-lg-screen">
+            <md-nav-bar md-selected-nav-item="ctrl.abaSelecionada" nav-bar-aria-label="navigation links">
+                <section layout="row" layout-align="left">
+                    <md-button class="md-raised md-mini" style="color: #fff8e1; background-color: #ff9800;" ng-click="ctrl.modalUsuario();" ng-if="ctrl.validarAcessoFuncao('ADICIONAR_EDITAR_USUARIO', ctrl.profile)">
+                        <i class="fa fa-user-plus">
+                        </i>
+                        Novo Usuário
+                    </md-button>
+                </section>
+                <section layout="row" layout-align="center" class="wide">
+                    <md-nav-item ng-repeat="equipe in ctrl.equipes track by $index" md-nav-click="ctrl.selecionaAba(equipe.id)" name="{{equipe.id}}">
+                        {{equipe.nome}}
+                    </md-nav-item>
+                </section>
+                <section layout="row" layout-align="right">
+                    <md-nav-item md-nav-click="ctrl.selecionaAba('new')" name="form">
+                        <span ng-if="!ctrl.edit || !ctrl.equipe.id ">
+                            <i aria-hidden="true" class="fa fa-users">
+                            </i>
+                            <i aria-hidden="true" class="fa fa-plus">
+                            </i>
+                            Adicionar Equipe
+                        </span>
+                        <span ng-if="ctrl.edit && ctrl.equipe.id">
+                            <i aria-hidden="true" class="fa fa-pencil">
+                            </i>
+                            {{ctrl.equipe.nome}}
+                        </span>
+                    </md-nav-item>
+                </section>
+            </md-nav-bar>
+        </div>
+        <div class="col-xs-12 equipe-sm-screen text-center">
+            <b>Equipe:&nbsp;</b>
+            <div class="dropdown equipe-sm-screen">
+                <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">{{(ctrl.equipes | filter:{id:ctrl.abaSelecionada})[0].nome}}
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-right">
+                    <li ng-repeat="equipe in ctrl.equipes | orderBy : 'id'">
+                        <a ng-click="ctrl.selecionaAba(equipe.id)" style="text-transform: uppercase"> {{equipe.nome}}</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <perfect-scrollbar class="scroller-equipe col-xs-12" min-scrollbar-length="20" wheel-propagation="true" wheel-speed="0.3" ng-if="ctrl.equipe.id>=0 && !ctrl.edit">
+            <div class="col-md-12">
+                <table class="table table-bordered" style="margin-bottom: 0.5em;">
+                    <thead>
+                        <tr class="well">
+                            <th class="equipe-lg-screen" width="1%">
+                                Status
+                            </th>
+                            <th>
+                                Nome
+                            </th>
+                            <th>
+                                Email
+                            </th>
+                            <th class="equipe-lg-screen">
+                                Perfil
+                            </th>
+                            <th align="center" ng-if="ctrl.equipe.id>0" width="5%">
+                                Fila
+                            </th>
+                            <th class="equipe-opcoes" align="center">
+                                Opções
+                            </th>
+                        </tr>
+                    </thead>
+                    <tr ng-class="{'user-active':usuario.id == ctrl.usuarioSelecionado.id}" ng-repeat="usuario in ctrl.equipe.usuariosList | orderBy : 'nome'"
+                    ng-if="usuario.situacao" align="center">
+                        <td class="equipe-lg-screen">
+                            <i class="material-icons" ng-style="{color: usuario.online ? '#a0d468' : '#bfbfbf'}" style="vertical-align:bottom">
+                                account_circle
+                                <md-tooltip md-direction="bottom">
+                                    {{usuario.online ? "Online" : "Offline - Último acesso: "}}{{usuario.lastOnline | date: 'dd/MM - HH:mm'}}
+                                </md-tooltip>
+                            </i>
+                        </td>
+                        <td>
+                            <div class="equipe-long-name-wrap">
+                                <div class="equipe-long-name">{{usuario.nome}}</div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="equipe-long-name-wrap">
+                                <div class="equipe-long-name">{{usuario.email}}</div>
+                            </div>
+                        </td>
+                        <td class="equipe-lg-screen">
+                            {{usuario.perfilId.nome}}
+                        </td>
+                        <td align="center" ng-if="ctrl.equipe.id>0">
+                            <section layout="row" layout-align="center center" layout-sm="column" layout-wrap="" ng-if="ctrl.validarAcessoTela('home.leads',usuario)">
+                                <md-switch aria-label="null" class="md-secondary" ng-change="ctrl.fila(usuario)" ng-model="usuario.disponibilidade" style="margin:0px;">
+                                </md-switch>
+                            </section>
+                        </td>
+                        <td>
+                            <section class="equipe-lg-screen" layout="row" layout-align="center center" layout-sm="column" layout-wrap="">
+                                <button class="btn btn-default btn-sm" ng-click="ctrl.modalUsuario(usuario)" ng-if="ctrl.validarAcessoFuncao('ADICIONAR_EDITAR_USUARIO', ctrl.profile)"
+                                    type="button">
+                                    <i class="fa fa-pencil">
+                                    </i>
+                                    Editar
+                                </button>
+                                <button class="btn btn-primary btn-sm btn-funnel" ng-click="ctrl.exibirFunilUsuario(usuario);" ng-if="ctrl.validarAcessoTela('home.leads',usuario)">
+                                    <i class="fa fa-filter">
+                                    </i>
+                                    Funil de Vendas
+                                </button>
+                                <button class="btn btn-primary btn-sm btn-funnel" ng-click="ctrl.exibirAtividadesUsuario(usuario)" ng-if="ctrl.validarAcessoTela('home.atividades',usuario)">
+                                    <i class="fa fa-calendar">
+                                    </i>
+                                    Atividades
+                                </button>
+                                <button class="btn btn-danger btn-sm" ng-click="ctrl.deleteUsuario(usuario); ctrl.usuario = usuario;" ng-if="(ctrl.validarAcessoFuncao('EXCLUIR_USUARIO', ctrl.profile) && usuario.id)">
+                                    <i class="fa fa-trash">
+                                    </i>
+                                </button>
+
+                                <button class="btn btn-default btn-sm" ng-click="ctrl.loginAs( usuario );" ng-if="ctrl.validarFullAccess(ctrl.profile) && usuario.id">
+                                    <i class="fa fa-sign-in">
+                                    </i>
+                                </button>
+                            </section>
+                            <div class="dropdown equipe-sm-screen">
+                                <button class="btn btn-sm btn-light btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+                                    &nbsp;
+                                    <i class="fa fa-ellipsis-v fa-lg"></i>&nbsp;
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-right">
+                                    <li ng-if="ctrl.validarAcessoTela('home.leads',usuario)">
+                                        <a ng-click="ctrl.exibirFunilUsuario(usuario);" style="text-transform: uppercase">Funil de Vendas</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                <a ng-init="mostrarDesativados = 'Exibir usuários desativados...'" ng-click="desativados = !desativados; mostrarDesativados = mostrarDesativados === 'Exibir usuários desativados...'? 'Ocultar usuários desativados' : 'Exibir usuários desativados...'"
+                    href="#">{{mostrarDesativados}}</a>
+            </div>
+
+
+            <div class="col-md-12" ng-if="desativados">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr class="well">
+                            <th>
+                                Nome do usuário desativado
+                            </th>
+                            <th>
+                                Email
+                            </th>
+                            <th align="center" width="380px">
+                                Opções
+                            </th>
+                        </tr>
+                    </thead>
+                    <tr ng-class="{'user-active':usuario.id == ctrl.usuarioSelecionado.id}" ng-repeat="usuario in ctrl.usuariosDesativados | orderBy : 'nome'"
+                        ng-if="!usuario.situacao" align="center">
+                        <td style="color: #999">
+                            {{usuario.nome}}
+                        </td>
+                        <td style="color: #999">
+                            {{usuario.email}}
+                        </td>
+                        <td align="center">
+                            <button class="btn btn-default btn-sm" ng-click="ctrl.modalUsuario(usuario);" ng-if="ctrl.validarAcessoFuncao('ADICIONAR_EDITAR_USUARIO', ctrl.profile)"
+                                type="button">
+                                Reativar
+                            </button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <md-button class="md-raised md-mini" style="color: #fff8e1; background-color: #2196f3;width:145px;float: left; margin-bottom: 1em;"
+                ng-click="ctrl.editarEquipe(ctrl.equipe);" ng-if="ctrl.validarAcessoFuncao('ADICIONAR_EDITAR_USUARIO', ctrl.profile) && ctrl.equipe.id>0">
+                <i class="fa fa-pencil">
+                </i>
+                Editar Equipe
+            </md-button>
+            <md-button class="md-raised md-mini" style="color: #fff8e1; background-color: #40c4ff;width:175px;float: left; margin-bottom: 1em;"
+                ng-click="ctrl.habilitarTransferencia = !ctrl.habilitarTransferencia;ctrl.limparSelecao();" ng-if="ctrl.validarAcessoFuncao('TRANSFERIR_LEAD', ctrl.profile) && ctrl.equipe.id>0 && ctrl.exibeFunil">
+                <i class="fa fa-pencil">
+                </i>
+                Transferir Leads
+            </md-button>
+            <md-button class="md-raised md-mini" style="color: #fff8e1; background-color: #40c4ff;width:175px;float: left; margin-bottom: 1em;"
+                ng-click="ctrl.abrirModalTransferenciaLeadsEmMassa()" ng-if="ctrl.getSelected().length && ctrl.exibeFunil">
+                Prosseguir...
+            </md-button>
+            <md-button class="md-raised md-mini" style="color: #444444; background-color: #ffffff;width:135px;float: left; margin-bottom: 1em;"
+                ng-click="ctrl.habilitarTransferencia = false; ctrl.limparSelecao();" ng-if="ctrl.habilitarTransferencia && ctrl.validarAcessoFuncao('ADICIONAR_EDITAR_USUARIO', ctrl.profile) && ctrl.equipe.id>0 && ctrl.exibeFunil">
+                Cancelar
+            </md-button>
+            <div class="col-md-12" ng-init="ctrl.habilitarTransferencia=false">
+                <ae-funil-vendedor habilitar-transferencia="ctrl.habilitarTransferencia" etapas="ctrl.equipe.etapas" leads="ctrl.leadsUsuario" ng-if="ctrl.exibeFunil"
+                    profile="ctrl.profile" usuario="ctrl.usuarioSelecionado">
+                </ae-funil-vendedor>
+                <ae-atividades-vendedor atividades="ctrl.atividadesUsuario" ng-if="ctrl.exibeAtividades" profile="ctrl.profile" usuario="ctrl.usuarioSelecionado">
+                </ae-atividades-vendedor>
+            </div>
+        </perfect-scrollbar>
+        <ng-include src="'view/equipe/tab.dadosEquipe.html'">
+        </ng-include>
+
+    </md-content>
+</div>

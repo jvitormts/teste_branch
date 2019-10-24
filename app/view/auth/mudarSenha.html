@@ -1,0 +1,39 @@
+<div class="container main-content">
+    
+    <form ng-submit="ctrl.alterarSenha(ctrl.password)">
+        <div class="row">
+            <div class="form-group">
+                <label class="col-md-12 control-label" for="inputSubject">
+                    * Para continuar com o acesso ao sistema você deve alterar sua senha
+                </label>
+            </div>
+        </div>
+         <div class="row">
+            <div class="form-group">
+                <label class="col-md-3 control-label" for="inputSubject">
+                    Senha
+                </label>
+                <div class="col-md-9">
+                    <input class="form-control" disable-validation-message="" ng-model="ctrl.password" placeholder="Digite a senha" type="password">
+                    </input>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group">
+                <label class="col-md-3 control-label" for="inputSubject">
+                    Confirme a senha
+                </label>
+                <div class="col-md-9">
+                    <input class="form-control" confirm-password="ctrl.password" disable-validation-message="" ng-model="passwordConfirmation" ng-required="ctrl.password && ctrl.password!=''" placeholder="Confirme a senha" type="password">
+                    </input>
+                </div>
+            </div>
+        </div>
+        <div class="loginbox-submit">
+            <input class="btn btn-primary btn-block" type="submit" value="Alterar a Senha"/>
+        </div>
+    </form>
+    <div class="logobox">
+    </div>
+</div>

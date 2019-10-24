@@ -1,0 +1,61 @@
+<md-tab label="Etapas do Funil">
+    <md-content>
+        <div class="col-lg-offset-3 col-lg-6 col-md-8 col-md-offset-2 col-sm-12 panel-config">
+            <form class="form-horizontal" ng-submit="ctrl.salvarEtapa();">
+                <div class="form-group">
+                    <label class="col-lg-4 control-label">
+                        Etapa do Funil
+                    </label>
+                    <div class="col-lg-8">
+                        <div class="btn-group">
+                            <a ng-repeat="etapa in ctrl.etapas | orderBy : 'ordem' " class="btn {{ ctrl.etapaSelecionada.id==etapa.id ? 'btn-primary': 'btn-default'}}" ng-click="ctrl.selecionaEtapa(etapa);">
+                                 {{etapa.nome}}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-4 control-label" for="inputDealershipAddress">
+                        Nome da Etapa
+                    </label>
+                    <div class="col-lg-8">
+                        <input class="form-control" id="inputDealershipAddress" ng-model="ctrl.etapaSelecionada.nome" placeholder="Endereço" type="text" ng-required="true">
+                        </input>
+                    </div>
+                </div>
+                <div class="section-title">
+                    Parametrizações da etapa {{ctrl.etapaSelecionada.nome}}
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-8 control-label-left">
+                        Alerta de tempo restante para tarefa agendada
+                    </label>
+                    <div class="col-lg-4">
+                        <ae-input-tempo ng-model="ctrl.etapaSelecionada.avisoTarefaVencimento">
+                        </ae-input-tempo>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-8 control-label-left">
+                        Tempo máximo de agendamento da próxima tarefa
+                    </label>
+                    <div class="col-lg-4">
+                        <ae-input-tempo ng-model="ctrl.etapaSelecionada.tempoMaximoAgendamento">
+                        </ae-input-tempo>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <section class="buttons" layout="row" layout-align="center" layout-sm="column" layout-wrap="">
+                        <button class="btn btn-default" ng-click="ctrl.resetData('etapa')" type="button">
+                            Limpar Alterações
+                        </button>
+                        <button class="btn btn-primary" type="submit">
+                            Atualizar
+                        </button>
+                    </section>
+                </div>
+            </form>
+        </div>
+    </md-content>
+</md-tab>
